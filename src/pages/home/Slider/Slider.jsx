@@ -51,7 +51,7 @@ const Slider = () => {
                         <img
                             src={image}
                             alt={`Slide ${index + 1}`}
-                            className="w-full h-64 md:h-96 lg:h-157.25 object-cover"
+                            className="w-full h-64 md:h-96 lg:h-210 object-cover"
                             onError={(e) => {
                                 console.error(`Failed to load image ${index + 1}`);
                                 e.target.style.display = "none";
