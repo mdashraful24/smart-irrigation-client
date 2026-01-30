@@ -66,19 +66,19 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
+        <div className="md:min-h-screen md:bg-linear-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4">
             <div className="max-w-md w-full">
                 {/* Logo/Brand */}
                 <div className="text-center mb-8">
                     <Link to="/" className="inline-block">
                         <span className="text-3xl font-bold text-orange-600">Malta</span>
                     </Link>
-                    <h1 className="mt-4 text-2xl font-bold text-gray-900">Welcome back</h1>
+                    <h1 className="mt-4 text-2xl font-bold">Welcome back</h1>
                     <p className="mt-2 text-gray-600">Sign in to your account to continue</p>
                 </div>
 
                 {/* Login Form */}
-                <div className="bg-white rounded-2xl shadow-lg p-8">
+                <div className="bg-white rounded-2xl border md:border-none border-gray-300 shadow-lg p-8">
                     <form onSubmit={handleSubmit} className="space-y-5">
                         {/* Email Field */}
                         <div>
@@ -92,7 +92,7 @@ const Login = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="you@example.com"
-                                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-200 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-200 ${errors.email ? 'border-red-500' : 'border-gray-300'
                                     }`}
                                 disabled={isSubmitting}
                             />
@@ -113,7 +113,7 @@ const Login = () => {
                                 value={formData.password}
                                 onChange={handleChange}
                                 placeholder="••••••••"
-                                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-200 ${errors.password ? 'border-red-500' : 'border-gray-300'
+                                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition duration-200 ${errors.password ? 'border-red-500' : 'border-gray-300'
                                     }`}
                                 disabled={isSubmitting}
                             />
