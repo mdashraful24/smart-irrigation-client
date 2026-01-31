@@ -14,7 +14,7 @@ const Highlight = () => {
         >
             {/* Header */}
             <div className="mb-12 text-center">
-                <h2 className="text-4xl font-bold">
+                <h2 className="text-5xl lg:text-6xl font-bold">
                     Why teams choose us
                 </h2>
                 <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
