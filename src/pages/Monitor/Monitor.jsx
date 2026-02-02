@@ -81,7 +81,8 @@ const Monitor = () => {
     const handleCardClick = (card) => {
         if (card.clickable) {
             // Navigate to details page
-            navigate(`/field/${card.id}`, { state: { fieldData: card } });
+            // navigate(`/field/${card.id}`, { state: { fieldData: card } });
+            navigate(`/field-details`, { state: { fieldData: card } });
         }
     };
 

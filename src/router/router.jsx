@@ -8,6 +8,7 @@ import Login from "../pages/auth/Login/Login";
 import SignUp from "../pages/auth/SignUp/SignUp";
 import Error404 from "../pages/shared/Error/Error404";
 import Monitor from "../pages/Monitor/Monitor";
+import FieldDetails from "../pages/Monitor/FieldDetails/FieldDetails";
 
 export const router = createBrowserRouter([
     {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
             { path: "about", Component: AboutDetails },
             { path: "highlight", Component: HighlightShowcase },
             { path: "monitor", Component: Monitor },
+            { path: "field-details", Component: FieldDetails },
         ]
     },
     {

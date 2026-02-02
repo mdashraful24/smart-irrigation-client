@@ -5,7 +5,7 @@ import { RouterProvider } from "react-router/dom";
 import { router } from './router/router.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <div className='project-font'>
+  <div className='font-sans'>
     <StrictMode>
       <RouterProvider router={router} />
     </StrictMode>
