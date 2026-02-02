@@ -7,9 +7,9 @@ import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/auth/Login/Login";
 import SignUp from "../pages/auth/SignUp/SignUp";
 import Error404 from "../pages/shared/Error/Error404";
-import Monitor from "../pages/Monitor/Monitor";
-import FieldDetails from "../pages/Monitor/FieldDetails/FieldDetails";
-
+import Fields from "../pages/MonitorDetails/Fields/Fields";
+import Crops from "../pages/CropsInfo/Crops/Crops";
+import CropDetails from "../pages/CropsInfo/CropDetails/CropDetails";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -18,8 +18,9 @@ export const router = createBrowserRouter([
             { index: true, Component: Home },
             { path: "about", Component: AboutDetails },
             { path: "highlight", Component: HighlightShowcase },
-            { path: "monitor", Component: Monitor },
-            { path: "field-details", Component: FieldDetails },
+            { path: "all-fields", Component: Fields },
+            { path: "all-crops", Component: Crops },
+            { path: "crop-details", Component: CropDetails },
         ]
     },
     {

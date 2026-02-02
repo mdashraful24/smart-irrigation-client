@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-const Monitor = () => {
+const Fields = () => {
     const navigate = useNavigate();
     const [hoveredCard, setHoveredCard] = useState(null);
 
@@ -15,7 +15,7 @@ const Monitor = () => {
             id: 1,
             fieldName: 'North Field',
             location: 'Springfield, IL',
-            cropName: 'Corn',
+            cropName: 'Cucumber',
             clickable: true,
             status: 'active'
         },
@@ -82,12 +82,12 @@ const Monitor = () => {
         if (card.clickable) {
             // Navigate to details page
             // navigate(`/field/${card.id}`, { state: { fieldData: card } });
-            navigate(`/field-details`, { state: { fieldData: card } });
+            navigate(`/all-crops`, { state: { fieldData: card } });
         }
     };
 
     return (
-        <div className="container mx-auto min-h-screen px-4 lg:px-0 py-16 mt-10">
+        <div className="container mx-auto min-h-screen px-4 py-16 mt-10">
             {/* Project Name Header */}
             <div className="mb-8">
                 <h1 className="text-3xl lg:text-5xl font-medium tracking-tight leading-tight">
@@ -208,4 +208,4 @@ const Monitor = () => {
     );
 };
 
-export default Monitor;
+export default Fields;

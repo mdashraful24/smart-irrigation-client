@@ -11,7 +11,7 @@ const AboutDetails = () => {
     }, []);
 
     return (
-        <section className="container mx-auto px-4 lg:px-0 py-16 mt-10">
+        <section className="container mx-auto px-4 py-16 mt-10">
             {/* Hero Header */}
             <div className="max-w-4xl mx-auto text-center mb-12 md:mb-16 lg:mb-20">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium mb-4 md:mb-5 tracking-tight leading-tight">

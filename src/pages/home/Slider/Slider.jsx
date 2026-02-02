@@ -129,7 +129,7 @@ const Slider = () => {
                             {/* Action Buttons - Glass Morphism - Centered */}
                             <div className="flex flex-row justify-center items-center gap-4 md:gap-6 z-30 parallax-item mb-12" data-speed="0.5">
                                 <a
-                                    href="/monitor"
+                                    href="/all-fields"
                                     className="group relative overflow-hidden bg-linear-to-r from-blue-600/90 to-blue-700/90 backdrop-blur-sm border border-blue-400/30 text-white font-semibold p-3 rounded-xl shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] hover:from-blue-500/90 hover:to-blue-600/90 flex items-center justify-center gap-3 min-w-32 md:min-w-40"
                                 >
                                     <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
