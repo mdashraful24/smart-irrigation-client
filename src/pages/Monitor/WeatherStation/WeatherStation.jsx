@@ -87,7 +87,7 @@ const WeatherStation = () => {
                     {statsData.map((stat) => (
                         <div
                             key={stat.id}
-                            className={`bg-gradient-to-br ${stat.bgColor} rounded-2xl px-5 py-3 border ${stat.borderColor} shadow-lg hover:shadow-xl transition-shadow duration-300`}
+                            className={`bg-linear-to-br ${stat.bgColor} rounded-2xl px-5 py-3 border ${stat.borderColor} shadow-lg hover:shadow-xl transition-shadow duration-300`}
                         >
                             <div className="flex items-center justify-between">
                                 <h3 className="text-lg font-semibold text-gray-700">{stat.title}</h3>
