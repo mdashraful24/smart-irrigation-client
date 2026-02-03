@@ -104,7 +104,7 @@ const HighlightShowcase = () => {
     ];
 
     return (
-        <div className="container mx-auto px-4 py-16 mt-10">
+        <div className="container mx-auto px-4 py-16 mt-10 mb-5">
             {/* Header */}
             <div className="mb-12 md:mb-16 text-center">
                 <h1 className="text-3xl md:text-5xl font-semibold mb-4 md:mb-5 tracking-tight leading-tight">

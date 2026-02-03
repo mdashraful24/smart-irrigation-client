@@ -13,7 +13,7 @@ const About = () => {
                         <img
                             src={img}
                             alt="Fresh orange fruit"
-                            className="w-full h-100 lg:h-125 object-cover object-center transform transition-all duration-700 group-hover:scale-105"
+                            className="w-full h-100 object-cover object-center transform transition-all duration-700 group-hover:scale-105"
                         />
                         {/* Subtle gradient overlay */}
                         <div className="absolute inset-0 bg-linear-to-t from-black/10 via-transparent to-transparent"></div>

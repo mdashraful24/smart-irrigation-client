@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import img from "../../assets/img/fresh-orange-fruit.jpg";
-import team1 from "../../assets/img/fresh-orange-fruit.jpg";
-import team2 from "../../assets/img/fresh-orange-fruit.jpg";
-import team3 from "../../assets/img/fresh-orange-fruit.jpg";
+import team1 from "../../assets/members/member1.jpg";
+import team2 from "../../assets/members/member1.jpg";
+import team3 from "../../assets/members/member1.jpg";
 
 const AboutDetails = () => {
 
@@ -24,7 +24,7 @@ const AboutDetails = () => {
             </div>
 
             {/* Story Section with Elegant Design */}
-            <div className="relative mb-24 lg:mb-36">
+            <div className="relative mb-24 lg:mb-32">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
                     <div className="lg:col-span-7 pt-14 lg:pt-0 order-2 lg:order-1">
                         <div className="mb-6 md:mb-8">
@@ -77,59 +77,102 @@ const AboutDetails = () => {
             </div>
 
             {/* Team Section */}
-            <div className="text-center mb-12 lg:mb-20 px-4 lg:px-0">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-4 md:mb-6">
-                    Meet Our <span className="font-bold">Members</span>
-                </h2>
-                <p className="max-w-2xl mx-auto md:text-lg px-4">
-                    A dedicated team of visionaries committed to excellence and innovation.
-                </p>
-            </div>
+            <div className="mb-24 lg:mb-32">
+                <div className="text-center mb-12 lg:mb-16">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-4 md:mb-6">
+                        Meet Our <span className="font-bold">Expert Team</span>
+                    </h2>
+                    <p className="max-w-2xl mx-auto md:text-lg">
+                        A dedicated team of visionaries committed to excellence and innovation.
+                    </p>
+                </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-24 lg:mb-32 px-4 lg:px-0">
-                {[
-                    {
-                        name: "Johnathan Doe",
-                        role: "Founder & CEO",
-                        description: "Visionary leader with 15+ years pioneering industry transformation through strategic innovation.",
-                        img: team1
-                    },
-                    {
-                        name: "Jane Smith",
-                        role: "Chief Operations Officer",
-                        description: "Ensuring operational excellence and seamless delivery across all business verticals.",
-                        img: team2
-                    },
-                    {
-                        name: "Michael Lee",
-                        role: "Director of Product",
-                        description: "Driving product innovation and maintaining uncompromising quality standards.",
-                        img: team3
-                    }
-                ].map((member, index) => (
-                    <div key={index} className="group relative">
-                        <div className="relative overflow-hidden rounded-xl md:rounded-2xl mb-4 md:mb-6">
-                            <img
-                                src={member.img}
-                                alt={member.name}
-                                className="w-full h-64 sm:h-72 md:h-80 lg:h-96 object-cover transform group-hover:scale-110 transition-all duration-500"
-                            />
-                            <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        </div>
-                        <div className="text-center px-2 sm:px-0">
-                            <h3 className="text-xl sm:text-2xl font-bold mb-2">{member.name}</h3>
-                            <p className="text-primary font-medium mb-3">{member.role}</p>
-                            <p>{member.description}</p>
-                            <div className="mt-4 md:mt-6">
-                                <div className="hidden lg:block w-12 h-0.5 mx-auto group-hover:w-24 group-hover:bg-primary transition-all duration-300"></div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10 lg:px-0">
+                    {[
+                        {
+                            name: "Johnathan Doe",
+                            role: "Founder & CEO",
+                            description: "Visionary leader with 15+ years pioneering industry transformation through strategic innovation.",
+                            img: team1,
+                            social: ["linkedin", "twitter", "instagram"]
+                        },
+                        {
+                            name: "Jane Smith",
+                            role: "Chief Operations Officer",
+                            description: "Ensuring operational excellence and seamless delivery across all business verticals.",
+                            img: team2,
+                            social: ["linkedin", "twitter"]
+                        },
+                        {
+                            name: "Michael Lee",
+                            role: "Director of Product",
+                            description: "Driving product innovation and maintaining uncompromising quality standards.",
+                            img: team3,
+                            social: ["linkedin", "github", "twitter"]
+                        },
+                        {
+                            name: "Michael Lee",
+                            role: "Director of Product",
+                            description: "Driving product innovation and maintaining uncompromising quality standards.",
+                            img: team3,
+                            social: ["linkedin", "github", "twitter"]
+                        }
+                    ].map((member, index) => (
+                        <div
+                            key={index}
+                            className="group relative bg-white rounded-2xl md:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500"
+                        >
+                            {/* Image Container */}
+                            <div className="relative overflow-hidden h-72">
+                                <img
+                                    src={member.img}
+                                    alt={member.name}
+                                    className="w-full h-full transform group-hover:scale-105 transition-transform duration-700"
+                                />
+                                {/* Gradient Overlay */}
+                                <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-black/60 group-hover:to-black/40 transition-all duration-500"></div>
+
+                                {/* Social Links */}
+                                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                                    {member.social.map((platform, i) => (
+                                        <button
+                                            key={i}
+                                            className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-primary hover:text-white transition-colors duration-300 transform hover:scale-110"
+                                            aria-label={`${platform} profile`}
+                                        >
+                                            <span className="text-sm font-semibold">
+                                                {platform === 'linkedin' ? 'in' : platform.charAt(0).toUpperCase()}
+                                            </span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Content */}
+                            <div className="p-6">
+                                <div className="mb-3">
+                                    <h3 className="text-xl sm:text-2xl font-bold group-hover:text-primary transition-colors duration-300">
+                                        {member.name}
+                                    </h3>
+                                    <p className="text-primary font-semibold mt-1">{member.role}</p>
+                                </div>
+
+                                <p className="leading-relaxed">
+                                    {member.description}
+                                </p>
+                            </div>
+
+                            {/* Corner Accent */}
+                            <div className="absolute top-0 right-0 w-16 h-16">
+                                <div className="absolute top-4 right-4 w-2 h-2 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
 
             {/* Mission & Values */}
-            <div className="relative py-16 lg:py-20 overflow-hidden px-4 lg:px-0">
+            <div className="relative py-24 lg:py-20 overflow-hidden px-4 mb-5">
                 <div className="absolute inset-0 bg-linear-to-br from-gray-900 to-black rounded-3xl"></div>
                 <div className="relative px-4">
                     <div className="text-center text-white mb-12 md:mb-16">
@@ -158,7 +201,6 @@ const AboutDetails = () => {
                     </div>
                 </div>
             </div>
-
         </section>
     );
 };

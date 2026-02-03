@@ -61,7 +61,7 @@ const Highlight = () => {
         <div className="container mx-auto pb-20 px-4">
             {/* Header */}
             <div className="mb-12 md:mb-16 text-center">
-                <h2 className="text-3xl md:text-5xl font-semibold capitalize">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold capitalize">
                     Highlights of our project
                 </h2>
                 <p className="mt-4 md:mt-7 text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto">

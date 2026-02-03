@@ -87,7 +87,7 @@ const Fields = () => {
     };
 
     return (
-        <div className="container mx-auto min-h-screen px-4 py-16 mt-10">
+        <div className="container mx-auto min-h-screen px-4 py-16 mt-10 mb-5">
             {/* Project Name Header */}
             <div className="mb-8">
                 <h1 className="text-3xl lg:text-5xl font-medium tracking-tight leading-tight">

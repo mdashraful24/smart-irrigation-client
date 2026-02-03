@@ -32,7 +32,7 @@ const CropDetails = () => {
 
     return (
         <div className="min-h-screen">
-            <div className="container mx-auto px-4 py-16 mt-10">
+            <div className="container mx-auto px-4 py-16 mt-10 mb-5">
                 {/* Header Section */}
                 <div className="mb-8 text-center lg:text-left">
                     <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">

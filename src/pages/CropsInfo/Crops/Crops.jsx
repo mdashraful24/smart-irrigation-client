@@ -118,7 +118,7 @@ const Crops = () => {
     };
 
     return (
-        <div className="container mx-auto min-h-screen px-4 py-16 mt-10">
+        <div className="container mx-auto min-h-screen px-4 py-16 mt-10 mb-5">
 
             {/* Field Name Header */}
             <div className="flex flex-col justify-center items-center pb-10">
