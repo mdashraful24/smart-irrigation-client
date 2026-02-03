@@ -1,16 +1,53 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import CountUp from 'react-countup';
 import Chart from '../Chart/Chart';
 import Marquee from '../Marquee/Marquee';
 
+// Custom hook for checking if element is in viewport
+const useInView = () => {
+    const [isInView, setIsInView] = useState(false);
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsInView(true);
+                    observer.unobserve(entry.target);
+                }
+            },
+            {
+                threshold: 0.1,
+                rootMargin: "0px 0px -100px 0px"
+            }
+        );
+
+        const currentRef = ref.current;
+        if (currentRef) {
+            observer.observe(currentRef);
+        }
+
+        return () => {
+            if (currentRef) {
+                observer.unobserve(currentRef);
+            }
+        };
+    }, []);
+
+    return [ref, isInView];
+};
+
 const WeatherStation = () => {
     const [currentTime, setCurrentTime] = useState('10:40:24');
+    const [ref, isInView] = useInView();
 
     // Stats data with glass effect 
     const statsData = [
         {
             id: 1,
             title: "Temp",
-            value: "22 °C",
+            value: 22,
+            unit: "°C",
             icon: "🌡️",
             color: "blue",
             change: "+1°C from yesterday",
@@ -21,7 +58,8 @@ const WeatherStation = () => {
         {
             id: 2,
             title: "Humidity",
-            value: "68 %",
+            value: 68,
+            unit: "%",
             icon: "💧",
             color: "green",
             change: "Comfortable range",
@@ -32,7 +70,8 @@ const WeatherStation = () => {
         {
             id: 3,
             title: "Soil",
-            value: "45 %",
+            value: 45,
+            unit: "%",
             icon: "🌱",
             color: "amber",
             change: "Optimal moisture",
@@ -43,7 +82,8 @@ const WeatherStation = () => {
         {
             id: 4,
             title: "Rain",
-            value: "3 %",
+            value: 3,
+            unit: "%",
             icon: "🌧️",
             color: "cyan",
             change: "NO rain today",
@@ -78,17 +118,12 @@ const WeatherStation = () => {
                                 Auto refresh 5s • Online • Ashulia/Birulia/Dhaka
                             </span>
                         </div>
-                        {/* <div className="hidden sm:flex items-center ml-auto">
-                                <span className="text-xs sm:text-sm text-gray-500 font-mono bg-white/50 px-2 py-1 rounded-md">
-                                    {currentTime}
-                                </span>
-                            </div> */}
                     </div>
                 </div>
             </header>
 
             {/* 4 Stats Cards with glass effect */}
-            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-6 sm:mb-8 md:mb-10">
+            <div ref={ref} className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 mb-6 sm:mb-8 md:mb-10">
                 {statsData.map((stat) => (
                     <div
                         key={stat.id}
@@ -113,7 +148,19 @@ const WeatherStation = () => {
 
                             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between">
                                 <div>
-                                    <div className="text-2xl sm:text-2xl md:text-3xl font-bold mb-1 text-gray-900">{stat.value}</div>
+                                    <div className="text-2xl sm:text-2xl md:text-3xl font-bold mb-1 text-gray-900">
+                                        {isInView ? (
+                                            <CountUp
+                                                start={0}
+                                                end={stat.value}
+                                                duration={1.5}
+                                                suffix={stat.unit}
+                                                decimals={stat.title === "Temp" ? 0 : 0} // Temperature with 0 decimals
+                                            />
+                                        ) : (
+                                            `0${stat.unit}`
+                                        )}
+                                    </div>
                                     <div className="text-xs sm:text-sm text-gray-600 line-clamp-1 sm:line-clamp-2">{stat.change}</div>
                                 </div>
                             </div>
@@ -121,20 +168,6 @@ const WeatherStation = () => {
                     </div>
                 ))}
             </div>
-
-            {/* Mobile Time Display */}
-            {/* <div className="sm:hidden mb-4">
-                <div className="flex justify-center">
-                    <div className="bg-white/80 backdrop-blur-sm rounded-lg px-4 py-2 border border-gray-200">
-                        <div className="flex items-center">
-                            <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span className="text-sm font-mono font-medium text-gray-700">{currentTime}</span>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
 
             {/* Main Content - Chart and Marquee */}
             <div className="flex flex-col lg:grid lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8">

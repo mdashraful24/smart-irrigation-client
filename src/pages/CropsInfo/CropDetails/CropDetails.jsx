@@ -1,8 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from "react";
+import CountUp from "react-countup";
 import { Droplets, Thermometer, Cloud, Zap, ChevronRight } from 'lucide-react';
+
+// Custom hook for checking if element is in viewport
+const useInView = () => {
+    const [isInView, setIsInView] = useState(false);
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsInView(true);
+                    observer.unobserve(entry.target);
+                }
+            },
+            {
+                threshold: 0.1,
+                rootMargin: "0px 0px -100px 0px"
+            }
+        );
+
+        const currentRef = ref.current;
+        if (currentRef) {
+            observer.observe(currentRef);
+        }
+
+        return () => {
+            if (currentRef) {
+                observer.unobserve(currentRef);
+            }
+        };
+    }, []);
+
+    return [ref, isInView];
+};
 
 const CropDetails = () => {
     const [powerOn, setPowerOn] = useState(true);
+    const [ref, isInView] = useInView();
 
     const fieldName = "North Field";
     const cropName = "Cucumber";
@@ -32,7 +68,7 @@ const CropDetails = () => {
 
     return (
         <div className="min-h-screen">
-            <div className="container mx-auto px-4 py-16 mt-10 mb-5">
+            <div ref={ref} className="container mx-auto px-4 py-16 mt-10 mb-5">
                 {/* Header Section */}
                 <div className="mb-8 text-center lg:text-left">
                     <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
@@ -67,8 +103,16 @@ const CropDetails = () => {
                         <div>
                             <h3 className="text-sm font-medium mb-1">Soil Moisture</h3>
                             <div className="flex items-baseline gap-2">
-                                <span className="text-2xl lg:text-3xl font-bold">{avgSoil}</span>
-                                <span>%</span>
+                                <span className="text-2xl lg:text-3xl font-bold">
+                                    {isInView ? (
+                                        <CountUp
+                                            start={0}
+                                            end={avgSoil}
+                                            duration={2}
+                                            suffix="%"
+                                        />
+                                    ) : "0%"}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -86,8 +130,16 @@ const CropDetails = () => {
                         <div>
                             <h3 className="text-sm font-medium mb-1">Temperature</h3>
                             <div className="flex items-baseline gap-2">
-                                <span className="text-2xl lg:text-3xl font-bold">{avgTemperature}</span>
-                                <span>°C</span>
+                                <span className="text-2xl lg:text-3xl font-bold">
+                                    {isInView ? (
+                                        <CountUp
+                                            start={0}
+                                            end={avgTemperature}
+                                            duration={2}
+                                            suffix="°C"
+                                        />
+                                    ) : "0°C"}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -105,8 +157,16 @@ const CropDetails = () => {
                         <div>
                             <h3 className="text-sm font-medium mb-1">Humidity</h3>
                             <div className="flex items-baseline gap-2">
-                                <span className="text-2xl lg:text-3xl font-bold">{avgHumidity}</span>
-                                <span>%</span>
+                                <span className="text-2xl lg:text-3xl font-bold">
+                                    {isInView ? (
+                                        <CountUp
+                                            start={0}
+                                            end={avgHumidity}
+                                            duration={2}
+                                            suffix="%"
+                                        />
+                                    ) : "0%"}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -143,7 +203,14 @@ const CropDetails = () => {
                                 <p>Real-time moisture levels across field sections</p>
                             </div>
                             <div className="px-3 py-1 bg-amber-50 text-amber-800 rounded-full text-sm font-medium border border-amber-200">
-                                15 Nodes
+                                {isInView ? (
+                                    <CountUp
+                                        start={0}
+                                        end={15}
+                                        duration={2}
+                                        suffix=" Nodes"
+                                    />
+                                ) : "0 Nodes"}
                             </div>
                         </div>
 
@@ -157,15 +224,22 @@ const CropDetails = () => {
                                         {sensor.id}
                                     </div>
                                     <div className="text-2xl lg:text-3xl font-bold mt-4 mb-3">
-                                        {sensor.value}%
+                                        {isInView ? (
+                                            <CountUp
+                                                start={0}
+                                                end={sensor.value}
+                                                duration={2}
+                                                suffix="%"
+                                            />
+                                        ) : "0%"}
                                     </div>
                                     <div className="w-full bg-gray-100 rounded-full h-2 mb-1">
                                         <div
-                                            className={`h-2 rounded-full transition-all duration-500 ${sensor.value > 75 ? 'bg-red-500' :
-                                                    sensor.value < 50 ? 'bg-blue-500' :
-                                                        'bg-linear-to-r from-amber-400 to-amber-600'
+                                            className={`h-2 rounded-full transition-all duration-1000 ${sensor.value > 75 ? 'bg-red-500' :
+                                                sensor.value < 50 ? 'bg-blue-500' :
+                                                    'bg-linear-to-r from-amber-400 to-amber-600'
                                                 }`}
-                                            style={{ width: `${sensor.value}%` }}
+                                            style={{ width: isInView ? `${sensor.value}%` : "0%" }}
                                         ></div>
                                     </div>
                                     <div className="text-xs mt-2">
@@ -186,7 +260,14 @@ const CropDetails = () => {
                                     <p>Ambient temperature monitoring</p>
                                 </div>
                                 <div className="px-3 py-1 bg-red-50 text-red-800 rounded-full text-sm font-medium border border-red-200">
-                                    2 Sensors
+                                    {isInView ? (
+                                        <CountUp
+                                            start={0}
+                                            end={2}
+                                            duration={2}
+                                            suffix=" Sensors"
+                                        />
+                                    ) : "0 Sensors"}
                                 </div>
                             </div>
 
@@ -201,7 +282,15 @@ const CropDetails = () => {
                                             <Thermometer className="w-5 h-5 text-red-500" />
                                         </div>
                                         <div className="text-3xl lg:text-4xl font-bold mb-2">
-                                            {sensor.value}°C
+                                            {isInView ? (
+                                                <CountUp
+                                                    start={0}
+                                                    end={sensor.value}
+                                                    duration={2}
+                                                    suffix="°C"
+                                                    decimals={1}
+                                                />
+                                            ) : "0°C"}
                                         </div>
                                         <div className={`text-sm font-medium ${sensor.value > 30 ? 'text-red-600' : sensor.value < 20 ? 'text-blue-600' : 'text-green-600'}`}>
                                             {sensor.value > 30 ? 'Above Optimal' : sensor.value < 20 ? 'Below Optimal' : 'Within Range'}
@@ -219,7 +308,14 @@ const CropDetails = () => {
                                     <p>Atmospheric humidity monitoring</p>
                                 </div>
                                 <div className="px-3 py-1 bg-blue-50 text-blue-800 rounded-full text-sm font-medium border border-blue-200">
-                                    2 Sensors
+                                    {isInView ? (
+                                        <CountUp
+                                            start={0}
+                                            end={2}
+                                            duration={2}
+                                            suffix=" Sensors"
+                                        />
+                                    ) : "0 Sensors"}
                                 </div>
                             </div>
 
@@ -234,7 +330,14 @@ const CropDetails = () => {
                                             <Cloud className="w-5 h-5 text-blue-500" />
                                         </div>
                                         <div className="text-3xl lg:text-4xl font-bold mb-2">
-                                            {sensor.value}%
+                                            {isInView ? (
+                                                <CountUp
+                                                    start={0}
+                                                    end={sensor.value}
+                                                    duration={2}
+                                                    suffix="%"
+                                                />
+                                            ) : "0%"}
                                         </div>
                                         <div className={`text-sm font-medium ${sensor.value > 80 ? 'text-red-600' : sensor.value < 40 ? 'text-blue-600' : 'text-green-600'}`}>
                                             {sensor.value > 80 ? 'High Humidity' : sensor.value < 40 ? 'Low Humidity' : 'Optimal Range'}

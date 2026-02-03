@@ -1,14 +1,50 @@
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
+import CountUp from "react-countup";
 import img from "../../assets/img/fresh-orange-fruit.jpg";
 import team1 from "../../assets/members/member1.jpg";
 import team2 from "../../assets/members/member1.jpg";
 import team3 from "../../assets/members/member1.jpg";
 
-const AboutDetails = () => {
+// Custom hook for checking if element is in viewport
+const useInView = () => {
+    const [isInView, setIsInView] = useState(false);
+    const ref = useRef(null);
 
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsInView(true);
+                    observer.unobserve(entry.target);
+                }
+            },
+            {
+                threshold: 0.1,
+                rootMargin: "0px 0px -100px 0px"
+            }
+        );
+
+        const currentRef = ref.current;
+        if (currentRef) {
+            observer.observe(currentRef);
+        }
+
+        return () => {
+            if (currentRef) {
+                observer.unobserve(currentRef);
+            }
+        };
+    }, []);
+
+    return [ref, isInView];
+};
+
+const AboutDetails = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    const [ref, isInView] = useInView();
 
     return (
         <section className="container mx-auto px-4 py-16 mt-10">
@@ -46,18 +82,47 @@ const AboutDetails = () => {
                                 forefront of our field.
                             </p>
                         </div>
-                        <div className="mt-8 pt-6 md:pt-8 border-t border-gray-100">
+
+                        {/* CountUp Statistics */}
+                        <div ref={ref} className="mt-8 pt-6 md:pt-8 border-t border-gray-100">
                             <div className="flex flex-wrap gap-6 sm:gap-8 md:gap-12 justify-center lg:justify-start">
                                 <div className="text-center lg:text-left">
-                                    <p className="text-2xl sm:text-3xl font-bold text-primary">10+</p>
+                                    <p className="text-2xl sm:text-3xl font-bold text-primary">
+                                        {isInView ? (
+                                            <CountUp
+                                                start={0}
+                                                end={10}
+                                                duration={2.5}
+                                                suffix="+"
+                                            />
+                                        ) : "0+"}
+                                    </p>
                                     <p className="text-xs sm:text-sm uppercase tracking-widest mt-1">Years Experience</p>
                                 </div>
                                 <div className="text-center lg:text-left">
-                                    <p className="text-2xl sm:text-3xl font-bold text-primary">500+</p>
+                                    <p className="text-2xl sm:text-3xl font-bold text-primary">
+                                        {isInView ? (
+                                            <CountUp
+                                                start={0}
+                                                end={500}
+                                                duration={2.5}
+                                                suffix="+"
+                                            />
+                                        ) : "0+"}
+                                    </p>
                                     <p className="text-xs sm:text-sm uppercase tracking-widest mt-1">Global Clients</p>
                                 </div>
                                 <div className="text-center lg:text-left">
-                                    <p className="text-2xl sm:text-3xl font-bold text-primary">99%</p>
+                                    <p className="text-2xl sm:text-3xl font-bold text-primary">
+                                        {isInView ? (
+                                            <CountUp
+                                                start={0}
+                                                end={99}
+                                                duration={2.5}
+                                                suffix="%"
+                                            />
+                                        ) : "0%"}
+                                    </p>
                                     <p className="text-xs sm:text-sm uppercase tracking-widest mt-1">Satisfaction Rate</p>
                                 </div>
                             </div>
