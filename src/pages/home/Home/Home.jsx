@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import About from "../About/About";
 import Highlight from "../Highlight/Highlight";
 import Slider from "../Slider/Slider";
+import FAQ from "../FAQ/FAQ";
 
 const Home = () => {
 
@@ -14,6 +15,7 @@ const Home = () => {
             <Slider />
             <About />
             <Highlight />
+            <FAQ />
         </div>
     );
 };

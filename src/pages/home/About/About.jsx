@@ -26,8 +26,8 @@ const About = () => {
                 {/* Content Side - Elegant typography */}
                 <div className="lg:pl-8 text-center lg:text-left">
                     {/* Heading */}
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-light mb-10 leading-tight tracking-tight">
-                        <span className="block mt-2 font-semibold">About Us</span>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-12">
+                        About Us
                     </h2>
 
                     {/* Content */}
