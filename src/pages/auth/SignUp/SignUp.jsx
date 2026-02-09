@@ -137,7 +137,7 @@ const SignUp = () => {
                                 value={formData.fullName}
                                 onChange={handleChange}
                                 placeholder="John Doe"
-                                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.fullName ? 'border-red-500' : 'border-gray-300'
+                                className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.fullName ? 'border-red-500' : 'border-gray-300'
                                     }`}
                                 disabled={isSubmitting}
                             />
@@ -158,7 +158,7 @@ const SignUp = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="farmer@example.com"
-                                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.email ? 'border-red-500' : 'border-gray-300'
                                     }`}
                                 disabled={isSubmitting}
                             />
@@ -180,7 +180,7 @@ const SignUp = () => {
                                     value={formData.password}
                                     onChange={handleChange}
                                     placeholder="••••••••"
-                                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.password ? 'border-red-500' : 'border-gray-300'
+                                    className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.password ? 'border-red-500' : 'border-gray-300'
                                         }`}
                                     disabled={isSubmitting}
                                 />
@@ -202,26 +202,26 @@ const SignUp = () => {
                             )}
 
                             {/* Password Requirements */}
-                            <div className="mt-2 grid grid-cols-2 place-items-start gap-2 break-all">
-                                <div className="flex items-center text-sm">
+                            <div className="mt-2 grid grid-cols-2 place-items-start gap-2 text-sm break-all">
+                                <div className="flex items-center">
                                     <CheckCircle className={`w-4 h-4 mr-2 ${passwordChecks.length ? 'text-green-500' : 'text-gray-300'}`} />
                                     <span className={passwordChecks.length ? 'text-green-600' : 'text-gray-500'}>
                                         At least 8 characters
                                     </span>
                                 </div>
-                                <div className="flex items-center text-sm">
+                                <div className="flex items-center">
                                     <CheckCircle className={`w-4 h-4 mr-2 ${passwordChecks.uppercase ? 'text-green-500' : 'text-gray-300'}`} />
                                     <span className={passwordChecks.uppercase ? 'text-green-600' : 'text-gray-500'}>
                                         One uppercase letter
                                     </span>
                                 </div>
-                                <div className="flex items-center text-sm">
+                                <div className="flex items-center">
                                     <CheckCircle className={`w-4 h-4 mr-2 ${passwordChecks.lowercase ? 'text-green-500' : 'text-gray-300'}`} />
                                     <span className={passwordChecks.lowercase ? 'text-green-600' : 'text-gray-500'}>
                                         One lowercase letter
                                     </span>
                                 </div>
-                                <div className="flex items-center text-sm">
+                                <div className="flex items-center">
                                     <CheckCircle className={`w-4 h-4 mr-2 ${passwordChecks.number ? 'text-green-500' : 'text-gray-300'}`} />
                                     <span className={passwordChecks.number ? 'text-green-600' : 'text-gray-500'}>
                                         One number
@@ -243,7 +243,7 @@ const SignUp = () => {
                                     value={formData.confirmPassword}
                                     onChange={handleChange}
                                     placeholder="••••••••"
-                                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                                    className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
                                         }`}
                                     disabled={isSubmitting}
                                 />
@@ -297,7 +297,7 @@ const SignUp = () => {
                             disabled={isSubmitting}
                             className={`w-full mt-3 py-3 px-4 rounded-lg font-medium text-white transition duration-200 shadow-md ${isSubmitting
                                 ? 'bg-green-400 cursor-not-allowed'
-                                : 'bg-green-600 hover:bg-green-700 hover:shadow-lg'
+                                : 'bg-green-600 hover:bg-green-700 hover:shadow-lg active:scale-95'
                                 }`}
                         >
                             {isSubmitting ? (
@@ -316,11 +316,11 @@ const SignUp = () => {
 
                     {/* Login Link */}
                     <div className="mt-6 text-center">
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm">
                             Already have an account?{' '}
                             <Link
                                 to="/auth/login"
-                                className="font-medium text-green-600 hover:text-green-700"
+                                className="font-semibold text-green-600 hover:text-green-700"
                             >
                                 Sign in
                             </Link>

@@ -111,10 +111,10 @@ const Slider = () => {
                             ))}
                         </div>
 
-                        {/* Content Container - CENTERED */}
+                        {/* Content Container - CENTERED (only text content) */}
                         <div className="relative z-20 h-full flex flex-col items-center justify-center p-4 md:p-8 lg:p-12">
                             {/* Text Content - Centered */}
-                            <div className="max-w-2xl text-center parallax-item" data-speed="0.3">
+                            <div className="max-w-2xl text-center" data-speed="0.3">
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
                                     {slideContent[index].title}
                                 </h1>
@@ -125,62 +125,56 @@ const Slider = () => {
                                     {slideContent[index].description}
                                 </p>
                             </div>
-
-                            {/* Action Buttons - Glass Morphism - Centered */}
-                            <div className="flex flex-row justify-center items-center gap-4 md:gap-6 z-30 parallax-item mb-12" data-speed="0.5">
-                                <a
-                                    href="/all-fields"
-                                    className="group relative overflow-hidden bg-linear-to-r from-blue-600/90 to-blue-700/90 backdrop-blur-sm border border-blue-400/30 text-white font-semibold p-3 rounded-xl shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] hover:from-blue-500/90 hover:to-blue-600/90 flex items-center justify-center gap-3 min-w-32 md:min-w-40"
-                                >
-                                    <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                                    <Monitor className="w-5 h-5 shrink-0" />
-                                    <span className="relative">Monitor</span>
-                                    {/* <ChevronRight className="absolute right-4 w-0 h-5 group-hover:w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" /> */}
-                                </a>
-
-                                <a
-                                    href="/auth/login"
-                                    className="group relative overflow-hidden bg-linear-to-r from-emerald-600/90 to-emerald-700/90 backdrop-blur-sm border border-emerald-400/30 text-white font-semibold p-3 rounded-xl shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-[1.02] hover:from-emerald-500/90 hover:to-emerald-600/90 flex items-center justify-center gap-3 min-w-32 md:min-w-40"
-                                >
-                                    <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                                    <LogIn className="w-5 h-5 shrink-0" />
-                                    <span className="relative">Login</span>
-                                    {/* <ChevronRight className="absolute right-4 w-0 h-5 group-hover:w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" /> */}
-                                </a>
-                            </div>
-
-                            {/* Decorative Line & Indicators - Positioned at bottom */}
-                            <div className="absolute bottom-8 left-0 right-0 px-8 md:px-12 lg:px-16">
-                                {/* Decorative Line */}
-                                {/* <div className="h-px bg-linear-to-r from-transparent via-white/30 to-transparent w-full mb-4"></div> */}
-
-                                {/* Slide Indicator - Custom */}
-                                <div className="flex items-center justify-between">
-                                    <div className="flex gap-2">
-                                        {images.map((_, idx) => (
-                                            <button
-                                                key={idx}
-                                                onClick={() => handleSlideChange(idx)}
-                                                className={`h-1.5 rounded-full transition-all duration-300 ${currentSlide === idx
-                                                    ? 'w-8 bg-linear-to-r from-amber-400 to-green-400'
-                                                    : 'w-4 bg-white/40 hover:bg-white/60'
-                                                    }`}
-                                                aria-label={`Go to slide ${idx + 1}`}
-                                            />
-                                        ))}
-                                    </div>
-
-                                    <div className="text-white/60 text-sm font-medium">
-                                        <span className="text-white">{currentSlide + 1}</span>
-                                        <span className="mx-2">/</span>
-                                        <span>{images.length}</span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 ))}
             </Carousel>
+
+            {/* Fixed Action Buttons - Glass Morphism - Centered */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 bottom-32 lg:bottom-60 z-30 flex flex-row justify-center items-center gap-4 md:gap-6">
+                <a
+                    href="/all-fields"
+                    className="group relative overflow-hidden bg-linear-to-r from-blue-600/90 to-blue-700/90 backdrop-blur-sm border border-blue-400/30 text-white font-semibold p-3 rounded-xl shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] hover:from-blue-500/90 hover:to-blue-600/90 flex items-center justify-center gap-3 min-w-32 md:min-w-40"
+                >
+                    <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                    <Monitor className="w-5 h-5 shrink-0" />
+                    <span className="relative">Monitor</span>
+                </a>
+
+                <a
+                    href="/auth/login"
+                    className="group relative overflow-hidden bg-linear-to-r from-emerald-600/90 to-emerald-700/90 backdrop-blur-sm border border-emerald-400/30 text-white font-semibold p-3 rounded-xl shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-[1.02] hover:from-emerald-500/90 hover:to-emerald-600/90 flex items-center justify-center gap-3 min-w-32 md:min-w-40"
+                >
+                    <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                    <LogIn className="w-5 h-5 shrink-0" />
+                    <span className="relative">Login</span>
+                </a>
+            </div>
+
+            {/* Fixed Indicators at Bottom */}
+            <div className="absolute bottom-8 left-0 right-0 z-30 px-8 md:px-12 lg:px-16">
+                <div className="flex items-center justify-between">
+                    <div className="flex gap-2">
+                        {images.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => handleSlideChange(idx)}
+                                className={`h-1.5 rounded-full transition-all duration-300 ${currentSlide === idx
+                                    ? 'w-8 bg-linear-to-r from-amber-400 to-green-400'
+                                    : 'w-4 bg-white/40 hover:bg-white/60'
+                                    }`}
+                                aria-label={`Go to slide ${idx + 1}`}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="text-white/60 text-sm font-medium">
+                        <span className="text-white">{currentSlide + 1}</span>
+                        <span className="mx-2">/</span>
+                        <span>{images.length}</span>
+                    </div>
+                </div>
+            </div>
 
             {/* Custom Navigation Arrows */}
             <button

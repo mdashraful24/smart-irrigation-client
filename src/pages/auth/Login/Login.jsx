@@ -99,7 +99,7 @@ const Login = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="admin@irrigation.com"
-                                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                                className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.email ? 'border-red-500' : 'border-gray-300'
                                     }`}
                                 disabled={isSubmitting}
                             />
@@ -121,7 +121,7 @@ const Login = () => {
                                     value={formData.password}
                                     onChange={handleChange}
                                     placeholder="••••••••"
-                                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.password ? 'border-red-500' : 'border-gray-300'
+                                    className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.password ? 'border-red-500' : 'border-gray-300'
                                         }`}
                                     disabled={isSubmitting}
                                 />
@@ -169,7 +169,7 @@ const Login = () => {
                             disabled={isSubmitting}
                             className={`w-full mt-4 py-3 px-4 rounded-lg font-medium text-white transition duration-200 shadow-md ${isSubmitting
                                 ? 'bg-green-400 cursor-not-allowed'
-                                : 'bg-green-600 hover:bg-green-700 hover:shadow-lg'
+                                : 'bg-green-600 hover:bg-green-700 hover:shadow-lg active:scale-95'
                                 }`}
                         >
                             {isSubmitting ? (
@@ -188,11 +188,11 @@ const Login = () => {
 
                     {/* Sign Up Link */}
                     <div className="mt-6 text-center">
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm">
                             Don't have an account?{' '}
                             <Link
                                 to="/auth/register"
-                                className="font-medium text-green-600 hover:text-green-700"
+                                className="font-semibold text-green-600 hover:text-green-700"
                             >
                                 Create an account
                             </Link>
