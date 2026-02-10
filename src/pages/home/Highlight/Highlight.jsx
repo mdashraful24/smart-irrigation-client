@@ -1,51 +1,52 @@
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router";
-import img from "../../../assets/img/fresh-orange-fruit.jpg";
 import { useTranslation } from 'react-i18next';
+import img from "../../../assets/img/fresh-orange-fruit.jpg";
 
-const projects = [
-    {
-        id: 1,
-        title: "Fresh Orange Delivery",
-        description: "Premium quality oranges delivered fresh to your doorstep with guaranteed same-day delivery",
-        image: img,
-        category: "Food & Beverage"
-    },
-    {
-        id: 2,
-        title: "Eco Farming Solutions",
-        description: "Sustainable farming practices",
-        image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800",
-        category: "Agriculture"
-    },
-    {
-        id: 3,
-        title: "Urban Garden Design",
-        description: "Transforming urban spaces into green havens with innovative vertical gardening solutions and sustainable materials",
-        image: "https://images.unsplash.com/photo-1417733403748-83bbc7c05140?auto=format&fit=crop&w=800",
-        category: "Design"
-    },
-    {
-        id: 4,
-        title: "Organic Produce Market",
-        description: "Connecting organic farmers with local communities through our innovative platform",
-        image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800",
-        category: "Retail"
-    },
-    {
-        id: 5,
-        title: "Farm to Table Initiative",
-        description: "Reducing food miles, increasing freshness",
-        image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800",
-        category: "Sustainability"
-    },
-    {
-        id: 6,
-        title: "Agricultural Tech Hub",
-        description: "Innovative technology solutions for modern farmers including IoT sensors and AI-powered analytics",
-        image: img,
-        category: "Technology"
-    }
-];
+// const projects = [
+//     {
+//         id: 1,
+//         title: "Fresh Orange Delivery",
+//         description: "Premium quality oranges delivered fresh to your doorstep with guaranteed same-day delivery",
+//         image: img,
+//         category: "Food & Beverage"
+//     },
+//     {
+//         id: 2,
+//         title: "Eco Farming Solutions",
+//         description: "Sustainable farming practices",
+//         image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800",
+//         category: "Agriculture"
+//     },
+//     {
+//         id: 3,
+//         title: "Urban Garden Design",
+//         description: "Transforming urban spaces into green havens with innovative vertical gardening solutions and sustainable materials",
+//         image: "https://images.unsplash.com/photo-1417733403748-83bbc7c05140?auto=format&fit=crop&w=800",
+//         category: "Design"
+//     },
+//     {
+//         id: 4,
+//         title: "Organic Produce Market",
+//         description: "Connecting organic farmers with local communities through our innovative platform",
+//         image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800",
+//         category: "Retail"
+//     },
+//     {
+//         id: 5,
+//         title: "Farm to Table Initiative",
+//         description: "Reducing food miles, increasing freshness",
+//         image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800",
+//         category: "Sustainability"
+//     },
+//     {
+//         id: 6,
+//         title: "Agricultural Tech Hub",
+//         description: "Innovative technology solutions for modern farmers including IoT sensors and AI-powered analytics",
+//         image: img,
+//         category: "Technology"
+//     }
+// ];
 
 const Highlight = () => {
     const navigate = useNavigate();
@@ -58,6 +59,8 @@ const Highlight = () => {
     const handleCardClick = (id) => {
         navigate(`/highlight/${id}`);
     };
+
+    const projects = t('highlight_showcase.projects', { returnObjects: true }) || [];
 
     return (
         <div className="container mx-auto pb-20 px-4">
@@ -82,7 +85,7 @@ const Highlight = () => {
                         {/* Project Image - Fixed height */}
                         <div className="relative h-48 md:h-56 overflow-hidden">
                             <img
-                                src={project.image}
+                                src={project.image || img}
                                 alt={project.title}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             />
