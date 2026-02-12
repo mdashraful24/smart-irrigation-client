@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import CountUp from "react-countup";
-import { Droplets, Thermometer, Cloud, Zap } from 'lucide-react';
+import { Droplets, Thermometer, Cloud, Activity } from 'lucide-react'; // Removed Zap
 import { useTranslation } from 'react-i18next';
 
 // Custom hook for checking if element is in viewport
@@ -38,11 +38,12 @@ const useInView = () => {
 };
 
 const CropDetails = () => {
-    const [powerOn, setPowerOn] = useState(true);
+    const [waterSupplyOn, setWaterSupplyOn] = useState(false);
+    const [systemStatus, setSystemStatus] = useState("optimal");
     const [ref, isInView] = useInView();
     const { t } = useTranslation();
 
-    const fieldName = "North Field";
+    const fieldName = "Field Laboratory 01 (Malta Garden)";
     const cropName = "Cucumber";
     const avgSoil = 65;
     const avgTemperature = 28;
@@ -68,21 +69,52 @@ const CropDetails = () => {
         window.scrollTo(0, 0);
     }, []);
 
+    // Status Configuration
+    const statusConfig = {
+        optimal: {
+            color: 'bg-green-50 text-green-700 border-green-200',
+            dot: 'bg-green-500',
+            text: t('cropDetails.systemOptimal')
+        },
+        warning: {
+            color: 'bg-yellow-50 text-yellow-700 border-yellow-200',
+            dot: 'bg-yellow-500',
+            text: t('cropDetails.systemWarning')
+        },
+        critical: {
+            color: 'bg-red-50 text-red-700 border-red-200',
+            dot: 'bg-red-500',
+            text: t('cropDetails.systemCritical')
+        }
+    };
+
+    const config = statusConfig[systemStatus];
+
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-gray-50/30">
             <div ref={ref} className="container mx-auto px-4 py-16 mt-10 mb-5">
-                {/* Header Section */}
-                <div className="text-center mb-12 md:mb-16">
-                    <h1 className="text-3xl lg:text-5xl font-semibold mb-4">
-                        <span className="font-serif">{fieldName}</span>
-                    </h1>
-                    <div className="flex flex-row justify-center items-center-safe gap-3">
-                        <h2 className="text-2xl lg:text-3xl font-semibold">
-                            {cropName}
-                        </h2>
-                        <span className="flex items-center px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-sm font-semibold border border-amber-400">
-                            Crop
-                        </span>
+                <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-6 mb-12 md:mb-16">
+                    {/* Header Section */}
+                    <div className="text-center lg:text-left">
+                        <h1 className="text-3xl lg:text-5xl font-semibold tracking-tight mb-4">
+                            {fieldName}
+                        </h1>
+                        <div className="flex flex-row justify-center lg:justify-start items-center-safe gap-3">
+                            <h2 className="text-2xl lg:text-3xl font-semibold">
+                                {cropName}
+                            </h2>
+                            <p className="flex items-center px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-sm font-semibold border border-amber-400">
+                                Crop
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* System Status Badge */}
+                    <div className={`flex items-center gap-2 px-4 py-2.5 rounded-full border shadow-lg backdrop-blur-sm bg-white/90 ${config.color}`}>
+                        <Activity className="w-4 h-4" />
+                        <span className="text-sm font-semibold">{t('cropDetails.systemStatus')}:</span>
+                        <div className={`w-2 h-2 rounded-full ${config.dot} animate-pulse mx-1`}></div>
+                        <span className="text-sm font-medium">{config.text}</span>
                     </div>
                 </div>
 
@@ -169,25 +201,50 @@ const CropDetails = () => {
                         </div>
                     </div>
 
-                    {/* System Status Card */}
-                    <div className="group bg-linear-to-b from-gray-50 to-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:border-purple-200">
+                    {/* Water Supply Card */}
+                    <div className="group bg-linear-to-b from-gray-50 to-white rounded-2xl px-4 py-3 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:border-cyan-200">
                         <div className="flex items-start justify-between mb-4">
-                            <div className="p-2.5 bg-linear-to-br from-purple-50 to-purple-100 rounded-xl">
-                                <Zap className="w-5 h-5 text-purple-600" />
+                            <div className="p-2.5 bg-linear-to-br from-cyan-50 to-cyan-100 rounded-xl">
+                                <Droplets className="w-5 h-5 text-cyan-600" />
                             </div>
-                            <div className={`text-xs font-medium px-2.5 py-1 rounded-full ${powerOn ? 'bg-green-50 text-green-700' : 'bg-gray-100'}`}>
-                                {powerOn ? t('cropDetails.online') : t('cropDetails.offline')}
+                            <div className={`text-xs font-medium px-2.5 py-1 rounded-full ${waterSupplyOn ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-gray-100 text-gray-700 border border-gray-200'}`}>
+                                {waterSupplyOn ? t('cropDetails.waterSupplyOn') : t('cropDetails.waterSupplyOff')}
                             </div>
                         </div>
                         <div>
-                            <h3 className="text-sm font-medium mb-1">{t('cropDetails.systemStatus')}</h3>
+                            <h3 className="text-sm font-medium mb-1">{t('cropDetails.waterSupply')}</h3>
                             <div className="flex items-center gap-3">
-                                <div className={`w-3 h-3 rounded-full ${powerOn ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
-                                <span className="text-xl font-bold">
-                                    {powerOn ? t('cropDetails.allSystemsActive') : t('cropDetails.systemOffline')}
-                                </span>
+                                <div className="flex items-center gap-2">
+                                    <div className={`w-3 h-3 rounded-full ${waterSupplyOn ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+                                    <span className="text-lg font-bold">
+                                        {waterSupplyOn ? t('cropDetails.waterFlowing') : t('cropDetails.waterStopped')}
+                                    </span>
+                                </div>
+                                {/* <button
+                                    onClick={() => setWaterSupplyOn(!waterSupplyOn)}
+                                    className={`ml-auto text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-300
+                                        ${waterSupplyOn
+                                            ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200'
+                                            : 'bg-green-50 text-green-600 hover:bg-green-100 border border-green-200'
+                                        }`}
+                                >
+                                    {waterSupplyOn ? t('cropDetails.turnOff') : t('cropDetails.turnOn')}
+                                </button> */}
                             </div>
                         </div>
+
+                        {/* Water Flow Indicator */}
+                        {/* {waterSupplyOn && (
+                            <div className="mt-3 pt-3 border-t border-gray-100">
+                                <div className="flex items-center gap-2">
+                                    <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                        <div className="h-full bg-linear-to-r from-cyan-400 to-blue-500 rounded-full animate-pulse"
+                                            style={{ width: '75%' }}></div>
+                                    </div>
+                                    <span className="text-xs font-medium text-cyan-600">2.4 L/s</span>
+                                </div>
+                            </div>
+                        )} */}
                     </div>
                 </div>
 

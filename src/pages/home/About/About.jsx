@@ -40,12 +40,12 @@ const About = () => {
 
                     {/* Content */}
                     <div className="space-y-5 mb-3 lg:mb-5">
-                        <p className="text-lg lg:text-xl leading-relaxed">
+                        <div className="text-lg lg:text-xl leading-relaxed">
                             <ReactMarkdown>{t('aboutDetails.journeyP1')}</ReactMarkdown>
-                        </p>
-                        <p className="text-lg lg:text-xl leading-relaxed line-clamp-4 lg:line-clamp-2">
+                        </div>
+                        <div className="text-lg lg:text-xl leading-relaxed line-clamp-4 lg:line-clamp-2">
                             <ReactMarkdown>{t('aboutDetails.journeyP2')}</ReactMarkdown>
-                        </p>
+                        </div>
                     </div>
 
                     {/* CTA Button */}

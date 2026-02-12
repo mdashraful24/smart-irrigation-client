@@ -69,13 +69,13 @@ const AboutDetails = () => {
                             </h2>
                             {/* <div className="w-16 h-0.5 bg-green-600 mb-6 md:mb-8"></div> */}
                         </div>
-                            <div className="space-y-4 md:space-y-6">
-                            <p className="md:text-lg leading-relaxed">
+                        <div className="space-y-4 md:space-y-6">
+                            <div className="md:text-lg leading-relaxed">
                                 <ReactMarkdown>{t('aboutDetails.journeyP1')}</ReactMarkdown>
-                            </p>
-                            <p className="md:text-lg leading-relaxed">
+                            </div>
+                            <div className="md:text-lg leading-relaxed">
                                 <ReactMarkdown>{t('aboutDetails.journeyP2')}</ReactMarkdown>
-                            </p>
+                            </div>
                         </div>
 
                         {/* CountUp Statistics */}
@@ -134,9 +134,9 @@ const AboutDetails = () => {
                         </div>
                     </div>
                 </div>
-                <p className="md:text-lg leading-relaxed pt-4 md:pt-6">
+                <div className="md:text-lg leading-relaxed pt-4 md:pt-6">
                     <ReactMarkdown>{t('aboutDetails.journeyP3')}</ReactMarkdown>
-                </p>
+                </div>
             </div>
 
             {/* Team Section */}

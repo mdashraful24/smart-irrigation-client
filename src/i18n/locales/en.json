@@ -165,9 +165,10 @@
     "location": "Location",
     "weatherStation": "Weather Station",
     "cropName": "Crop Name",
-    "variety": "Variety",
-    "plantingDate": "Planting Date",
-    "harvestDate": "Harvest Date",
+    "averageSoilMoisture": "Average Soil Moisture",
+    "averageTemperature": "Average Temperature",
+    "averageHumidity": "Average Humidity",
+    "waterSupply": "Water Supply",
     "status": "Status",
     "clickDetails": "Click to view details",
     "upcoming": "Upcoming",
@@ -194,11 +195,18 @@
     "soilMoisture": "Soil Moisture",
     "temperature": "Temperature",
     "humidity": "Humidity",
+    "waterSupply": "Water Supply",
     "systemStatus": "System Status",
+    "systemOptimal": "All Systems Active",
     "optimal": "OPTIMAL",
     "online": "ONLINE",
     "offline": "OFFLINE",
-    "allSystemsActive": "All Systems Active",
+    "waterFlowing": "Water Flowing",
+    "waterStopped": "Water Stopped",
+    "turnOn": "Turn ON",
+    "turnOff": "Turn OFF",
+    "waterSupplyOn": "Supply ON",
+    "waterSupplyOff": "Supply OFF",
     "systemOffline": "System Offline",
     "soilMoistureGrid": "Soil Moisture Grid",
     "moistureLevels": "Real-time moisture levels across field sections",
@@ -245,6 +253,7 @@
     "humidity": "Humidity",
     "rainfall": "Rainfall (%)"
   },
+  "__highlight_showcase__": "🔴 HIGHLIGHT SHOWCASE PAGE",
   "highlight_showcase": {
     "title": "Highlights of our project",
     "subtitle": "Explore our complete portfolio of innovative projects and solutions",
@@ -350,6 +359,7 @@
       }
     ]
   },
+  "__marquee__": "🔴 MARQUEE SECTION",
   "marquee": {
     "notices": [
       {

@@ -1,8 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import { UserPlus, Eye, Zap, Target, ChevronRight, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Autoplay, EffectCoverflow } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/autoplay';
+import 'swiper/css/effect-coverflow';
 
-const AUTO_SLIDE_INTERVAL = 2000;
+const AUTO_SLIDE_INTERVAL = 3000;
 const MOBILE_BREAKPOINT = 1024;
 
 const HowItWorks = () => {
@@ -15,11 +21,8 @@ const HowItWorks = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
     const [isAutoPlay, setIsAutoPlay] = useState(true);
-    const [direction, setDirection] = useState('next');
     const [isAnimating, setIsAnimating] = useState(false);
-
     const containerRef = useRef(null);
-    const intervalRef = useRef(null);
 
     // Responsive detection
     useEffect(() => {
@@ -29,41 +32,9 @@ const HowItWorks = () => {
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Auto-slide with smooth transitions
-    useEffect(() => {
-        if (isAutoPlay && steps.length > 0 && !isAnimating) {
-            intervalRef.current = setInterval(() => {
-                handleNextStep();
-            }, AUTO_SLIDE_INTERVAL);
-        }
-        return () => clearInterval(intervalRef.current);
-    }, [isAutoPlay, steps.length, isAnimating]);
-
-    const handleStepChange = useCallback((newIndex, dir) => {
-        if (isAnimating) return;
-
-        setIsAnimating(true);
-        setDirection(dir);
+    const handleStepChange = useCallback((newIndex) => {
         setActiveStep(newIndex);
-
-        setTimeout(() => setIsAnimating(false), 600);
-    }, [isAnimating]);
-
-    const handleNextStep = useCallback(() => {
-        const nextStep = (activeStep + 1) % steps.length;
-        handleStepChange(nextStep, 'next');
-    }, [activeStep, steps.length, handleStepChange]);
-
-    const handlePrevStep = useCallback(() => {
-        const prevStep = (activeStep - 1 + steps.length) % steps.length;
-        handleStepChange(prevStep, 'prev');
-    }, [activeStep, steps.length, handleStepChange]);
-
-    const handleStepClick = useCallback((index) => {
-        const dir = index > activeStep ? 'next' : 'prev';
-        handleStepChange(index, dir);
-        if (isAutoPlay) setIsAutoPlay(false);
-    }, [activeStep, isAutoPlay, handleStepChange]);
+    }, []);
 
     const toggleMode = useCallback(() => {
         setIsAutoPlay(prev => !prev);
@@ -96,19 +67,17 @@ const HowItWorks = () => {
                         steps={steps}
                         iconMap={iconMap}
                         activeStep={activeStep}
-                        onStepClick={handleStepClick}
+                        onStepClick={handleStepChange}
+                        isAutoPlay={isAutoPlay}
                     />
                 ) : (
                     <DesktopShowcase
                         steps={steps}
                         iconMap={iconMap}
                         activeStep={activeStep}
-                        direction={direction}
-                        isAnimating={isAnimating}
-                        onStepClick={handleStepClick}
-                        onNextStep={handleNextStep}
-                        onPrevStep={handlePrevStep}
+                        onStepClick={handleStepChange}
                         isAutoPlay={isAutoPlay}
+                        setIsAnimating={setIsAnimating}
                     />
                 )}
             </div>
@@ -116,12 +85,12 @@ const HowItWorks = () => {
     );
 };
 
-// Header
+// Header Component
 const Header = ({ title, subtitle, isAutoPlay, onToggleMode }) => {
     const { t } = useTranslation();
 
     return (
-        <div className="mb-12 lg:mb-16">
+        <div className="mb-12 lg:mb-20">
             <div className="grid lg:grid-cols-5 place-items-start justify-items-center lg:justify-items-stretch gap-8">
                 {/* Title with Gradient */}
                 <div className="lg:col-span-4 text-center lg:text-left">
@@ -132,9 +101,6 @@ const Header = ({ title, subtitle, isAutoPlay, onToggleMode }) => {
                         {subtitle}
                     </p>
                 </div>
-
-                {/* Empty column to push content */}
-                {/* <div className="hidden lg:block lg:col-span-1"></div> */}
 
                 {/* Floating Label */}
                 <div className="lg:col-span-1 inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full border border-green-100 shadow-sm lg:justify-self-end">
@@ -258,7 +224,7 @@ const MobileTimeline = ({ steps, iconMap, activeStep, onStepClick }) => {
 
                                 {(!isActive && !isCompleted) && (
                                     <button
-                                        className="mt-3 text-sm font-medium text-green-600 flex items-center justify-center gap-1 transition-all duration-300 hover:gap-2 hover:text-green-700 outline-none ring-0 focus:outline-none focus:ring-0"
+                                        className="mt-3 text-sm font-medium text-green-600 flex items-center gap-1 transition-all duration-300 hover:gap-2 hover:text-green-700 outline-none ring-0 focus:outline-none focus:ring-0"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             onStepClick(index);
@@ -277,150 +243,181 @@ const MobileTimeline = ({ steps, iconMap, activeStep, onStepClick }) => {
     );
 };
 
-// Desktop: Carousel
-const DesktopShowcase = ({ steps, iconMap, activeStep, direction, isAnimating, onStepClick, onNextStep, onPrevStep, isAutoPlay }) => {
+// Desktop: Swiper Carousel
+const DesktopShowcase = ({ steps, iconMap, activeStep, onStepClick, isAutoPlay, setIsAnimating }) => {
+    const [swiper, setSwiper] = useState(null);
 
-    // Get middle card is always active
-    const getVisibleSteps = () => {
-        const steps_array = [];
-
-        // Show previous card (activeStep - 1), current card (activeStep), next card (activeStep + 1)
-        for (let i = -1; i <= 1; i++) {
-            let index = (activeStep + i + steps.length) % steps.length;
-            steps_array.push({
-                ...steps[index],
-                index,
-                position: i
-            });
+    // Sync active step with Swiper
+    useEffect(() => {
+        if (swiper && swiper.realIndex !== activeStep) {
+            swiper.slideTo(activeStep, 500);
         }
-        return steps_array;
+    }, [activeStep, swiper]);
+
+    // Handle autoplay toggle
+    useEffect(() => {
+        if (swiper) {
+            if (isAutoPlay) {
+                swiper.autoplay.start();
+            } else {
+                swiper.autoplay.stop();
+            }
+        }
+    }, [isAutoPlay, swiper]);
+
+    // Handle dot click
+    const handleDotClick = (index) => {
+        onStepClick(index);
+        if (swiper) {
+            swiper.slideTo(index, 500);
+        }
     };
 
     return (
         <div className="hidden lg:block relative">
-            {/* Main Container with Carousel */}
-            <div className={`relative ${!isAutoPlay ? 'px-16' : '-mx-3'}`}>
-                {/* Navigation Arrows - Conditional visibility */}
+            {/* Main Container */}
+            <div className="relative px-12">
+                {/* Custom Navigation Arrows - Only show when not autoplay */}
                 {!isAutoPlay && (
                     <>
                         <div className="absolute top-1/2 left-0 -translate-y-1/2 z-30">
                             <NavButton
                                 direction="prev"
-                                onClick={onPrevStep}
-                                disabled={isAnimating}
+                                onClick={() => swiper?.slidePrev()}
                             />
                         </div>
                         <div className="absolute top-1/2 right-0 -translate-y-1/2 z-30">
                             <NavButton
                                 direction="next"
-                                onClick={onNextStep}
-                                disabled={isAnimating}
+                                onClick={() => swiper?.slideNext()}
                             />
                         </div>
                     </>
                 )}
 
-                {/* Cards Grid - 3 columns */}
-                <div className="grid grid-cols-3 gap-8">
-                    {getVisibleSteps().map((step, idx) => {
-                        const StepIcon = iconMap[step.icon] || UserPlus;
-                        const isActive = step.position === 0;
-                        const position = step.position;
-
-                        // Calculate animation classes based on direction and position
-                        let animationClass = '';
-                        if (isAnimating) {
-                            if (direction === 'next') {
-                                if (position === 0) animationClass = 'animate-slide-in-right';
-                                else if (position === -1) animationClass = 'animate-slide-out-left';
-                            } else {
-                                if (position === 0) animationClass = 'animate-slide-in-left';
-                                else if (position === 1) animationClass = 'animate-slide-out-right';
-                            }
+                {/* Swiper Carousel */}
+                <Swiper
+                    onSwiper={setSwiper}
+                    modules={[Navigation, Autoplay, EffectCoverflow]}
+                    slidesPerView={3}
+                    spaceBetween={32}
+                    centeredSlides={true}
+                    loop={true}
+                    speed={600}
+                    effect="coverflow"
+                    coverflowEffect={{
+                        rotate: 0,
+                        stretch: 0,
+                        depth: 150,
+                        modifier: 3,
+                        slideShadows: false,
+                    }}
+                    autoplay={{
+                        delay: AUTO_SLIDE_INTERVAL,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                    }}
+                    onSlideChange={(swiper) => {
+                        const realIndex = swiper.realIndex;
+                        if (realIndex !== activeStep) {
+                            setIsAnimating(true);
+                            onStepClick(realIndex);
+                            setTimeout(() => setIsAnimating(false), 600);
                         }
+                    }}
+                    className="py-8 overflow-visible!"
+                >
+                    {steps.map((step, index) => {
+                        const StepIcon = iconMap[step.icon] || UserPlus;
 
                         return (
-                            <div
-                                key={`${step.index}-${idx}`}
-                                className={`
-                                    relative group cursor-pointer
-                                    transition-all duration-500
-                                    ${animationClass}
-                                    ${isActive
-                                        ? 'scale-105 z-20'
-                                        : 'scale-95 opacity-80 hover:scale-100 hover:opacity-100'
-                                    }
-                                `}
-                                onClick={() => onStepClick(step.index)}
-                            >
-                                {/* Card */}
-                                <div className={`
-                                    h-full bg-white/90 backdrop-blur-sm rounded-2xl p-6
-                                    border-2 transition-all duration-300
-                                    hover:shadow-xl
-                                    ${isActive
-                                        ? 'border-green-500 shadow-green-200 shadow-xl'
-                                        : 'border-gray-100 hover:border-green-200 shadow-lg'
-                                    }
-                                `}>
-                                    {/* Icon */}
-                                    <div className="flex justify-center mb-6">
+                            <SwiperSlide key={index} className="overflow-visible!">
+                                {({ isActive }) => (
+                                    <div
+                                        className={`
+                                            relative group cursor-pointer
+                                            transition-all duration-500
+                                            ${isActive
+                                                ? 'z-20'
+                                                : 'scale-95 opacity-70 hover:scale-100 hover:opacity-100'
+                                            }
+                                        `}
+                                        onClick={() => {
+                                            if (swiper) {
+                                                swiper.slideTo(index, 600);
+                                            }
+                                        }}
+                                    >
+                                        {/* Card */}
                                         <div className={`
-                                            flex items-center justify-center w-14 h-14 
-                                            rounded-xl transition-all duration-300
+                                            h-full bg-white/90 backdrop-blur-sm rounded-2xl p-8
+                                            border-2 transition-all duration-300
+                                            hover:shadow-2xl
                                             ${isActive
-                                                ? 'bg-linear-to-br from-green-500 to-green-600 scale-110'
-                                                : 'bg-gray-100 group-hover:bg-green-100'
+                                                ? 'border-green-500 shadow-green-200 shadow-xl'
+                                                : 'border-gray-100 hover:border-green-200 shadow-lg'
                                             }
                                         `}>
-                                            <StepIcon className={`
-                                                w-7 h-7 transition-all duration-300
-                                                ${isActive ? 'text-white' : 'text-gray-600 group-hover:text-green-600'}
-                                            `} />
-                                        </div>
-                                    </div>
+                                            {/* Icon */}
+                                            <div className="flex justify-center mb-6">
+                                                <div className={`
+                                                    flex items-center justify-center w-16 h-16 
+                                                    rounded-2xl transition-all duration-300
+                                                    ${isActive
+                                                        ? 'bg-linear-to-br from-green-500 to-green-600 scale-110 shadow-lg shadow-green-200'
+                                                        : 'bg-gray-100 group-hover:bg-green-100'
+                                                    }
+                                                `}>
+                                                    <StepIcon className={`
+                                                        w-8 h-8 transition-all duration-300
+                                                        ${isActive ? 'text-white' : 'text-gray-600 group-hover:text-green-600'}
+                                                    `} />
+                                                </div>
+                                            </div>
 
-                                    {/* Step Number */}
-                                    <div className="flex justify-center mb-4">
-                                        <span className={`px-3 py-1 rounded-full text-sm font-semibold
-                                            ${isActive
-                                                ? 'bg-green-100 text-green-700 border'
-                                                : 'bg-gray-100 text-gray-600'
-                                            }
-                                        `}>
-                                            {step.number}
-                                        </span>
-                                    </div>
-
-                                    {/* Title */}
-                                    <h3 className={`
-                                        text-xl font-bold text-center mb-4 
-                                        ${isActive ? 'text-green-700' : 'text-gray-600'}
-                                    `}>
-                                        {step.title}
-                                    </h3>
-
-                                    {/* Description */}
-                                    <p className={`text-center leading-relaxed ${isActive ? '' : 'text-gray-600'}`}>
-                                        {step.description}
-                                    </p>
-
-                                    {/* Active Indicator */}
-                                    {isActive && (
-                                        <div className="absolute -top-2 -right-2">
-                                            <span className="flex h-6 w-6">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                                <span className="relative inline-flex rounded-full h-6 w-6 bg-green-500 text-white items-center justify-center text-xs">
-                                                    ✓
+                                            {/* Step Number */}
+                                            <div className="flex justify-center mb-4">
+                                                <span className={`px-3 py-1 rounded-full text-sm font-semibold
+                                                    ${isActive
+                                                        ? 'bg-green-100 text-green-700 border border-green-200'
+                                                        : 'bg-gray-100 text-gray-600'
+                                                    }
+                                                `}>
+                                                    {step.number}
                                                 </span>
-                                            </span>
+                                            </div>
+
+                                            {/* Title */}
+                                            <h3 className={`
+                                                text-xl font-bold text-center mb-4 
+                                                ${isActive ? 'text-gray-900' : 'text-gray-600'}
+                                            `}>
+                                                {step.title}
+                                            </h3>
+
+                                            {/* Description */}
+                                            <p className={`text-center leading-relaxed ${isActive ? 'text-gray-700' : 'text-gray-500'}`}>
+                                                {step.description}
+                                            </p>
+
+                                            {/* Active Indicator */}
+                                            {isActive && (
+                                                <div className="absolute -top-3 -right-3">
+                                                    <span className="flex h-7 w-7">
+                                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                                        <span className="relative inline-flex rounded-full h-7 w-7 bg-linear-to-r from-green-500 to-green-600 text-white items-center justify-center text-sm shadow-lg">
+                                                            ✓
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
-                            </div>
+                                    </div>
+                                )}
+                            </SwiperSlide>
                         );
                     })}
-                </div>
+                </Swiper>
             </div>
 
             {/* Progress Dots */}
@@ -429,7 +426,7 @@ const DesktopShowcase = ({ steps, iconMap, activeStep, direction, isAnimating, o
                     {steps.map((_, index) => (
                         <button
                             key={index}
-                            onClick={() => onStepClick(index)}
+                            onClick={() => handleDotClick(index)}
                             className={`
                                 rounded-full transition-all duration-500
                                 ${index === activeStep
@@ -447,13 +444,12 @@ const DesktopShowcase = ({ steps, iconMap, activeStep, direction, isAnimating, o
 };
 
 // Navigation Button
-const NavButton = ({ direction, onClick, disabled }) => {
+const NavButton = ({ direction, onClick }) => {
     const isPrev = direction === 'prev';
 
     return (
         <button
             onClick={onClick}
-            disabled={disabled}
             className={`
                 flex items-center justify-center w-12 h-12 rounded-full
                 bg-white/80 backdrop-blur-sm border border-gray-200
@@ -461,11 +457,10 @@ const NavButton = ({ direction, onClick, disabled }) => {
                 transition-all duration-300
                 hover:bg-linear-to-r hover:from-green-500 hover:to-green-600
                 hover:text-white hover:border-transparent
-                disabled:opacity-50 disabled:cursor-not-allowed
-                disabled:hover:bg-white disabled:hover:text-gray-700
-                disabled:hover:border-gray-200
                 ${isPrev ? 'hover:-translate-x-1' : 'hover:translate-x-1'}
                 z-30 pointer-events-auto cursor-pointer
+                focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2
+                text-gray-700 hover:text-white
             `}
             aria-label={direction === 'prev' ? 'Previous step' : 'Next step'}
         >

@@ -11,7 +11,7 @@ const Crops = () => {
 
     // Get field data from navigation state
     const fieldData = location.state?.fieldData || {
-        fieldName: 'North Field',
+        fieldName: 'Field Laboratory 01 (Malta Garden)',
         location: 'Springfield, IL',
         cropName: 'Cucumber'
     };
@@ -25,9 +25,10 @@ const Crops = () => {
         {
             id: 1,
             cropName: 'Cucumber',
-            variety: 'DKC62-08',
-            plantingDate: 'April 15, 2024',
-            harvestDate: 'September 30, 2024',
+            averageSoilMoisture: '65%',
+            averageTemperature: '24°C',
+            averageHumidity: '70%',
+            waterSupply: 'Sufficient',
             clickable: true,
             status: 'growing'
         },
@@ -124,7 +125,7 @@ const Crops = () => {
 
             {/* Field Name Header */}
             <div className="flex flex-col justify-center items-center pb-10">
-                <h1 className="text-3xl lg:text-5xl font-bold tracking-tight leading-tight mb-4">
+                <h1 className="text-3xl lg:text-5xl font-semibold tracking-tight leading-tight mb-4">
                     {fieldData.fieldName}
                 </h1>
                 <div className="flex items-center">
@@ -171,10 +172,16 @@ const Crops = () => {
                         <div className="p-6 flex-1 flex flex-col">
                             {/* Crop Name */}
                             <div className="mb-4">
-                                <h2 className="text-xl font-bold truncate">
-                                    {card.cropName}
-                                </h2>
-                                <div className={`w-12 h-1 ${card.clickable ? 'bg-emerald-500' : 'bg-yellow-500'} mt-1 rounded-full`}></div>
+                                <div className="flex items-start">
+                                    <svg className="w-5 h-5 mr-2 mt-0.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 1m6-2l3-1m-3 1l3 9a5.002 5.002 0 006.001 0M9 10l3 1m0-2l-3-1m6 2l3-1m-3 1l3 9a5.002 5.002 0 006.001 0M12 4v16"></path>
+                                    </svg>
+                                    <div className="flex-1">
+                                        <p className="font-bold">{t('crops.cropName')}</p>
+                                        <p>{card.cropName}</p>
+                                    </div>
+                                </div>
+                                {/* <div className={`w-12 h-1 ${card.clickable ? 'bg-emerald-500' : 'bg-yellow-500'} mt-1 rounded-full`}></div> */}
                             </div>
 
                             {/* For upcoming cards, show only Upcoming overlay */}
@@ -192,41 +199,54 @@ const Crops = () => {
                                 </div>
                             ) : (
                                 <>
-                                    {/* Crop Variety */}
+                                    {/* Average Soil Moisture */}
                                     <div className="mb-4">
                                         <div className="flex items-start">
                                             <svg className="w-5 h-5 mr-2 mt-0.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
                                             </svg>
                                             <div className="flex-1">
-                                                <p className="text-sm font-bold">{t('crops.variety')}</p>
-                                                <p>{card.variety}</p>
+                                                <p className="text-sm font-bold">{t('crops.averageSoilMoisture')}</p>
+                                                    <p>{card.averageSoilMoisture}</p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Planting Date */}
+                                    {/* Average Humidity */}
                                     <div className="mb-4">
                                         <div className="flex items-start">
                                             <svg className="w-5 h-5 mr-2 mt-0.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                             </svg>
                                             <div className="flex-1">
-                                                <p className="text-sm font-bold">{t('crops.plantingDate')}</p>
-                                                <p>{card.plantingDate}</p>
+                                                <p className="text-sm font-bold">{t('crops.averageTemperature')}</p>
+                                                    <p>{card.averageTemperature}</p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Harvest Date */}
+                                    {/* Average Humidity */}
                                     <div className="mb-6">
                                         <div className="flex items-start">
                                             <svg className="w-5 h-5 mr-2 mt-0.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                             <div className="flex-1">
-                                                <p className="text-sm font-bold">{t('crops.harvestDate')}</p>
-                                                <p>{card.harvestDate}</p>
+                                                <p className="text-sm font-bold">{t('crops.averageHumidity')}</p>
+                                                    <p>{card.averageHumidity}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Water Supply */}
+                                    <div className="mb-6">
+                                        <div className="flex items-start">
+                                            <svg className="w-5 h-5 mr-2 mt-0.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            <div className="flex-1">
+                                                <p className="text-sm font-bold">{t('crops.waterSupply')}</p>
+                                                    <p>{card.waterSupply}</p>
                                             </div>
                                         </div>
                                     </div>

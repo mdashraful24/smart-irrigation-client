@@ -15,8 +15,8 @@ const Fields = () => {
     const fieldCards = [
         {
             id: 1,
-            fieldName: 'North Field',
-            location: 'Springfield, IL',
+            fieldName: 'Field Laboratory 01 (Malta Garden)',
+            location: 'Malta Garden, Daffodil Smart City, Birulia, Dhaka, Bangladesh',
             cropName: 'Cucumber',
             clickable: true,
             status: 'active'
@@ -92,7 +92,7 @@ const Fields = () => {
         <div className="container mx-auto min-h-screen px-4 py-16 mt-10 mb-5">
             {/* Project Name Header */}
             <div className="mb-12 md:mb-16 text-center">
-                <h1 className="text-3xl lg:text-5xl font-semibold tracking-tight leading-tight mb-4">
+                <h1 className="text-3xl lg:text-5xl font-semibold tracking-tight mb-4">
                     {t('fields.title')}
                 </h1>
                 <p className="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto">{t('fields.subtitle')}</p>
