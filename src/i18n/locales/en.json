@@ -442,30 +442,43 @@
   "__howItWorks__": "🔴 HOW IT WORKS SECTION",
   "howItWorks": {
     "title": "How Our System Works",
-    "subtitle": "A seamless four-step process to intelligent agricultural management",
+    "subtitle": "A comprehensive six-step process for intelligent irrigation management",
     "steps": [
       {
         "number": "Step 1",
-        "title": "Register & Setup",
-        "description": "Create your account and connect your IoT sensors. Our step-by-step guide makes installation simple and fast.",
-        "icon": "UserPlus"
-      },
-      {
-        "number": "Step 2",
-        "title": "Monitor Fields",
-        "description": "Track real-time data from your fields including soil moisture, temperature, humidity, and weather conditions.",
+        "title": "Data Collection",
+        "description": "Collect Data of field: Soil Moisture, Temperature, Humidity. Collects through Sensor Node and sends to Central Hub (sensor Node) which sends Data to Server. This data is crucial for making informed decisions about irrigation scheduling and water supply control.",
         "icon": "Eye"
       },
       {
+        "number": "Step 2",
+        "title": "Logic Based Decision",
+        "description": "Based in upper and lower threshold set by user the avg. soil moisture it controls the water supply. If the soil moisture is above the upper threshold, it turns off the water supply. If the soil moisture is below the lower threshold, it turns on the water supply.",
+        "icon": "Target"
+      },
+      {
         "number": "Step 3",
-        "title": "Optimize Operations",
-        "description": "Let our AI algorithms optimize irrigation schedules based on crop needs, weather forecasts, and soil conditions.",
+        "title": "Data Analysis for AI",
+        "description": "Currently in data Collection phase in order to build an AI System. Once we have enough data, we will use it to train an AI model that can make more accurate predictions and optimize irrigation schedules based on historical patterns and real-time conditions.",
         "icon": "Zap"
       },
       {
         "number": "Step 4",
-        "title": "Maximize Results",
-        "description": "Increase yield, reduce water usage, and improve sustainability with data-driven farming practices."
+        "title": "Weather Prediction",
+        "description": "Based on Previous 90days Rain data, Weather, Time, current soil moisture, temp., humidity, it predicts next 7 days Rain probability. This allows the system to adjust irrigation schedules proactively, ensuring optimal water usage and preventing overwatering during rainy periods.",
+        "icon": "Target"
+      },
+      {
+        "number": "Step 5",
+        "title": "Water Supply Control",
+        "description": "Based on Logical Decision Water supply is turned on or off. If the soil moisture is above the upper threshold, it turns off the water supply. If the soil moisture is below the lower threshold, it turns on the water supply.",
+        "icon": "Zap"
+      },
+      {
+        "number": "Step 6",
+        "title": "Water Supply Monitor",
+        "description": "Water usage is monitored through water monitor sensor node and send to server for AI System to learn and optimize the water supply control. This feedback loop allows the system to continuously improve its performance and adapt to changing conditions over time.",
+        "icon": "Eye"
       }
     ],
     "autoMode": "Auto-slide mode",
