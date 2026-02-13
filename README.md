@@ -1,16 +1,86 @@
-# React + Vite
+# Smart Irrigation — Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Professional, production-ready front-end client for the Smart Irrigation system.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This repository contains the web client for Smart Irrigation — a responsive React application built with Vite that provides an interface for monitoring weather, fields, crops, and irrigation needs. It includes internationalization support, a dashboard, and reusable UI components.
 
-## React Compiler
+## Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Responsive UI and modern React structure
+- Weather dashboard with charts and station data
+- Field and crop information pages
+- Authentication (login / signup) flows
+- Internationalization (English and Bengali)
 
-## Expanding the ESLint configuration
+## Technology Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Frontend: React (JSX), Vite
+- Languages: JavaScript (ESNext), CSS
+- Bundler / dev server: Vite
+
+## Prerequisites
+
+- Node.js 16+ and npm or Yarn
+
+## Quick Start
+
+1. Install dependencies
+
+```bash
+npm install
+# or
+yarn
+```
+
+2. Run the development server
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+3. Build for production
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+4. Preview production build
+
+```bash
+npm run preview
+# or
+yarn preview
+```
+
+## Project Structure (high level)
+
+- `src/` — application source
+  - `pages/` — top-level pages and views
+  - `layouts/` — layout components (Root, Auth)
+  - `router/` — route definitions
+  - `i18n/` — internationalization setup and locale files
+  - `assets/` — images and static assets
+
+## Internationalization
+
+Locales are stored under `src/i18n/locales` (English and Bengali). The app uses a lightweight i18n setup — update or add translations there.
+
+## Contributing
+
+Contributions are welcome. Please open issues for bugs or feature requests and create pull requests for contributions. Keep commits focused and include brief descriptions.
+
+## License
+
+This project uses an open-source license. Add or update a `LICENSE` file at the repository root if you intend to specify a license.
+
+## Contact
+
+Maintainer: Project team — reach out via repository issues or your preferred team channel.
+
+---
