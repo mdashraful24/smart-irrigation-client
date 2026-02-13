@@ -30,7 +30,7 @@ const Crops = () => {
             averageHumidity: '70%',
             waterSupply: 'Sufficient',
             clickable: true,
-            status: 'growing'
+            status: 'active'
         },
         {
             id: 2,
@@ -39,7 +39,7 @@ const Crops = () => {
             plantingDate: 'May 10, 2024',
             harvestDate: 'October 20, 2024',
             clickable: false,
-            status: 'growing'
+            status: 'active'
         },
         {
             id: 3,
@@ -109,7 +109,7 @@ const Crops = () => {
     // Get status color
     const getStatusColor = (status) => {
         switch (status) {
-            case 'growing':
+            case 'active':
                 return { dot: 'bg-green-500', text: 'text-green-600' };
             case 'harvested':
                 return { dot: 'bg-blue-500', text: 'text-blue-600' };
@@ -259,26 +259,14 @@ const Crops = () => {
                                     <div className="flex items-center justify-between">
                                         <span className="text-sm text-gray-600">{t('crops.status')}</span>
                                         <div className="flex items-center">
-                                            <div className={`w-2 h-2 ${getStatusColor(card.status).dot} rounded-full mr-2 ${card.status === 'growing' ? 'animate-pulse' : ''}`}></div>
+                                            <div className={`w-2 h-2 ${getStatusColor(card.status).dot} rounded-full mr-2 ${card.status === 'active' ? 'animate-pulse' : ''}`}></div>
                                             <span className={`text-sm font-medium ${getStatusColor(card.status).text}`}>
-                                                {card.status.charAt(0).toUpperCase() + card.status.slice(1)}
+                                                {t(`crops.status${card.status.charAt(0).toUpperCase() + card.status.slice(1)}`)}
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             )}
-
-                            {/* Clickable indicator for clickable cards */}
-                            {/* {card.clickable && (
-                                <div className="mt-3 pt-3 border-t border-gray-100">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-xs text-gray-600">{t('crops.clickDetails')}</span>
-                                        <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            )} */}
                         </div>
                     </div>
                 ))}

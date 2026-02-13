@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router';
+import ReactMarkdown from "react-markdown";
 import img1 from "../../../assets/highlights/h1.jpg";
 import img2 from "../../../assets/highlights/h2.jpg";
 import img3 from "../../../assets/highlights/h3.jpg";
@@ -9,6 +9,7 @@ import img6 from "../../../assets/highlights/h6.jpg";
 import img7 from "../../../assets/highlights/h7.jpg";
 import img8 from "../../../assets/highlights/h8.jpg";
 import img9 from "../../../assets/highlights/h9.jpg";
+import { Link } from 'react-router';
 
 const imageMap = {
     "h1.jpg": img1,
@@ -23,51 +24,6 @@ const imageMap = {
 };
 
 const imageList = [img1, img2, img3, img4, img5, img6, img7, img8, img9];
-
-// const projects = [
-//     {
-//         id: 1,
-//         title: "Fresh Orange Delivery",
-//         description: "Premium quality oranges delivered fresh to your doorstep with guaranteed same-day delivery",
-//         image: img,
-//         category: "Food & Beverage"
-//     },
-//     {
-//         id: 2,
-//         title: "Eco Farming Solutions",
-//         description: "Sustainable farming practices",
-//         image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800",
-//         category: "Agriculture"
-//     },
-//     {
-//         id: 3,
-//         title: "Urban Garden Design",
-//         description: "Transforming urban spaces into green havens with innovative vertical gardening solutions and sustainable materials",
-//         image: "https://images.unsplash.com/photo-1417733403748-83bbc7c05140?auto=format&fit=crop&w=800",
-//         category: "Design"
-//     },
-//     {
-//         id: 4,
-//         title: "Organic Produce Market",
-//         description: "Connecting organic farmers with local communities through our innovative platform",
-//         image: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800",
-//         category: "Retail"
-//     },
-//     {
-//         id: 5,
-//         title: "Farm to Table Initiative",
-//         description: "Reducing food miles, increasing freshness",
-//         image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800",
-//         category: "Sustainability"
-//     },
-//     {
-//         id: 6,
-//         title: "Agricultural Tech Hub",
-//         description: "Innovative technology solutions for modern farmers including IoT sensors and AI-powered analytics",
-//         image: img,
-//         category: "Technology"
-//     }
-// ];
 
 const Highlight = () => {
     const { t } = useTranslation();
@@ -95,41 +51,42 @@ const Highlight = () => {
                         : (project.image || imageList[idx] || img1);
 
                     return (
-                    <div
-                        key={project.id}
-                        className="group flex flex-col h-full rounded-2xl bg-white overflow-hidden shadow-md ring-2 ring-gray-200 hover:ring-green-400 transition-all duration-300 hover:shadow-lg"
-                    >
-                        {/* Project Image - Fixed height */}
-                        <div className="relative h-60 md:h-72 overflow-hidden">
-                            <img
-                                src={imageSrc}
-                                alt={project.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                            {/* Category Badge */}
-                            <div className="absolute top-4 left-4">
-                                <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-sm font-medium text-gray-800 rounded-full">
-                                    {project.category}
-                                </span>
-                            </div>
-                        </div>
-
-                        {/* Project Content - Flex grow for consistent height */}
-                        <div className="flex flex-col grow p-6">
-                            <div className="flex items-start justify-between mb-3">
-                                <h3 className="text-xl font-semibold group-hover:text-green-600 transition-colors">
-                                    {project.title}
-                                </h3>
-                                <div className="text-2xl font-bold text-gray-300 group-hover:text-green-400 transition-colors">
-                                    {project.id}
+                        <div
+                            key={project.id}
+                            className="group flex flex-col h-full rounded-2xl bg-white overflow-hidden shadow-md ring-2 ring-gray-200 hover:ring-green-400 transition-all duration-300 hover:shadow-lg"
+                        >
+                            {/* Project Image - Fixed height */}
+                            <div className="relative h-60 md:h-72 overflow-hidden">
+                                <img
+                                    src={imageSrc}
+                                    alt={project.title}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                                {/* Category Badge */}
+                                <div className="absolute top-4 left-4">
+                                    <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-sm font-medium text-gray-800 rounded-full">
+                                        {project.category}
+                                    </span>
                                 </div>
                             </div>
-                            <p className="leading-relaxed grow">
-                                {project.description}
-                            </p>
+
+                            {/* Project Content - Flex grow for consistent height */}
+                            <div className="flex flex-col grow p-6">
+                                <div className="flex items-start justify-between gap-3 mb-3">
+                                    <h3 className="text-xl font-semibold group-hover:text-green-600 transition-colors">
+                                        {project.title}
+                                    </h3>
+                                    <div className="text-2xl font-bold text-gray-300 group-hover:text-green-400 transition-colors">
+                                        {project.id}
+                                    </div>
+                                </div>
+                                <p className="leading-relaxed grow">
+                                    <ReactMarkdown>{project.description}</ReactMarkdown>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                )})}
+                    )
+                })}
             </div>
 
             {/* See More Button */}

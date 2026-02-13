@@ -58,7 +58,7 @@ const HighlightShowcase = () => {
                         <div
                             key={project.id}
                             // onClick={() => navigate(`/highlight/${project.id}`)}
-                            className="group flex flex-col h-full rounded-2xl bg-white overflow-hidden shadow-sm ring-1 ring-gray-200 hover:ring-green-400 transition-all duration-300 hover:shadow-lg"
+                            className="group flex flex-col h-full rounded-2xl bg-white overflow-hidden shadow-md ring-2 ring-gray-200 hover:ring-green-400 transition-all duration-300 hover:shadow-lg"
                         >
                             {/* Project Image */}
                             <div className="relative h-60 md:h-72 overflow-hidden">
@@ -69,7 +69,7 @@ const HighlightShowcase = () => {
                                 />
                                 {/* Category Badge */}
                                 <div className="absolute top-4 left-4">
-                                    <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-sm font-medium text-gray-800 rounded-full">
+                                    <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-sm font-semibold rounded-full">
                                         {project.category}
                                     </span>
                                 </div>
@@ -77,13 +77,13 @@ const HighlightShowcase = () => {
 
                             {/* Project Content */}
                             <div className="flex flex-col grow p-6">
-                                <div className="flex items-start justify-between mb-3">
-                                    <h3 className="text-xl font-semibold group-hover:text-green-600 transition-colors line-clamp-1">
+                                <div className="flex items-start justify-between gap-3 mb-3">
+                                    <h3 className="text-xl font-semibold group-hover:text-green-600 transition-colors">
                                         {project.title}
                                     </h3>
                                     <div className="text-2xl font-bold text-gray-300 group-hover:text-green-400 transition-colors">{project.id}</div>
                                 </div>
-                                <p className="leading-relaxed line-clamp-2 grow">
+                                <p className="leading-relaxed grow">
                                     {project.description}
                                 </p>
 

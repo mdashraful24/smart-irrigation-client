@@ -174,7 +174,8 @@
     "upcoming": "Upcoming",
     "availableSoon": "Available Soon",
     "growing": "Growing",
-    "harvested": "Harvested"
+    "harvested": "Harvested",
+    "statusActive": "Active"
   },
   "fields": {
     "title": "Smart Irrigation System",
@@ -266,9 +267,9 @@
       },
       {
         "id": "02",
-        "title": "Eco Farming Solutions",
-        "description": "Sustainable farming practices for modern agriculture",
-        "category": "Agriculture"
+        "title": "Chairman of DIU Inspecting the Smart Irrigation System Control Interface",
+        "description": "Daffodil International University (DIU) Chairman Dr. Md. Sabur Khan is testing the hardware control panel of a smart irrigation system with real-time data and electronic components that automate water management in the field.",
+        "category": "Agro-Technology & Automation"
       },
       {
         "id": "03",
@@ -284,9 +285,9 @@
       },
       {
         "id": "05",
-        "title": "Farm to Table Initiative",
-        "description": "Reducing food miles, increasing freshness for restaurants and hotels",
-        "category": "Sustainability"
+        "title": "Photo taken with teachers and students after the exhibition",
+        "description": "Dr. Md. Sabur Khan, the Chairman of Daffodil International University (DIU), is pictured alongside faculty and students during a practical demonstration of an IoT-based Smart Irrigation System.",
+        "category": "Photo Session"
       },
       {
         "id": "06",
@@ -296,9 +297,9 @@
       },
       {
         "id": "07",
-        "title": "Hydroponic Systems",
-        "description": "Advanced soil-less farming systems for urban agriculture",
-        "category": "Technology"
+        "title": "Money Related Discussion",
+        "description": "Financial strategies and funding opportunities for agricultural innovation",
+        "category": "Finance"
       },
       {
         "id": "08",
