@@ -52,7 +52,7 @@ const FAQ = () => {
                     {faqs.map((faq, index) => (
                         <div
                             key={index}
-                            className="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+                            className="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 hover:bg-gray-50"
                         >
                             <button
                                 className="w-full p-4 text-left flex items-center justify-between focus:outline-none"
@@ -82,7 +82,7 @@ const FAQ = () => {
                                     }`}
                             >
                                 <div className="pl-6 border-l-2 border-green-400">
-                                    <p className="text-gray-700 leading-relaxed">
+                                    <p className="leading-relaxed">
                                         {faq.answer}
                                     </p>
                                 </div>
