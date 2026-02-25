@@ -1,76 +1,146 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Eye, EyeOff, Droplets, Mail, Lock } from "lucide-react";
 import { useTranslation } from 'react-i18next';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import Swal from 'sweetalert2';
+import useAuth from "../../../hooks/useAuth";
+
+// Premium SweetAlert2 styling for success
+const showSuccessAlert = (email) => {
+    Swal.fire({
+        title: 'Welcome Back! 👋',
+        html: `
+            <div style="text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🌱</div>
+                <h3 style="color: #166534; font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">
+                    Login Successful!
+                </h3>
+                <p style="color: #374151; font-size: 1rem; margin-bottom: 1rem;">
+                    You've successfully signed in as<br/>
+                    <strong style="color: #16a34a;">${email}</strong>
+                </p>
+            </div>
+        `,
+        icon: 'success',
+        icon: false,
+        iconColor: '#16a34a',
+        background: '#ffffff',
+        showConfirmButton: false,
+        confirmButtonColor: '#16a34a',
+        showCancelButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        customClass: {
+            popup: 'rounded-2xl shadow-2xl',
+            confirmButton: 'px-8 py-3 text-base font-medium rounded-xl shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-105',
+            title: 'text-2xl font-bold text-gray-800',
+            htmlContainer: 'text-gray-600',
+        },
+        timer: 2000,
+        timerProgressBar: false,
+        didOpen: (popup) => {
+            popup.addEventListener('mouseenter', Swal.stopTimer);
+            popup.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+    });
+};
 
 const Login = () => {
+    window.scrollTo(0, 0);
+    const navigate = useNavigate();
+    const { signIn } = useAuth();
     const { t } = useTranslation();
 
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-    });
-    const [errors, setErrors] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [firebaseError, setFirebaseError] = useState("");
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        // Clear error when user starts typing
-        if (errors[name]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: ""
-            }));
+    // Create validation schema with Yup
+    const validationSchema = yup.object().shape({
+        email: yup
+            .string()
+            .required(t('errors.emailRequired'))
+            .email(t('errors.emailInvalid'))
+            .lowercase()
+            .trim(),
+        password: yup
+            .string()
+            .required(t('errors.passwordRequired'))
+            .min(6, t('errors.passwordShort', 'Password must be at least 6 characters')),
+    });
+
+    // Initialize react-hook-form
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+        setError,
+    } = useForm({
+        resolver: yupResolver(validationSchema),
+        mode: 'onBlur',
+        defaultValues: {
+            email: '',
+            password: '',
         }
-    };
+    });
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-    const validateForm = () => {
-        const newErrors = {};
-
-        if (!formData.email.trim()) {
-            newErrors.email = t('errors.emailRequired');
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = t('errors.emailInvalid');
+    // Helper function to get user-friendly error messages
+    const getFirebaseErrorMessage = (error) => {
+        switch (error.code) {
+            case 'auth/user-not-found':
+                return t('errors.userNotFound', 'No account found with this email address.');
+            case 'auth/wrong-password':
+                return t('errors.wrongPassword', 'Incorrect password. Please try again.');
+            case 'auth/invalid-email':
+                return t('errors.invalidEmail', 'Invalid email address format.');
+            case 'auth/user-disabled':
+                return t('errors.userDisabled', 'This account has been disabled. Please contact support.');
+            case 'auth/too-many-requests':
+                return t('errors.tooManyRequests', 'Too many failed attempts. Please try again later.');
+            default:
+                return t('errors.loginFailed', 'Failed to sign in. Please check your credentials.');
         }
-
-        if (!formData.password) {
-            newErrors.password = t('errors.passwordRequired');
-        } else if (formData.password.length < 6) {
-            newErrors.password = t('errors.passwordShort');
-        }
-
-        return newErrors;
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
+    const onSubmit = async (data) => {
+        setFirebaseError("");
 
-        const formErrors = validateForm();
+        try {
+            // Sign in with Firebase
+            const userCredential = await signIn(data.email, data.password);
 
-        if (Object.keys(formErrors).length === 0) {
-            // Here you would typically make an API call
-            console.log("Form submitted:", formData);
+            // Show ONLY success alert
+            await showSuccessAlert(data.email);
 
-            // Simulate API call delay
-            setTimeout(() => {
-                alert(t('login.welcome'));
-                setIsSubmitting(false);
-                // Reset form after successful login
-                setFormData({ email: "", password: "" });
-            }, 1000);
-        } else {
-            setErrors(formErrors);
-            setIsSubmitting(false);
+            // Redirect to dashboard or home page
+            navigate('/');
+
+        } catch (error) {
+            console.error("Login error:", error);
+
+            // NO error alert - just set form errors and display message
+            const errorMessage = getFirebaseErrorMessage(error);
+
+            // Set field-specific errors
+            setFirebaseError(errorMessage);
+
+            if (error.code === 'auth/user-not-found') {
+                setError('email', {
+                    type: 'manual',
+                    message: t('errors.userNotFound', 'No account found with this email')
+                });
+            } else if (error.code === 'auth/wrong-password') {
+                setError('password', {
+                    type: 'manual',
+                    message: t('errors.wrongPassword', 'Incorrect password')
+                });
+            }
         }
     };
 
@@ -89,7 +159,14 @@ const Login = () => {
 
                 {/* Login Form */}
                 <div className="bg-white rounded-2xl border border-gray-200 shadow-lg p-6 md:p-8">
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    {/* Firebase Error Message - Still show in UI */}
+                    {firebaseError && (
+                        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                            <p className="text-sm text-red-600">{firebaseError}</p>
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                         {/* Email Field */}
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium mb-1">
@@ -102,17 +179,15 @@ const Login = () => {
                                 <input
                                     type="email"
                                     id="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    placeholder="admin@irrigation.com"
+                                    {...register('email')}
+                                    placeholder="farmer@example.com"
                                     className={`w-full pl-10 pr-4 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.email ? 'border-red-500' : 'border-gray-300'
                                         }`}
                                     disabled={isSubmitting}
                                 />
                             </div>
                             {errors.email && (
-                                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
                             )}
                         </div>
 
@@ -128,9 +203,7 @@ const Login = () => {
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     id="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
+                                    {...register('password')}
                                     placeholder="••••••••"
                                     className={`w-full pl-10 pr-12 py-1.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-200 ${errors.password ? 'border-red-500' : 'border-gray-300'
                                         }`}
@@ -143,14 +216,14 @@ const Login = () => {
                                     disabled={isSubmitting}
                                 >
                                     {showPassword ? (
-                                        <EyeOff className="w-5 h-5" />
+                                        <EyeOff className="w-5" />
                                     ) : (
-                                        <Eye className="w-5 h-5" />
+                                        <Eye className="w-5" />
                                     )}
                                 </button>
                             </div>
                             {errors.password && (
-                                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+                                <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
                             )}
                         </div>
 
@@ -178,8 +251,8 @@ const Login = () => {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className={`w-full mt-4 py-2.5 px-4 rounded-lg font-medium text-white transition duration-200 shadow-md ${isSubmitting
-                                ? 'bg-green-400 cursor-not-allowed'
+                            className={`w-full mt-2 py-2.5 px-4 rounded-lg font-medium text-white transition duration-200 shadow-md ${isSubmitting
+                                ? 'bg-green-800 cursor-not-allowed'
                                 : 'bg-green-600 hover:bg-green-700 hover:shadow-lg active:scale-95'
                                 }`}
                         >
@@ -203,41 +276,13 @@ const Login = () => {
                             {t('login.noAccount')}{' '}
                             <Link
                                 to="/auth/register"
-                                className="font-semibold text-green-600 hover:text-green-700"
+                                className="font-semibold text-green-600 hover:text-green-700 transition-colors"
                             >
                                 {t('login.createAccount')}
                             </Link>
                         </p>
                     </div>
                 </div>
-
-                {/* Demo Credentials (Optional) */}
-                {/* <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-100">
-                    <h3 className="text-sm font-medium text-green-800 mb-2 flex items-center gap-2">
-                        <Droplets className="w-4 h-4" />
-                        Demo Access
-                    </h3>
-                    <div className="text-sm text-green-700 space-y-1">
-                        <p>Email: <span className="font-mono bg-green-100 px-2 py-1 rounded">admin@smartirrigation.com</span></p>
-                        <p>Password: <span className="font-mono bg-green-100 px-2 py-1 rounded">demo123</span></p>
-                    </div>
-                    <p className="text-xs text-green-600 mt-2">
-                        Use these credentials to test the irrigation dashboard
-                    </p>
-                </div> */}
-
-                {/* Back to Home */}
-                {/* <div className="mt-6 text-center">
-                    <Link
-                        to="/"
-                        className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
-                    >
-                        <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                        Back to Home
-                    </Link>
-                </div> */}
             </div>
         </div>
     );
