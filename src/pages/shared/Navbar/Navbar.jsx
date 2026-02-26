@@ -66,10 +66,10 @@ const Navbar = () => {
             <NavLink
                 to={item.path}
                 className={({ isActive }) => `
-                    relative px-4 py-2 transition-colors duration-300
+                    relative px-4 py-2 font-medium transition-colors duration-300
                     ${isActive
-                        ? 'text-green-600 font-bold'
-                        : 'hover:text-green-600 font-semibold'
+                        ? 'text-green-600'
+                        : 'hover:text-green-600'
                     }
                 `}
             >
@@ -329,17 +329,17 @@ const Navbar = () => {
                         )}
 
                         {/* Mobile Navigation Links */}
-                        <div className="space-y-1">
+                        <div>
                             {navItems.map((item) => (
                                 <NavLink
                                     key={item.path}
                                     to={item.path}
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className={({ isActive }) => `
-                                        block py-3 px-4 rounded-lg transition-all duration-200
+                                        block px-4 py-3 font-medium rounded-lg transition-all duration-200
                                         ${isActive
-                                            ? 'bg-green-50 text-green-600 font-bold border-l-4 border-green-600'
-                                            : 'font-semibold hover:bg-gray-50 hover:text-green-600 hover:pl-6'
+                                            ? 'bg-green-50 text-green-600 border-l-4 border-green-600'
+                                            : 'hover:bg-gray-50 hover:text-green-600 hover:pl-6'
                                         }
                                     `}
                                 >
@@ -355,18 +355,16 @@ const Navbar = () => {
                                         i18n.changeLanguage(newLang);
                                         localStorage.setItem('lang', newLang);
                                     }}
-                                    className="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="w-full flex items-center justify-between font-medium px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors"
                                 >
-                                    <span className="font-semibold">{t('nav.language')}</span>
-                                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                                        {lang === 'bn' ? 'English' : 'বাংলা'}
-                                    </span>
+                                    <span>{t('nav.language')}</span>
+                                    <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">{t('nav.lang')}</span>
                                 </button>
                             </div>
 
                             {/* Mobile Sign Out - Only when logged in */}
                             {user && (
-                                <div className="">
+                                <div>
                                     <button
                                         onClick={handleSignOut}
                                         className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-red-50 transition-colors text-left"

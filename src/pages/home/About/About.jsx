@@ -11,7 +11,7 @@ const About = () => {
         <div className="container mx-auto px-4 py-24 lg:py-30">
             {/* Heading */}
             <h2 className="block lg:hidden text-4xl md:text-5xl text-center font-bold mb-10">
-                {t('about.title')}
+                {t('aboutDetails.title')}
             </h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
@@ -21,7 +21,7 @@ const About = () => {
                         <img
                             src={img}
                             alt="Fresh orange fruit"
-                            className="w-full h-full lg:h-120 object-cover object-center transform transition-all duration-700 group-hover:scale-105"
+                            className="w-full h-full lg:h-100 object-cover object-center transform transition-all duration-700 group-hover:scale-105"
                         />
                         {/* Subtle gradient overlay */}
                         <div className="absolute inset-0 bg-linear-to-t from-black/10 via-transparent to-transparent"></div>
@@ -35,15 +35,15 @@ const About = () => {
                 <div className="text-center lg:text-left">
                     {/* Heading */}
                     <h2 className="hidden lg:block text-4xl md:text-5xl font-bold mb-10">
-                        {t('about.title')}
+                        {t('aboutDetails.title')}
                     </h2>
 
                     {/* Content */}
                     <div className="space-y-5 mb-3 lg:mb-5">
-                        <div className="text-lg lg:text-xl leading-relaxed">
-                            <ReactMarkdown>{t('aboutDetails.journeyP1')}</ReactMarkdown>
+                        <div className="md:text-lg leading-relaxed">
+                            <ReactMarkdown>{t('aboutDetails.journeyP1')}</ReactMarkdown> {/* **JSON Content** */}
                         </div>
-                        <div className="text-lg lg:text-xl leading-relaxed line-clamp-4 lg:line-clamp-2">
+                        <div className="md:text-lg leading-relaxed line-clamp-2">
                             <ReactMarkdown>{t('aboutDetails.journeyP2')}</ReactMarkdown>
                         </div>
                     </div>
@@ -51,10 +51,10 @@ const About = () => {
                     {/* CTA Button */}
                     <Link
                         to="/about"
-                        className="group inline-flex items-center gap-4 font-semibold text-lg hover:text-green-600 transition-colors duration-300"
+                        className="group inline-flex items-center gap-4 font-medium text-lg hover:text-green-600 transition-colors duration-300"
                     >
                         <span className="relative">
-                            {t('about.cta')}
+                            {t('aboutDetails.cta')}
                             <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-green-600 group-hover:w-full transition-all duration-300"></span>
                         </span>
                         <ChevronRight className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" />

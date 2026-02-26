@@ -24,7 +24,7 @@ const showSuccessAlert = (name) => {
                 </p>
             </div>
         `,
-        icon: 'success',
+        // icon: 'success',
         icon: false,
         iconColor: '#16a34a',
         background: '#ffffff',

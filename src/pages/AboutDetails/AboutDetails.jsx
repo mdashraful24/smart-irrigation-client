@@ -60,10 +60,10 @@ const AboutDetails = () => {
             </div>
 
             {/* Story Section with Elegant Design */}
-            <div className="relative mb-16 md:mb-24 lg:mb-32">
+            <div className="text-center lg:text-left relative mb-16 md:mb-24 lg:mb-32">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 lg:gap-12">
                     <div className="lg:col-span-7 order-2 lg:order-1">
-                        <div className="text-center lg:text-left mb-6 md:mb-8">
+                        <div className="mb-6 md:mb-8">
                             <h2 className="text-3xl md:text-5xl">
                                 {t('aboutDetails.journeyTitle')}
                             </h2>

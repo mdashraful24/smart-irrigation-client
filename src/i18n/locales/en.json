@@ -5,7 +5,8 @@
     "highlight": "Highlight",
     "login": "Login",
     "logout": "Logout",
-    "language": "Language"
+    "language": "Language",
+    "lang": "English"
   },
   "brand": "Smart Irrigation",
   "footer": {
@@ -15,7 +16,7 @@
     "navigationLabel": "Navigation",
     "contactLabel": "Contact",
     "legalLabel": "Legal",
-    "navigation":[
+    "navigation": [
       {
         "title": "Home",
         "link": "/"
@@ -33,7 +34,7 @@
         "link": "/contact"
       }
     ],
-    "contact":[
+    "contact": [
       {
         "type": "email",
         "value": "contact@smartirrigation.com"
@@ -58,9 +59,42 @@
       }
     ]
   },
-  "about": {
+  "__comment-aboutDetails__": "🔴 ABOUT DETAILS PAGE",
+  "aboutDetails": {
     "title": "About Us",
-    "cta": "Learn more"
+    "lead": "Where passion meets precision to create innovative solutions that make a meaningful impact, all while upholding the highest standards of quality.",
+    "journeyTitle": "Our Journey of Innovation",
+    "journeyP1": "The Smart Irrigation System represents a major technological advancement for DIU Agro, developed under the leadership of Prof. Dr. M. A. Rahim and guided by Prof. Dr. M. R. Kabir, Honorable Vice-Chancellor of Daffodil International University (DIU). Successfully deployed at Field Laboratory-1 (Malta Garden), the system integrates the Divoo Water Timer with a conventional sprinkler mechanism to create a real-time, moisture-dependent irrigation framework. It combines research, innovation, and student involvement to promote sustainable and data-driven agricultural practices.",
+    "journeyP2": "In Bangladesh, agriculture consumes nearly 85–88% of national freshwater resources, while traditional manual irrigation methods often lead to excessive water use and groundwater depletion. To address these challenges, the system uses multiple soil moisture sensors distributed across the field to continuously monitor real-time soil conditions. Operating through a dynamic threshold-based mechanism, irrigation automatically starts when moisture falls below a predefined lower limit and stops once the optimal upper threshold is reached. This closed-loop control ensures precise water application while preventing both waterlogging and moisture stress.",
+    "journeyP3": "The system employs SX1278 LoRa (433 MHz) communication for reliable long-range data transmission, even through dense vegetation and rural structures. Sensor data are transmitted to a central server via a gateway and Wi-Fi network, where they are stored and analyzed using a web-based monitoring dashboard. Users can remotely observe soil moisture, temperature, and humidity, and control irrigation components through smartphones or computers. Additionally, solar power integration enhances sustainability by reducing grid dependency, achieving an average reduction of approximately 28% in water and energy consumption compared to conventional irrigation methods.",
+    "cta": "Learn more",
+    "stats": {
+      "years": "Years Experience",
+      "clients": "Global Clients",
+      "satisfaction": "Satisfaction Rate"
+    },
+    "teamTitle": "Meet Our Expert Team",
+    "teamLead": "A dedicated team of visionaries committed to excellence and innovation.",
+    "missionTitle": "Our Core Mission",
+    "missionDesc": "To create innovative solutions that drive measurable results, while maintaining the highest standards of quality, sustainability, and customer satisfaction.",
+    "values": [
+      {
+        "title": "Reduce Carbon Emission",
+        "desc": "Committed to sustainability by minimizing our carbon footprint and promoting eco-friendly practices in all aspects of our operations."
+      },
+      {
+        "title": "Enhance Agriculture with Technology",
+        "desc": "Leveraging cutting-edge technology to revolutionize agricultural practices, increase efficiency, and promote sustainable farming methods."
+      },
+      {
+        "title": "Ensure Quality and Safety",
+        "desc": "Dedicated to maintaining the highest standards of quality and safety in all our products and services, ensuring customer satisfaction and trust."
+      }
+    ],
+    "workingProgressTitle": "Our Working Progress",
+    "workingProgressLead": "Track our ongoing initiatives and upcoming features designed to improve your farming experience.",
+    "progressNote": "Continuous Innovation",
+    "progressNoteDesc": "We are committed to continuous improvement and innovation. Our team is actively working on new features to enhance your farming experience."
   },
   "highlight": {
     "title": "Highlights of our project",
@@ -174,42 +208,6 @@
     "desc": "It might have been moved, deleted, or the URL could be incorrect.",
     "goBack": "Go Back",
     "code": "404"
-  },
-  "__comment-aboutDetails__": "🔴 ABOUT DETAILS PAGE",
-  "aboutDetails": {
-    "title": "About Us",
-    "lead": "Where passion meets precision to create innovative solutions that make a meaningful impact, all while upholding the highest standards of quality.",
-    "journeyTitle": "Our Journey of Innovation",
-    "journeyP1": "The Smart Irrigation System represents a major technological advancement for **DIU Agro**, developed under the leadership of **Prof. Dr. M. A. Rahim** and guided by **Prof. Dr. M. R. Kabir**, Honorable Vice-Chancellor of **Daffodil International University (DIU)**. Successfully deployed at **Field Laboratory-1 (Malta Garden)**, the system integrates the Divoo Water Timer with a conventional sprinkler mechanism to create a real-time, moisture-dependent irrigation framework. It combines research, innovation, and student involvement to promote sustainable and data-driven agricultural practices.",
-    "journeyP2": "In Bangladesh, agriculture consumes nearly **85–88% of national freshwater resources**, while traditional manual irrigation methods often lead to excessive water use and groundwater depletion. To address these challenges, the system uses multiple soil moisture sensors distributed across the field to continuously monitor real-time soil conditions. Operating through a dynamic threshold-based mechanism, irrigation automatically starts when moisture falls below a predefined lower limit and stops once the optimal upper threshold is reached. This closed-loop control ensures precise water application while preventing both waterlogging and moisture stress.",
-    "journeyP3": "The system employs **SX1278 LoRa (433 MHz)** communication for reliable long-range data transmission, even through dense vegetation and rural structures. Sensor data are transmitted to a central server via a gateway and Wi-Fi network, where they are stored and analyzed using a web-based monitoring dashboard. Users can remotely observe soil moisture, temperature, and humidity, and control irrigation components through smartphones or computers. Additionally, solar power integration enhances sustainability by reducing grid dependency, achieving an average reduction of approximately 28% in water and energy consumption compared to conventional irrigation methods.",
-    "stats": {
-      "years": "Years Experience",
-      "clients": "Global Clients",
-      "satisfaction": "Satisfaction Rate"
-    },
-    "teamTitle": "Meet Our Expert Team",
-    "teamLead": "A dedicated team of visionaries committed to excellence and innovation.",
-    "missionTitle": "Our Core Mission",
-    "missionDesc": "To create innovative solutions that drive measurable results, while maintaining the highest standards of quality, sustainability, and customer satisfaction.",
-    "values": [
-      {
-        "title": "Reduce Carbon Emission",
-        "desc": "Committed to sustainability by minimizing our carbon footprint and promoting eco-friendly practices in all aspects of our operations."
-      },
-      {
-        "title": "Enhance Agriculture with Technology",
-        "desc": "Leveraging cutting-edge technology to revolutionize agricultural practices, increase efficiency, and promote sustainable farming methods."
-      },
-      {
-        "title": "Ensure Quality and Safety",
-        "desc": "Dedicated to maintaining the highest standards of quality and safety in all our products and services, ensuring customer satisfaction and trust."
-      }
-    ],
-    "workingProgressTitle": "Our Working Progress",
-    "workingProgressLead": "Track our ongoing initiatives and upcoming features designed to improve your farming experience.",
-    "progressNote": "Continuous Innovation",
-    "progressNoteDesc": "We are committed to continuous improvement and innovation. Our team is actively working on new features to enhance your farming experience."
   },
   "crops": {
     "title": "Crops",
