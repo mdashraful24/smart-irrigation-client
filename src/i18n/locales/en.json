@@ -224,7 +224,8 @@
     "availableSoon": "Available Soon",
     "growing": "Growing",
     "harvested": "Harvested",
-    "statusActive": "Active"
+    "statusActive": "Active",
+    "fieldLocation": "Malta Garden, Daffodil Smart City, Birulia, Dhaka, Bangladesh"
   },
   "fields": {
     "title": "Smart Irrigation System",
@@ -274,7 +275,10 @@
     "withinRange": "Within Range",
     "highHumidity": "High Humidity",
     "lowHumidity": "Low Humidity",
-    "optimalRange": "Optimal Range"
+    "optimalRange": "Optimal Range",
+    "fieldName": "Field Laboratory 01 (Malta Garden)",
+    "crops":"Cucumber",
+    "cropLang": "Crop"
   },
   "weather": {
     "station": "Weather Station",

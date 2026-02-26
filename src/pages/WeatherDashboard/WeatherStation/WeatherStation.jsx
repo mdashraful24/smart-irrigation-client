@@ -54,7 +54,7 @@ const WeatherStation = () => {
             color: "blue",
             change: t('weather.tempChange'),
             bgColor: "bg-white/10",
-            borderColor: "border-gray-200 hover:border-white/20",
+            borderColor: "border-gray-200", //  hover:border-white/20
             glowColor: "from-blue-500/20 to-blue-400/10"
         },
         {
@@ -66,7 +66,7 @@ const WeatherStation = () => {
             color: "green",
             change: t('weather.humidityStatus'),
             bgColor: "bg-white/10",
-            borderColor: "border-gray-200 hover:border-white/20",
+            borderColor: "border-gray-200",
             glowColor: "from-green-500/20 to-green-400/10"
         },
         {
@@ -78,7 +78,7 @@ const WeatherStation = () => {
             color: "amber",
             change: t('weather.soilStatus'),
             bgColor: "bg-white/10",
-            borderColor: "border-gray-200 hover:border-white/20",
+            borderColor: "border-gray-200",
             glowColor: "from-amber-500/20 to-amber-400/10"
         },
         {
@@ -90,7 +90,7 @@ const WeatherStation = () => {
             color: "cyan",
             change: t('weather.rainStatus'),
             bgColor: "bg-white/10",
-            borderColor: "border-gray-200 hover:border-white/20",
+            borderColor: "border-gray-200",
             glowColor: "from-cyan-500/20 to-cyan-400/10",
             status: t('weather.noRain')
         }
@@ -130,11 +130,11 @@ const WeatherStation = () => {
                         className={`relative backdrop-blur-md sm:backdrop-blur-lg md:backdrop-blur-xl ${stat.bgColor} 
                                     rounded-xl sm:rounded-2xl p-3 sm:p-4 border ${stat.borderColor} 
                                     shadow-sm md:hover:shadow-[0_8px_12px_0_rgba(31,38,135,0.15)] 
-                                    transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] group overflow-hidden`}
+                                    transition-all duration-300 hover:scale-100 active:scale-[0.98] group overflow-hidden`}
                     >
                         {/* Gradient glow overlay */}
-                        <div className={`absolute inset-0 bg-linear-to-br ${stat.glowColor} opacity-0 group-hover:opacity-100 
-                                transition-opacity duration-500 rounded-xl sm:rounded-2xl`}></div>
+                        {/* <div className={`absolute inset-0 bg-linear-to-br ${stat.glowColor} opacity-0 group-hover:opacity-100 
+                                transition-opacity duration-500 rounded-xl sm:rounded-2xl`}></div> */}
 
                         <div className="relative z-10">
                             <div className="flex items-center justify-between mb-1">

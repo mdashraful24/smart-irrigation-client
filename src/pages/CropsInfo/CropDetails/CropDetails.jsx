@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import CountUp from "react-countup";
-import { Droplets, Thermometer, Cloud, Activity } from 'lucide-react'; // Removed Zap
+import { Droplets, Thermometer, Cloud, Activity } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 // Custom hook for checking if element is in viewport
@@ -97,14 +97,14 @@ const CropDetails = () => {
                     {/* Header Section */}
                     <div className="text-center lg:text-left">
                         <h1 className="text-3xl lg:text-5xl font-semibold tracking-tight mb-4">
-                            {fieldName}
+                            {t('cropDetails.fieldName')}
                         </h1>
                         <div className="flex flex-row justify-center lg:justify-start items-center-safe gap-3">
                             <h2 className="text-2xl lg:text-3xl font-semibold">
-                                {cropName}
+                                {t('cropDetails.crops')}
                             </h2>
                             <p className="flex items-center px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-sm font-semibold border border-amber-400">
-                                Crop
+                                {t('cropDetails.cropLang')}
                             </p>
                         </div>
                     </div>

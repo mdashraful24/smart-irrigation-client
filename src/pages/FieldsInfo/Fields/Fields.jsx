@@ -128,8 +128,8 @@ const Fields = () => {
                         <div className="p-6 flex-1 flex flex-col">
                             {/* Field Name */}
                             <div className="mb-4">
-                                <h2 className="text-xl font-bold truncate">
-                                    {card.fieldName}
+                                <h2 className="text-xl font-bold break-all"> {/* truncate */}
+                                    {t('cropDetails.fieldName')}
                                 </h2>
                                 <div className="w-12 h-1 bg-emerald-500 mt-1 rounded-full"></div>
                             </div>
@@ -158,7 +158,7 @@ const Fields = () => {
                                             </svg>
                                             <div className="flex-1">
                                                 <p className="text-sm font-bold">{t('fields.location')}</p>
-                                                <p>{card.location}</p>
+                                                <p>{t('crops.fieldLocation')}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -171,7 +171,7 @@ const Fields = () => {
                                             </svg>
                                             <div className="flex-1">
                                                 <p className="text-sm font-bold">{t('fields.currentCrop')}</p>
-                                                <p>{card.cropName}</p>
+                                                <p>{t('cropDetails.crops')}</p>
                                             </div>
                                         </div>
                                     </div>

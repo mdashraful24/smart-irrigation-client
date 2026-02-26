@@ -225,7 +225,8 @@
     "availableSoon": "শীঘ্রই উপলব্ধ",
     "growing": "বৃদ্ধি পাচ্ছে",
     "harvested": "কাটা হয়েছে",
-    "statusActive": "সক্রিয়"
+    "statusActive": "সক্রিয়",
+    "fieldLocation": "মাল্টা গার্ডেন, ড্যাফোডিল স্মার্ট সিটি, বিরুলিয়া, ঢাকা, বাংলাদেশ"
   },
   "fields": {
     "title": "স্মার্ট সেচ ব্যবস্থা",
@@ -276,7 +277,10 @@
     "withinRange": "পরিসরের মধ্যে",
     "highHumidity": "উচ্চ আর্দ্রতা",
     "lowHumidity": "নিম্ন আর্দ্রতা",
-    "optimalRange": "সর্বোত্তম পরিসর"
+    "optimalRange": "সর্বোত্তম পরিসর",
+    "fieldName": "ফিল্ড ল্যাবরেটরি ০১ ( মাল্টা গার্ডেন )",
+    "crops": "শসা",
+    "cropLang": "ফসল"
   },
   "weather": {
     "station": "আবহাওয়া কেন্দ্র",
