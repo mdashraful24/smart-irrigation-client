@@ -3,7 +3,8 @@
     "home": "Home",
     "about": "About",
     "highlight": "Highlight",
-    "login": "Login"
+    "login": "Login",
+    "logout": "Logout"
   },
   "brand": "Smart Irrigation",
   "footer": {

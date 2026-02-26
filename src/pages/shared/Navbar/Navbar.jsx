@@ -1,12 +1,16 @@
 import { Droplets } from "lucide-react";
 import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { useTranslation } from 'react-i18next';
+import useAuth from "../../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
+    const { user, logOut } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     // const [isScrolled, setIsScrolled] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
 
     const { t, i18n } = useTranslation();
     const lang = i18n.language || 'bn';
@@ -20,40 +24,73 @@ const Navbar = () => {
     //     return () => window.removeEventListener('scroll', handleScroll);
     // }, []);
 
+    const handleSignOut = () => {
+        logOut()
+            .then(() => {
+                toast.success("User signed out successfully");
+                navigate("/");
+            })
+            .catch((error) => {
+                toast.error(error.message);
+            });
+    };
+
+    // Determine which nav items to show based on auth status
     const navItems = [
         { path: "/", label: t('nav.home') },
         { path: "/about", label: t('nav.about') },
         { path: "/highlight", label: t('nav.highlight') },
-        { path: "/auth/login", label: t('nav.login') }
+        // Only show login if user is not authenticated
+        ...(!user ? [{ path: "/auth/login", label: t('nav.login') }] : []),
+        ...(user ? [
+            {
+                path: "#",
+                label: t('nav.logout'),
+                isLogout: true
+            }
+        ] : [])
     ];
 
-    const NavItem = ({ item }) => (
-        <NavLink
-            to={item.path}
-            className={({ isActive }) => `
-                relative px-4 py-2 transition-colors duration-300
-                ${isActive
-                    ? 'text-green-600 font-bold'
-                    : 'hover:text-green-600 font-semibold'
-                }
-            `}
-        >
-            {item.label}
-            <span className={`
-                absolute left-1/2 bottom-0 h-0.5 bg-green-600 
-                transition-all duration-300 ease-out
-                ${location.pathname === item.path
-                    ? 'w-4/5 -translate-x-1/2 opacity-100'
-                    : 'w-0 -translate-x-1/2 opacity-0 group-hover:w-4/5 group-hover:opacity-100'
-                }
-            `} />
-        </NavLink>
-    );
+    const NavItem = ({ item }) => {
+        if (item.isLogout) {
+            return (
+                <button
+                    onClick={handleSignOut}
+                    className="relative px-4 py-2 transition-colors duration-300 hover:text-green-600 font-semibold"
+                >
+                    {item.label}
+                </button>
+            );
+        }
+
+        return (
+            <NavLink
+                to={item.path}
+                className={({ isActive }) => `
+                    relative px-4 py-2 transition-colors duration-300
+                    ${isActive
+                        ? 'text-green-600 font-bold'
+                        : 'hover:text-green-600 font-semibold'
+                    }
+                `}
+            >
+                {item.label}
+                <span className={`
+                    absolute left-1/2 bottom-0 h-0.5 bg-green-600 
+                    transition-all duration-300 ease-out
+                    ${location.pathname === item.path
+                        ? 'w-4/5 -translate-x-1/2 opacity-100'
+                        : 'w-0 -translate-x-1/2 opacity-0 group-hover:w-4/5 group-hover:opacity-100'
+                    }
+                `} />
+            </NavLink>
+        );
+    };
 
     return (
         <>
             <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md py-3">
-            {/* <nav className={`
+                {/* <nav className={`
                 fixed top-0 left-0 right-0 z-50 py-3 drop-shadow
                 transition-all duration-300 shadow-md
                 ${isScrolled
@@ -82,7 +119,7 @@ const Navbar = () => {
                             {/* Navigation Links */}
                             <div className="flex items-center">
                                 {navItems.map((item, index) => (
-                                    <div key={item.path} className="group relative">
+                                    <div key={item.path + index} className="group relative">
                                         <NavItem item={item} />
                                     </div>
                                 ))}
@@ -142,22 +179,39 @@ const Navbar = () => {
                     <div className="md:hidden border-t border-gray-100 bg-white animate-fadeIn mt-3">
                         <div className="container mx-auto px-4 py-3">
                             <div className="grid gap-1">
-                                {navItems.map((item) => (
-                                    <NavLink
-                                        key={item.path}
-                                        to={item.path}
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                        className={({ isActive }) => `
-                                            py-3 px-4 rounded-lg transition-all duration-200
-                                            ${isActive
-                                                ? 'bg-green-50 text-green-600 font-bold border-r-4 border-green-600'
-                                                : 'font-semibold hover:bg-gray-50 hover:text-green-600 hover:pl-6'
-                                            }
-                                        `}
-                                    >
-                                        {item.label}
-                                    </NavLink>
-                                ))}
+                                {navItems.map((item) => {
+                                    if (item.isLogout) {
+                                        return (
+                                            <button
+                                                key={item.label}
+                                                onClick={() => {
+                                                    handleSignOut();
+                                                    setIsMobileMenuOpen(false);
+                                                }}
+                                                className="py-3 px-4 rounded-lg transition-all duration-200 font-semibold text-left hover:bg-gray-50 hover:text-green-600 hover:pl-6"
+                                            >
+                                                {item.label}
+                                            </button>
+                                        );
+                                    }
+
+                                    return (
+                                        <NavLink
+                                            key={item.path}
+                                            to={item.path}
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            className={({ isActive }) => `
+                                                py-3 px-4 rounded-lg transition-all duration-200
+                                                ${isActive
+                                                    ? 'bg-green-50 text-green-600 font-bold border-r-4 border-green-600'
+                                                    : 'font-semibold hover:bg-gray-50 hover:text-green-600 hover:pl-6'
+                                                }
+                                            `}
+                                        >
+                                            {item.label}
+                                        </NavLink>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
