@@ -223,7 +223,7 @@ const AboutDetails = () => {
                                             aria-label={`${socialItem.platform} profile`}
                                             onClick={(e) => {
                                                 // You can add tracking or analytics here
-                                                console.log(`Clicked ${socialItem.platform} for ${member.name}`);
+                                                // console.log(`Clicked ${socialItem.platform} for ${member.name}`);
                                             }}
                                         >
                                             <span className="text-sm font-semibold">

@@ -94,7 +94,8 @@ const SignUp = () => {
         setError,
     } = useForm({
         resolver: yupResolver(validationSchema),
-        mode: 'onBlur',
+        mode: 'onSubmit',
+        reValidateMode: 'onChange',
         defaultValues: {
             fullName: '',
             email: '',

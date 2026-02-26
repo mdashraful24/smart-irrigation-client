@@ -79,7 +79,8 @@ const Login = () => {
         setError,
     } = useForm({
         resolver: yupResolver(validationSchema),
-        mode: 'onBlur',
+        mode: 'onSubmit',
+        reValidateMode: 'onChange',
         defaultValues: {
             email: '',
             password: '',
