@@ -4,7 +4,8 @@
     "about": "About",
     "highlight": "Highlight",
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "language": "Language"
   },
   "brand": "Smart Irrigation",
   "footer": {
