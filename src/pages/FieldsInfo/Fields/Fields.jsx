@@ -90,6 +90,15 @@ const Fields = () => {
 
     return (
         <div className="container mx-auto min-h-screen px-4 py-16 mt-10 mb-5">
+            {/* Light Grid Background */}
+            <div className="fixed inset-0" style={{
+                backgroundImage: `
+                    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px)
+                `,
+                backgroundSize: '50px 50px'
+            }}></div>
+
             {/* Project Name Header */}
             <div className="mb-12 md:mb-16 text-center">
                 <h1 className="text-3xl lg:text-5xl font-semibold tracking-tight mb-4">

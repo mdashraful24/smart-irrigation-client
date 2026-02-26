@@ -122,7 +122,15 @@ const Crops = () => {
 
     return (
         <div className="container mx-auto min-h-screen px-4 py-16 mt-10 mb-5">
-
+            {/* Light Grid Background */}
+            <div className="fixed inset-0" style={{
+                backgroundImage: `
+                    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px)
+                `,
+                backgroundSize: '50px 50px'
+            }}></div>
+            
             {/* Field Name Header */}
             <div className="flex flex-col justify-center items-center pb-10">
                 <h1 className="text-3xl lg:text-5xl font-semibold tracking-tight leading-tight mb-4">
