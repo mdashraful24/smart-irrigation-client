@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from 'sweetalert2';
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../hooks/useAuth"; 
 
 // Premium SweetAlert2 styling for success
 const showSuccessAlert = (email) => {

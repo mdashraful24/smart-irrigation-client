@@ -10,6 +10,7 @@ import Error404 from "../pages/shared/Error/Error404";
 import Fields from "../pages/FieldsInfo/Fields/Fields";
 import Crops from "../pages/CropsInfo/Crops/Crops";
 import CropDetails from "../pages/CropsInfo/CropDetails/CropDetails";
+import AuthRoute from "../pages/auth/AuthRoute/AuthRoute";
 
 export const router = createBrowserRouter([
     {
@@ -28,8 +29,13 @@ export const router = createBrowserRouter([
         path: "auth",
         Component: AuthLayout,
         children: [
-            { path: "login", Component: Login },
-            { path: "register", Component: SignUp },
+            {
+                element: <AuthRoute />,
+                children: [
+                    { path: "login", Component: Login },
+                    { path: "register", Component: SignUp },
+                ],
+            },
         ]
     },
     {
