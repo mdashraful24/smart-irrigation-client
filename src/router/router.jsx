@@ -12,34 +12,42 @@ import Crops from "../pages/CropsInfo/Crops/Crops";
 import CropDetails from "../pages/CropsInfo/CropDetails/CropDetails";
 import AuthRoute from "../pages/auth/AuthRoute/AuthRoute";
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+    [
+        {
+            path: "/",
+            Component: RootLayout,
+            children: [
+                { index: true, Component: Home },
+                { path: "about", Component: AboutDetails },
+                { path: "highlight", Component: HighlightShowcase },
+                { path: "all-fields", Component: Fields },
+                { path: "all-crops", Component: Crops },
+                { path: "crop-details", Component: CropDetails },
+            ],
+        },
+        {
+            path: "auth",
+            Component: AuthLayout,
+            children: [
+                {
+                    element: <AuthRoute />,
+                    children: [
+                        { path: "login", Component: Login },
+                        { path: "register", Component: SignUp },
+                    ],
+                },
+            ],
+        },
+        {
+            path: "*",
+            Component: Error404,
+        },
+    ],
     {
-        path: "/",
-        Component: RootLayout,
-        children: [
-            { index: true, Component: Home },
-            { path: "about", Component: AboutDetails },
-            { path: "highlight", Component: HighlightShowcase },
-            { path: "all-fields", Component: Fields },
-            { path: "all-crops", Component: Crops },
-            { path: "crop-details", Component: CropDetails },
-        ]
-    },
-    {
-        path: "auth",
-        Component: AuthLayout,
-        children: [
-            {
-                element: <AuthRoute />,
-                children: [
-                    { path: "login", Component: Login },
-                    { path: "register", Component: SignUp },
-                ],
-            },
-        ]
-    },
-    {
-        path: "*",
-        Component: Error404
+        basename:
+            import.meta.env.MODE === "production"
+                ? "/smart_irrigation_system"
+                : "/",
     }
-]);
+);
