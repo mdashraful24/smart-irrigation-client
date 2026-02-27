@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import CountUp from "react-countup";
-import { Droplets, Thermometer, Cloud, Activity, Settings, ToggleLeft, ToggleRight, Gauge } from 'lucide-react';
+import { Droplets, Thermometer, Cloud, Activity, Settings, ToggleLeft, ToggleRight, Gauge, Save } from 'lucide-react';
 import useAdmin from "../../../hooks/useAdmin";
 
 // Custom hook for checking if element is in viewport
@@ -46,8 +46,16 @@ const CropDetails = () => {
     const [systemStatus, setSystemStatus] = useState("optimal");
     const [ref, isInView] = useInView();
     const [loading, setLoading] = useState(true);
+    const [thresholdLoading, setThresholdLoading] = useState(true);
+    const [valveLoading, setValveLoading] = useState(true);
+    const [savingThreshold, setSavingThreshold] = useState(false);
     const [error, setError] = useState(null);
+    const [thresholdError, setThresholdError] = useState(null);
+    const [valveError, setValveError] = useState(null);
+    const [saveSuccess, setSaveSuccess] = useState(null);
     const [lastUpdated, setLastUpdated] = useState(null);
+    const [thresholdLastUpdated, setThresholdLastUpdated] = useState(null);
+    const [valveLastUpdated, setValveLastUpdated] = useState(null);
 
     // Sensor data states
     const [sensorData, setSensorData] = useState({
@@ -66,12 +74,147 @@ const CropDetails = () => {
     // Admin control states
     const [valveMode, setValveMode] = useState("auto");
     const [moistureThresholds, setMoistureThresholds] = useState({
-        lower: 50,
-        upper: 75
+        lower: 30,
+        upper: 90
+    });
+    const [tempThresholds, setTempThresholds] = useState({
+        lower: 30,
+        upper: 90
     });
 
     const fieldName = "Field Laboratory 01 (Malta Garden)";
     const cropName = "Cucumber";
+
+    // Save threshold data to API
+    const saveThresholdData = async () => {
+        try {
+            setSavingThreshold(true);
+            setSaveSuccess(null);
+            console.log('Saving threshold data...');
+
+            const url = `/api/insert_threshold.php?low=${moistureThresholds.lower}&up=${moistureThresholds.upper}`;
+            console.log('Save URL:', url);
+
+            const response = await fetch(url);
+
+            console.log('Save Response status:', response.status);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('Save API Response:', result);
+
+            if (!result.ok) {
+                throw new Error(result.error || 'API returned error');
+            }
+
+            setSaveSuccess(`Thresholds saved successfully! ID: ${result.inserted_id}`);
+
+            // Refresh threshold data after saving
+            setTimeout(() => {
+                fetchThresholdData();
+            }, 1000);
+
+        } catch (err) {
+            console.error('Error saving threshold data:', err);
+            setSaveSuccess(null);
+            alert('Failed to save threshold data: ' + err.message);
+        } finally {
+            setSavingThreshold(false);
+        }
+    };
+
+    // Fetch valve data from API
+    const fetchValveData = async () => {
+        try {
+            setValveLoading(true);
+            console.log('Fetching valve data...');
+
+            const response = await fetch('/api/latest_valve.php');
+
+            console.log('Valve Response status:', response.status);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('Valve API Response:', result);
+
+            if (!result.ok) {
+                throw new Error(result.error || 'API returned error');
+            }
+
+            if (!result.data) {
+                console.log('No valve data available from API');
+                setValveError('No valve data available');
+                return;
+            }
+
+            const data = result.data;
+            console.log('Processing valve data:', data);
+
+            // Update valve state (0 = OFF, 1 = ON)
+            setWaterSupplyOn(data.valve === 1);
+            setValveLastUpdated(data.time);
+            setValveError(null);
+
+        } catch (err) {
+            console.error('Error fetching valve data:', err);
+            setValveError('Failed to load valve data.');
+        } finally {
+            setValveLoading(false);
+        }
+    };
+
+    // Fetch threshold data from API
+    const fetchThresholdData = async () => {
+        try {
+            setThresholdLoading(true);
+            console.log('Fetching threshold data...');
+
+            const response = await fetch('/api/latest_threshold.php');
+
+            console.log('Threshold Response status:', response.status);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('Threshold API Response:', result);
+
+            if (!result.ok) {
+                throw new Error(result.error || 'API returned error');
+            }
+
+            if (!result.data) {
+                console.log('No threshold data available from API');
+                setThresholdError('No threshold data available');
+                return;
+            }
+
+            const data = result.data;
+            console.log('Processing threshold data:', data);
+
+            // Update threshold values
+            setMoistureThresholds({
+                lower: parseFloat(data.low) || 30,
+                upper: parseFloat(data.up) || 90
+            });
+
+            setThresholdLastUpdated(data.time);
+            setThresholdError(null);
+
+        } catch (err) {
+            console.error('Error fetching threshold data:', err);
+            setThresholdError('Failed to load threshold data.');
+        } finally {
+            setThresholdLoading(false);
+        }
+    };
 
     // Fetch sensor data from API
     const fetchSensorData = async () => {
@@ -182,9 +325,6 @@ const CropDetails = () => {
         } catch (err) {
             console.error('Error fetching sensor data:', err);
             setError('Failed to load sensor data.');
-
-            // Don't set fallback data, just show error message
-            // The components will show 0 values until data loads
         } finally {
             setLoading(false);
         }
@@ -192,11 +332,21 @@ const CropDetails = () => {
 
     // Initial fetch and polling setup
     useEffect(() => {
+        // Fetch all data
         fetchSensorData();
+        fetchThresholdData();
+        fetchValveData();
 
-        const interval = setInterval(fetchSensorData, 30000);
+        // Poll for new data
+        const sensorInterval = setInterval(fetchSensorData, 30000);
+        const thresholdInterval = setInterval(fetchThresholdData, 60000);
+        const valveInterval = setInterval(fetchValveData, 5000); // Valve updates every 5 seconds
 
-        return () => clearInterval(interval);
+        return () => {
+            clearInterval(sensorInterval);
+            clearInterval(thresholdInterval);
+            clearInterval(valveInterval);
+        };
     }, []);
 
     // Auto valve control logic
@@ -204,8 +354,10 @@ const CropDetails = () => {
         if (valveMode === "auto" && averages.soil > 0) {
             if (waterSupplyOn && averages.soil >= moistureThresholds.upper) {
                 setWaterSupplyOn(false);
+                // Here you would also send API request to update valve
             } else if (!waterSupplyOn && averages.soil <= moistureThresholds.lower) {
                 setWaterSupplyOn(true);
+                // Here you would also send API request to update valve
             }
         }
     }, [averages.soil, valveMode, moistureThresholds, waterSupplyOn]);
@@ -242,6 +394,7 @@ const CropDetails = () => {
     const handleValveToggle = () => {
         if (valveMode === "manual") {
             setWaterSupplyOn(!waterSupplyOn);
+            // Here you would send API request to update valve
         }
     };
 
@@ -296,18 +449,61 @@ const CropDetails = () => {
                         {/* Last Updated Info */}
                         {lastUpdated && (
                             <p className="text-xs mt-2">
-                                <span className="font-medium">Last updated:</span> {formatLastUpdated(lastUpdated)}
+                                <span className="font-medium">Sensor data:</span> {formatLastUpdated(lastUpdated)}
+                            </p>
+                        )}
+                        {thresholdLastUpdated && (
+                            <p className="text-xs mt-1 text-gray-600">
+                                <span className="font-medium">Thresholds:</span> {formatLastUpdated(thresholdLastUpdated)}
+                            </p>
+                        )}
+                        {valveLastUpdated && (
+                            <p className="text-xs mt-1 text-gray-600">
+                                <span className="font-medium">Valve status:</span> {formatLastUpdated(valveLastUpdated)}
                             </p>
                         )}
                         {loading && (
                             <p className="text-xs text-blue-600 mt-2 flex items-center gap-1">
                                 <span className="animate-spin h-3 w-3 border-2 border-blue-600 border-t-transparent rounded-full"></span>
-                                Refreshing data...
+                                Refreshing sensor data...
+                            </p>
+                        )}
+                        {thresholdLoading && (
+                            <p className="text-xs text-purple-600 mt-1 flex items-center gap-1">
+                                <span className="animate-spin h-3 w-3 border-2 border-purple-600 border-t-transparent rounded-full"></span>
+                                Refreshing thresholds...
+                            </p>
+                        )}
+                        {valveLoading && (
+                            <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                                <span className="animate-spin h-3 w-3 border-2 border-green-600 border-t-transparent rounded-full"></span>
+                                Refreshing valve status...
+                            </p>
+                        )}
+                        {savingThreshold && (
+                            <p className="text-xs text-orange-600 mt-1 flex items-center gap-1">
+                                <span className="animate-spin h-3 w-3 border-2 border-orange-600 border-t-transparent rounded-full"></span>
+                                Saving thresholds...
+                            </p>
+                        )}
+                        {saveSuccess && (
+                            <p className="text-xs text-green-600 mt-1">
+                                {saveSuccess}
                             </p>
                         )}
                         {error && (
                             <p className="text-xs text-red-500 mt-2">
                                 {error}
+                            </p>
+                        )}
+                        {thresholdError && (
+                            <p className="text-xs text-red-500 mt-1">
+                                {thresholdError}
+                            </p>
+                        )}
+                        {valveError && (
+                            <p className="text-xs text-red-500 mt-1">
+                                {valveError}
                             </p>
                         )}
                     </div>
@@ -389,11 +585,25 @@ const CropDetails = () => {
                                 </p>
                             </div>
 
-                            {/* Soil Moisture Thresholds - Always open */}
+                            {/* Soil Moisture Thresholds - Always open with Save button */}
                             <div className="bg-white rounded-xl p-4 shadow-sm lg:col-span-2">
-                                <label className="block text-sm font-medium mb-3">
-                                    Soil Moisture Thresholds
-                                </label>
+                                <div className="flex items-center justify-between mb-3">
+                                    <label className="block text-sm font-medium">
+                                        Soil Moisture Thresholds
+                                    </label>
+                                    <button
+                                        onClick={saveThresholdData}
+                                        disabled={savingThreshold}
+                                        className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
+                                            ${savingThreshold
+                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                : 'bg-green-600 text-white hover:bg-green-700 shadow-lg shadow-green-200'
+                                            }`}
+                                    >
+                                        <Save className="w-4 h-4" />
+                                        {savingThreshold ? 'Saving...' : 'Save Thresholds'}
+                                    </button>
+                                </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                     <div>
                                         <label className="block text-xs text-gray-600 font-medium mb-1">

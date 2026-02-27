@@ -8,6 +8,7 @@ import img1 from "../../../assets/slider/img1.jpg";
 import img2 from "../../../assets/slider/img2.jpg";
 import img3 from "../../../assets/slider/img3.png";
 import useAuth from "../../../hooks/useAuth";
+import { Link } from "react-router";
 
 const Slider = () => {
     const { user } = useAuth();
@@ -124,25 +125,25 @@ const Slider = () => {
 
             {/* Fixed Action Buttons - Glass Morphism - Centered */}
             <div className="absolute left-1/2 transform -translate-x-1/2 bottom-32 lg:bottom-60 z-30 flex flex-row justify-center items-center gap-4 md:gap-6">
-                <a
-                    href="/all-fields"
+                <Link
+                    to="/all-fields"
                     className="group relative overflow-hidden bg-linear-to-r from-blue-600/90 to-blue-700/90 backdrop-blur-sm border border-blue-400/30 text-white font-semibold p-3 rounded-xl shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] hover:from-blue-500/90 hover:to-blue-600/90 flex items-center justify-center gap-3 min-w-36"
                 >
                     <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                     <Monitor className="w-5 h-5 shrink-0" />
                     <span className="relative">{t('slider.monitor')}</span>
-                </a>
+                </Link>
 
                 {!user &&
                     <>
-                        <a
-                            href="/auth/login"
+                        <Link
+                            to="/auth/login"
                             className="group relative overflow-hidden bg-linear-to-r from-emerald-600/90 to-emerald-700/90 backdrop-blur-sm border border-emerald-400/30 text-white font-semibold p-3 rounded-xl shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300 hover:scale-[1.02] hover:from-emerald-500/90 hover:to-emerald-600/90 flex items-center justify-center gap-3 min-w-36"
                         >
                             <div className="absolute inset-0 bg-linear-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                             <LogIn className="w-5 h-5 shrink-0" />
                             <span className="relative">{t('slider.login')}</span>
-                        </a>
+                        </Link>
                     </>
                 }
             </div>
