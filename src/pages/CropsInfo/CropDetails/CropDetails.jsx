@@ -159,10 +159,10 @@ const CropDetails = () => {
             label: 'CAUTION'
         },
         critical: {
-            bg: 'bg-rose-600',
-            border: 'border-rose-600',
-            text: 'text-rose-600',
-            lightBg: 'bg-rose-50',
+            bg: 'bg-red-600',
+            border: 'border-red-600',
+            text: 'text-red-600',
+            lightBg: 'bg-red-50',
             icon: X,
             label: 'CRITICAL'
         }
@@ -256,7 +256,7 @@ const CropDetails = () => {
                                     <div className="grid grid-cols-2 lg:grid-cols-1 gap-3">
                                         <button
                                             onClick={() => setValveMode("auto")}
-                                            className={`relative p-5 border-2 transition-all ${valveMode === "auto"
+                                            className={`relative p-5 border-2 transition-all cursor-pointer ${valveMode === "auto"
                                                 ? "border-green-600 bg-green-50"
                                                 : "border-gray-200 bg-white hover:border-gray-300"
                                                 }`}
@@ -275,7 +275,7 @@ const CropDetails = () => {
 
                                         <button
                                             onClick={() => setValveMode("manual")}
-                                            className={`relative p-6 border-2 transition-all ${valveMode === "manual"
+                                            className={`relative p-6 border-2 transition-all cursor-pointer ${valveMode === "manual"
                                                 ? "border-green-600 bg-green-50"
                                                 : "border-gray-200 bg-white hover:border-gray-300"
                                                 }`}
@@ -393,7 +393,7 @@ const CropDetails = () => {
                             <div className={`px-2 py-1 border ${avgSoil < moistureThresholds.lower
                                 ? 'border-blue-600 text-blue-600 bg-blue-50'
                                 : avgSoil > moistureThresholds.upper
-                                    ? 'border-rose-600 text-rose-600 bg-rose-50'
+                                    ? 'border-red-600 text-red-600 bg-red-50'
                                     : 'border-green-600 text-green-600 bg-green-50'
                                 } text-xs font-mono`}>
                                 {avgSoil < moistureThresholds.lower
@@ -405,7 +405,7 @@ const CropDetails = () => {
                         </div>
 
                         <div className="mb-4">
-                            <span className="text-5xl font-black">
+                            <span className="text-4xl font-black">
                                 {isInView ? (
                                     <CountUp
                                         start={0}
@@ -423,7 +423,7 @@ const CropDetails = () => {
                                 className={`h-1 transition-all duration-500 ${avgSoil < moistureThresholds.lower
                                     ? 'bg-blue-600'
                                     : avgSoil > moistureThresholds.upper
-                                        ? 'bg-rose-600'
+                                        ? 'bg-red-600'
                                         : 'bg-green-600'
                                     }`}
                                 style={{ width: `${avgSoil}%` }}
@@ -443,7 +443,7 @@ const CropDetails = () => {
                     <div className="border-2 border-gray-200 bg-white p-6 shadow-sm">
                         <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center gap-2">
-                                <Square className="w-4 h-4 text-rose-600" />
+                                <Square className="w-4 h-4 text-red-600" />
                                 <span className="text-xs font-mono">TEMP</span>
                             </div>
                             <div className="px-2 py-1 border border-green-600 text-green-600 bg-green-50 text-xs font-mono">
@@ -452,7 +452,7 @@ const CropDetails = () => {
                         </div>
 
                         <div className="mb-4">
-                            <span className="text-5xl font-black">
+                            <span className="text-4xl font-black">
                                 {isInView ? (
                                     <CountUp
                                         start={0}
@@ -483,7 +483,7 @@ const CropDetails = () => {
                         </div>
 
                         <div className="mb-4">
-                            <span className="text-5xl font-black">
+                            <span className="text-4xl font-black">
                                 {isInView ? (
                                     <CountUp
                                         start={0}
@@ -555,7 +555,7 @@ const CropDetails = () => {
                     {/* Soil Moisture Sensors - Grid Display */}
                     <div className="border-2 border-gray-200 bg-white shadow-sm">
                         {/* Section Header */}
-                        <div className="flex items-center justify-between px-6 py-4 border-b-2 border-gray-200">
+                        <div className="flex items-center justify-between gap-2 px-6 py-4 border-b-2 border-gray-200">
                             <div className="flex items-center gap-3">
                                 <SprayCan className="w-5 h-5 text-amber-600" />
                                 <div>
@@ -620,7 +620,7 @@ const CropDetails = () => {
                     <div className="space-y-8">
                         {/* Temperature Sensors */}
                         <div className="border-2 border-gray-200 bg-white shadow-sm">
-                            <div className="flex items-center justify-between px-6 py-4 border-b-2 border-gray-200">
+                            <div className="flex items-center justify-between gap-2 px-6 py-4 border-b-2 border-gray-200">
                                 <div className="flex items-center gap-3">
                                     <Thermometer className="w-5 h-5 text-red-600" />
                                     <div>
@@ -678,7 +678,7 @@ const CropDetails = () => {
 
                         {/* Humidity Sensors */}
                         <div className="border-2 border-gray-200 bg-white shadow-sm">
-                            <div className="flex items-center justify-between px-6 py-4 border-b-2 border-gray-200">
+                            <div className="flex items-center justify-between gap-2 px-6 py-4 border-b-2 border-gray-200">
                                 <div className="flex items-center gap-3">
                                     <Cloud className="w-5 h-5 text-blue-600" />
                                     <div>

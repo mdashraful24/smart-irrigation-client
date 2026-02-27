@@ -52,10 +52,10 @@ const FAQ = () => {
                     {faqs.map((faq, index) => (
                         <div
                             key={index}
-                            className="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 hover:bg-gray-50"
+                            className="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 hover:bg-green-50 hover:border-green-300"
                         >
                             <button
-                                className="w-full p-4 text-left flex items-center justify-between focus:outline-none"
+                                className="w-full p-4 text-left flex items-center justify-between focus:outline-none cursor-pointer"
                                 onClick={() => toggleFAQ(index)}
                             >
                                 <div className="flex items-center space-x-4">
@@ -81,7 +81,7 @@ const FAQ = () => {
                                     : 'max-h-0 opacity-0 overflow-hidden'
                                     }`}
                             >
-                                <div className="pl-6 border-l-2 border-green-400">
+                                <div className="pl-6 border-l-2 border-green-500">
                                     <p className="leading-relaxed">
                                         {faq.answer}
                                     </p>
