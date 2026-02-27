@@ -1082,7 +1082,7 @@ const CropDetails = () => {
                 {/* Show message when no sensor data */}
                 {!hasData && !loading && (
                     <div className="text-center py-12">
-                        <p className="text-gray-700">No sensor data available</p>
+                        <p className="text-lg">No sensor data available</p>
                     </div>
                 )}
             </div>
