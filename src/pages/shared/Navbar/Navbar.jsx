@@ -31,7 +31,7 @@ const Navbar = () => {
         logOut()
             .then(() => {
                 toast.success("User signed out successfully");
-                navigate("/");
+                // navigate("/");
                 setIsProfileMenuOpen(false);
                 setIsMobileMenuOpen(false);
             })

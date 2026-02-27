@@ -167,17 +167,17 @@ const SignUp = () => {
             console.error("Signup error:", error);
 
             // Show error alert for Firebase errors
-            Swal.fire({
-                title: 'Oops...',
-                text: getFirebaseErrorMessage(error),
-                icon: 'error',
-                confirmButtonColor: '#dc2626',
-                background: '#ffffff',
-                customClass: {
-                    popup: 'rounded-2xl',
-                    confirmButton: 'px-6 py-2 rounded-lg',
-                }
-            });
+            // Swal.fire({
+            //     title: 'Oops...',
+            //     text: getFirebaseErrorMessage(error),
+            //     icon: 'error',
+            //     confirmButtonColor: '#dc2626',
+            //     background: '#ffffff',
+            //     customClass: {
+            //         popup: 'rounded-2xl',
+            //         confirmButton: 'px-6 py-2 rounded-lg',
+            //     }
+            // });
 
             // Set field-specific errors
             if (error.code === 'auth/email-already-in-use') {

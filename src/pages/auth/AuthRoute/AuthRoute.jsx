@@ -6,9 +6,9 @@ const AuthRoute = () => {
     const { user, loading } = useAuth();
 
     // While checking auth
-    if (loading) {
-        return <Loading />;
-    }
+    // if (loading) {
+    //     return <Loading />;
+    // }
 
     // If user is logged in → redirect
     if (user) {
