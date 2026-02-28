@@ -75,6 +75,113 @@
     },
     "teamTitle": "Meet Our Expert Team",
     "teamLead": "A dedicated team of visionaries committed to excellence and innovation.",
+    "teachers": "Advisors",
+    "students": "Research Assistants",
+    "teamMembers": [
+      {
+        "name": "Professor Dr. M. R. Kabir",
+        "role": "Vice-Chancellor",
+        "description": "Daffodil International University",
+        "id": 1,
+        "social": [
+          {
+            "platform": "social",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "name": "Professor Dr. M A Rahim",
+        "role": "Professor & Head",
+        "department": "Department of Agricultural Science",
+        "description": "Daffodil International University",
+        "id": 2,
+        "social": [
+          {
+            "platform": "social",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "name": "Dipto Biswas",
+        "role": "Lecturer (Senior Scale)",
+        "department": "Department of Information and Communication Engineering",
+        "description": "Daffodil International University",
+        "id": 3,
+        "social": [
+          {
+            "platform": "social",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "name": "Md. Awsaf Iqbal Chowdhury",
+        "role": "Research Assistant",
+        "department": "Department of Information and Communication Engineering",
+        "description": "Daffodil International University",
+        "id": 4,
+        "social": [
+          {
+            "platform": "social",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "name": "Methon Kumar Biswas",
+        "role": "Research Assistant",
+        "department": "Department of Information and Communication Engineering",
+        "description": "Daffodil International University",
+        "id": 5,
+        "social": [
+          {
+            "platform": "social",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "name": "Sethi Das",
+        "role": "Research Assistant",
+        "department": "Department of Information and Communication Engineering",
+        "description": "Daffodil International University",
+        "id": 6,
+        "social": [
+          {
+            "platform": "social",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "name": "Kazi Rahima Ahmed",
+        "role": "Research Assistant",
+        "department": "Department of Information and Communication Engineering",
+        "description": "Daffodil International University",
+        "id": 7,
+        "social": [
+          {
+            "platform": "social",
+            "url": ""
+          }
+        ]
+      },
+      {
+        "name": "Noushad Tanvir",
+        "role": "Research Assistant",
+        "department": "Department of Information and Communication Engineering",
+        "description": "Daffodil International University",
+        "id": 7,
+        "social": [
+          {
+            "platform": "social",
+            "url": ""
+          }
+        ]
+      }
+    ],
     "missionTitle": "Our Core Mission",
     "missionDesc": "To create innovative solutions that drive measurable results, while maintaining the highest standards of quality, sustainability, and customer satisfaction.",
     "values": [
