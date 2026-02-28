@@ -1,42 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { useTranslation } from 'react-i18next';
-import CountUp from "react-countup";
+
 import img from "../../assets/about/img3.png";
-
-// Custom hook for checking if element is in viewport
-const useInView = () => {
-    const [isInView, setIsInView] = useState(false);
-    const ref = useRef(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsInView(true);
-                    observer.unobserve(entry.target);
-                }
-            },
-            {
-                threshold: 0.1,
-                rootMargin: "0px 0px -100px 0px"
-            }
-        );
-
-        const currentRef = ref.current;
-        if (currentRef) {
-            observer.observe(currentRef);
-        }
-
-        return () => {
-            if (currentRef) {
-                observer.unobserve(currentRef);
-            }
-        };
-    }, []);
-
-    return [ref, isInView];
-};
 
 const AboutDetails = () => {
     const { t } = useTranslation();
@@ -45,7 +11,25 @@ const AboutDetails = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const [ref, isInView] = useInView();
+    // Fetch data using translation hook
+    const workingProgressContent = t('aboutDetails.workingProgressContent', { returnObjects: true }) || [];
+    const values = t('aboutDetails.values', { returnObjects: true }) || [];
+
+    // Team members data - you could also move this to translation files if needed
+    const teamMembers = [
+        {
+            name: "Johnathan Doe",
+            role: "Founder & CEO",
+            description: "Visionary leader with 15+ years pioneering industry transformation through strategic innovation.",
+            img: "https://thumbs.dreamstime.com/b/portrait-handsome-smiling-young-man-folded-arms-smiling-joyful-cheerful-men-crossed-hands-isolated-studio-shot-172869765.jpg",
+            social: [
+                { platform: "linkedin", url: "https://linkedin.com/in/johnathan-doe" },
+                { platform: "github", url: "https://twitter.com/johnathan-doe" },
+                { platform: "facebook", url: "https://instagram.com/johnathan-doe" }
+            ]
+        },
+        // ... rest of team members
+    ];
 
     return (
         <section className="container mx-auto px-4 py-16 mt-10">
@@ -67,7 +51,6 @@ const AboutDetails = () => {
                             <h2 className="text-3xl md:text-5xl">
                                 {t('aboutDetails.journeyTitle')}
                             </h2>
-                            {/* <div className="w-16 h-0.5 bg-green-600 mb-6 md:mb-8"></div> */}
                         </div>
                         <div className="space-y-4 md:space-y-6">
                             <div className="md:text-lg leading-relaxed">
@@ -77,51 +60,6 @@ const AboutDetails = () => {
                                 <ReactMarkdown>{t('aboutDetails.journeyP2')}</ReactMarkdown>
                             </div>
                         </div>
-
-                        {/* CountUp Statistics */}
-                        {/* <div ref={ref} className="mt-8 pt-6 md:pt-8">
-                            <div className="flex flex-wrap gap-6 sm:gap-8 md:gap-12 justify-center lg:justify-start">
-                                <div className="text-center lg:text-left">
-                                    <p className="text-2xl sm:text-3xl font-bold text-green-600">
-                                        {isInView ? (
-                                            <CountUp
-                                                start={0}
-                                                end={10}
-                                                duration={2.5}
-                                                suffix="+"
-                                            />
-                                        ) : "0+"}
-                                    </p>
-                                    <p className="text-xs sm:text-sm uppercase tracking-widest mt-1">{t('aboutDetails.stats.years')}</p>
-                                </div>
-                                <div className="text-center lg:text-left">
-                                    <p className="text-2xl sm:text-3xl font-bold text-green-600">
-                                        {isInView ? (
-                                            <CountUp
-                                                start={0}
-                                                end={500}
-                                                duration={2.5}
-                                                suffix="+"
-                                            />
-                                        ) : "0+"}
-                                    </p>
-                                    <p className="text-xs sm:text-sm uppercase tracking-widest mt-1">{t('aboutDetails.stats.clients')}</p>
-                                </div>
-                                <div className="text-center lg:text-left">
-                                    <p className="text-2xl sm:text-3xl font-bold text-green-600">
-                                        {isInView ? (
-                                            <CountUp
-                                                start={0}
-                                                end={99}
-                                                duration={2.5}
-                                                suffix="%"
-                                            />
-                                        ) : "0%"}
-                                    </p>
-                                    <p className="text-xs sm:text-sm uppercase tracking-widest mt-1">{t('aboutDetails.stats.satisfaction')}</p>
-                                </div>
-                            </div>
-                        </div> */}
                     </div>
                     <div className="lg:col-span-5 relative order-1 lg:order-2">
                         <div className="overflow-hidden rounded-3xl">
@@ -151,52 +89,7 @@ const AboutDetails = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {[
-                        {
-                            name: "Johnathan Doe",
-                            role: "Founder & CEO",
-                            description: "Visionary leader with 15+ years pioneering industry transformation through strategic innovation.",
-                            img: "https://thumbs.dreamstime.com/b/portrait-handsome-smiling-young-man-folded-arms-smiling-joyful-cheerful-men-crossed-hands-isolated-studio-shot-172869765.jpg",
-                            social: [
-                                { platform: "linkedin", url: "https://linkedin.com/in/johnathan-doe" },
-                                { platform: "github", url: "https://twitter.com/johnathan-doe" },
-                                { platform: "facebook", url: "https://instagram.com/johnathan-doe" }
-                            ]
-                        },
-                        {
-                            name: "Jane Smith",
-                            role: "Chief Operations Officer",
-                            description: "Ensuring operational excellence and seamless delivery across all business verticals.",
-                            img: "https://thumbs.dreamstime.com/b/handsome-black-man-wearing-suit-urban-background-portrait-smiling-49366319.jpg",
-                            social: [
-                                { platform: "linkedin", url: "https://linkedin.com/in/johnathan-doe" },
-                                { platform: "github", url: "https://twitter.com/johnathan-doe" },
-                                { platform: "facebook", url: "https://instagram.com/johnathan-doe" }
-                            ]
-                        },
-                        {
-                            name: "Michael Lee",
-                            role: "Director of Product",
-                            description: "Driving product innovation and maintaining uncompromising quality standards.",
-                            img: "https://img.freepik.com/free-photo/pretty-smiling-joyfully-female-with-fair-hair-dressed-casually-looking-with-satisfaction_176420-15187.jpg?semt=ais_user_personalization&w=740&q=80",
-                            social: [
-                                { platform: "linkedin", url: "https://linkedin.com/in/michael-lee" },
-                                { platform: "github", url: "https://github.com/michael-lee" },
-                                { platform: "twitter", url: "https://twitter.com/michael-lee" }
-                            ]
-                        },
-                        {
-                            name: "Michael Lee",
-                            role: "Director of Product",
-                            description: "Driving product innovation and maintaining uncompromising quality standards.",
-                            img: "https://img.freepik.com/free-photo/young-determined-armenian-curlyhaired-female-university-student-listen-carefully-asignment-look-confident-ready-task-cross-hands-chest-smiling-selfassured-standing-white-background_176420-56066.jpg?semt=ais_hybrid&w=740&q=80",
-                            social: [
-                                { platform: "linkedin", url: "https://linkedin.com/in/michael-lee2" },
-                                { platform: "github", url: "https://github.com/michael-lee2" },
-                                { platform: "twitter", url: "https://twitter.com/michael-lee2" }
-                            ]
-                        }
-                    ].map((member, index) => (
+                    {teamMembers.map((member, index) => (
                         <div
                             key={index}
                             className="group relative bg-white rounded-2xl md:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500"
@@ -211,7 +104,7 @@ const AboutDetails = () => {
                                 {/* Gradient Overlay */}
                                 <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-black/60 group-hover:to-black/40 transition-all duration-500"></div>
 
-                                {/* Social Links - FIXED VERSION */}
+                                {/* Social Links */}
                                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                                     {member.social.map((socialItem, i) => (
                                         <a
@@ -221,10 +114,6 @@ const AboutDetails = () => {
                                             rel="noopener noreferrer"
                                             className="w-10 h-10 rounded-full bg-white flex items-center justify-center hover:bg-green-600 hover:text-white transition-colors duration-300 transform hover:scale-110 cursor-pointer"
                                             aria-label={`${socialItem.platform} profile`}
-                                            onClick={(e) => {
-                                                // You can add tracking or analytics here
-                                                // console.log(`Clicked ${socialItem.platform} for ${member.name}`);
-                                            }}
                                         >
                                             <span className="text-sm font-semibold">
                                                 {socialItem.platform === 'linkedin' ? 'in' : socialItem.platform.charAt(0).toUpperCase()}
@@ -261,7 +150,7 @@ const AboutDetails = () => {
             <div className="mb-20 md:mb-24 lg:mb-32">
                 <div className="text-center mb-12 lg:mb-16">
                     <h2 className="text-3xl md:text-5xl mb-4 md:mb-6">
-                        {t('aboutDetails.workingProgressTitle') || 'Our Working Progress'}
+                        {t('aboutDetails.workingProgressTitle')}
                     </h2>
                     <p className="max-w-3xl mx-auto md:text-lg leading-relaxed">
                         {t('aboutDetails.workingProgressLead')}
@@ -269,32 +158,7 @@ const AboutDetails = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    {[
-                        {
-                            title: "AI-Powered Analytics",
-                            description: "Developing advanced AI algorithms to analyze agricultural data and provide actionable insights for farmers.",
-                            progress: 75,
-                            status: "In Progress",
-                        },
-                        {
-                            title: "Web App Development",
-                            description: "Building a user-friendly web application for farmers to access real-time insights and recommendations.",
-                            progress: 60,
-                            status: "In Progress",
-                        },
-                        {
-                            title: "Real-time IoT Integration",
-                            description: "Integrating IoT sensors for real-time soil moisture and weather data collection.",
-                            progress: 85,
-                            status: "In Progress",
-                        },
-                        {
-                            title: "Sustainability Research",
-                            description: "Conducting research on sustainable farming practices and environmental impact reduction.",
-                            progress: 40,
-                            status: "Planning",
-                        }
-                    ].map((project, index) => (
+                    {Array.isArray(workingProgressContent) && workingProgressContent.map((project, index) => (
                         <div
                             key={index}
                             className="flex flex-col h-full bg-linear-to-br from-white to-gray-50 rounded-2xl p-6 border border-gray-200 shadow-md hover:border-green-400 hover:shadow-lg transition-all duration-300"
@@ -307,9 +171,9 @@ const AboutDetails = () => {
                                     </h3>
                                 </div>
                                 <span
-                                    className={`px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap ${project.status === 'In Progress'
-                                        ? 'bg-blue-100 text-blue-700'
-                                        : 'bg-yellow-100 text-yellow-700'
+                                    className={`px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap ${project.status === 'In Progress' || project.status === 'চলমান'
+                                            ? 'bg-blue-100 text-blue-700'
+                                            : 'bg-yellow-100 text-yellow-700'
                                         }`}
                                 >
                                     {project.status}
@@ -360,7 +224,7 @@ const AboutDetails = () => {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {t('aboutDetails.values', { returnObjects: true }).map((value, index) => (
+                        {Array.isArray(values) && values.map((value, index) => (
                             <div key={index} className="bg-white/5 backdrop-blur-sm rounded-lg md:rounded-xl p-6 md:p-8 border border-white/10 hover:border-green-400/30 transition-all duration-300">
                                 <div className="text-3xl md:text-4xl font-bold text-green-600 mb-3 md:mb-4">0{index + 1}</div>
                                 <h3 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">{value.title}</h3>
