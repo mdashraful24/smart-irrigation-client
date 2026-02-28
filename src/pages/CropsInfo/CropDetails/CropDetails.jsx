@@ -80,49 +80,93 @@ const CropDetails = () => {
         upper: 90
     });
 
+    // Track original thresholds for save button state
+    const [originalThresholds, setOriginalThresholds] = useState({
+        lower: 30,
+        upper: 90
+    });
+
     const fieldName = "Field Laboratory 01 (Malta Garden)";
     const cropName = "Cucumber";
 
-    // Save valve data to API
-    const saveValveData = async (newValveState) => {
+    // Save valve mode to API (Auto/Manual)
+    const saveValveMode = async (newValveMode) => {
         try {
             setSavingValve(true);
             setValveSaveSuccess(null);
-            // console.log('Saving valve data...', newValveState ? 'ON' : 'OFF');
 
-            const valveValue = newValveState ? 1 : 0;
-            const url = `/api/insert_valve.php?valve=${valveValue}`;
-            // console.log('Save Valve URL:', url);
+            // Convert "auto" to 1, "manual" to 0
+            const valveModeValue = newValveMode === "auto" ? 1 : 0;
+            const url = `/api/insert_valve.php?valve=${valveModeValue}`;
 
             const response = await fetch(url);
-
-            // console.log('Save Valve Response status:', response.status);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const result = await response.json();
-            // console.log('Save Valve API Response:', result);
 
             if (!result.ok) {
                 throw new Error(result.error || 'API returned error');
             }
 
-            setValveSaveSuccess(`Valve ${newValveState ? 'ON' : 'OFF'} saved! ID: ${result.inserted_id}`);
+            setValveSaveSuccess(`Valve mode set to ${newValveMode}! ID: ${result.inserted_id}`);
 
             // Update local state
-            setWaterSupplyOn(newValveState);
+            setValveMode(newValveMode);
 
-            // Refresh valve data after saving
+            // Refresh valve mode data after saving
             setTimeout(() => {
-                fetchValveData();
+                fetchValveModeData();
             }, 1000);
 
         } catch (err) {
-            console.error('Error saving valve data:', err);
+            console.error('Error saving valve mode:', err);
             setValveSaveSuccess(null);
-            alert('Failed to save valve data: ' + err.message);
+            alert('Failed to save valve mode: ' + err.message);
+        } finally {
+            setSavingValve(false);
+        }
+    };
+
+    // Save water supply state to API
+    const saveWaterSupplyState = async (newWaterSupplyState) => {
+        try {
+            setSavingValve(true);
+            setValveSaveSuccess(null);
+
+            // You'll need a different API endpoint for water supply control
+            // This is a placeholder - replace with your actual water supply API
+            const waterSupplyValue = newWaterSupplyState ? 1 : 0;
+            const url = `/api/insert_water_supply.php?state=${waterSupplyValue}`;
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            if (!result.ok) {
+                throw new Error(result.error || 'API returned error');
+            }
+
+            setValveSaveSuccess(`Water supply ${newWaterSupplyState ? 'ON' : 'OFF'}!`);
+
+            // Update local state
+            setWaterSupplyOn(newWaterSupplyState);
+
+            // Refresh water supply data after saving
+            setTimeout(() => {
+                fetchWaterSupplyData();
+            }, 1000);
+
+        } catch (err) {
+            console.error('Error saving water supply state:', err);
+            setValveSaveSuccess(null);
+            alert('Failed to save water supply state: ' + err.message);
         } finally {
             setSavingValve(false);
         }
@@ -133,27 +177,28 @@ const CropDetails = () => {
         try {
             setSavingThreshold(true);
             setSaveSuccess(null);
-            // console.log('Saving threshold data...');
 
             const url = `/api/insert_threshold.php?low=${moistureThresholds.lower}&up=${moistureThresholds.upper}`;
-            // console.log('Save URL:', url);
 
             const response = await fetch(url);
-
-            // console.log('Save Response status:', response.status);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const result = await response.json();
-            // console.log('Save API Response:', result);
 
             if (!result.ok) {
                 throw new Error(result.error || 'API returned error');
             }
 
             setSaveSuccess(`Thresholds saved successfully! ID: ${result.inserted_id}`);
+
+            // Update original thresholds after successful save
+            setOriginalThresholds({
+                lower: moistureThresholds.lower,
+                upper: moistureThresholds.upper
+            });
 
             // Refresh threshold data after saving
             setTimeout(() => {
@@ -169,46 +214,66 @@ const CropDetails = () => {
         }
     };
 
-    // Fetch valve data from API
-    const fetchValveData = async () => {
+    // Fetch valve mode data from API (Auto/Manual)
+    const fetchValveModeData = async () => {
         try {
             setValveLoading(true);
-            // console.log('Fetching valve data...');
 
             const response = await fetch('/api/latest_valve.php');
-
-            // console.log('Valve Response status:', response.status);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const result = await response.json();
-            // console.log('Valve API Response:', result);
 
             if (!result.ok) {
                 throw new Error(result.error || 'API returned error');
             }
 
             if (!result.data) {
-                // console.log('No valve data available from API');
-                setValveError('No valve data available');
+                setValveError('No valve mode data available');
                 return;
             }
 
             const data = result.data;
-            // console.log('Processing valve data:', data);
 
-            // Update valve state (0 = OFF, 1 = ON)
-            setWaterSupplyOn(data.valve === 1);
+            // Update valve mode (1 = AUTO, 0 = MANUAL)
+            setValveMode(data.valve === 1 ? "auto" : "manual");
             setValveLastUpdated(data.time);
             setValveError(null);
 
         } catch (err) {
-            console.error('Error fetching valve data:', err);
-            setValveError('Failed to load valve data.');
+            console.error('Error fetching valve mode data:', err);
+            setValveError('Failed to load valve mode data.');
         } finally {
             setValveLoading(false);
+        }
+    };
+
+    // Fetch water supply data from API
+    const fetchWaterSupplyData = async () => {
+        try {
+            // This is a placeholder - implement your actual water supply API endpoint
+            const response = await fetch('/api/latest_water_supply.php');
+
+            if (!response.ok) {
+                // If endpoint doesn't exist, don't show error, just keep current state
+                return;
+            }
+
+            const result = await response.json();
+
+            if (!result.ok || !result.data) {
+                return;
+            }
+
+            const data = result.data;
+            setWaterSupplyOn(data.state === 1);
+
+        } catch (err) {
+            // Silently fail - water supply might be controlled by valve mode
+            console.log('Water supply API not available, using valve mode logic');
         }
     };
 
@@ -216,36 +281,39 @@ const CropDetails = () => {
     const fetchThresholdData = async () => {
         try {
             setThresholdLoading(true);
-            // console.log('Fetching threshold data...');
 
             const response = await fetch('/api/latest_threshold.php');
-
-            // console.log('Threshold Response status:', response.status);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const result = await response.json();
-            // console.log('Threshold API Response:', result);
 
             if (!result.ok) {
                 throw new Error(result.error || 'API returned error');
             }
 
             if (!result.data) {
-                // console.log('No threshold data available from API');
                 setThresholdError('No threshold data available');
                 return;
             }
 
             const data = result.data;
-            // console.log('Processing threshold data:', data);
+
+            const newLower = parseFloat(data.low) || 30;
+            const newUpper = parseFloat(data.up) || 90;
 
             // Update threshold values
             setMoistureThresholds({
-                lower: parseFloat(data.low) || 30,
-                upper: parseFloat(data.up) || 90
+                lower: newLower,
+                upper: newUpper
+            });
+
+            // Update original thresholds
+            setOriginalThresholds({
+                lower: newLower,
+                upper: newUpper
             });
 
             setThresholdLastUpdated(data.time);
@@ -263,31 +331,25 @@ const CropDetails = () => {
     const fetchSensorData = async () => {
         try {
             setLoading(true);
-            // console.log('Fetching sensor data...');
 
             const response = await fetch('/api/latest_sis_sn_01.php');
-
-            // console.log('Response status:', response.status);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const result = await response.json();
-            // console.log('API Response:', result);
 
             if (!result.ok) {
                 throw new Error(result.error || 'API returned error');
             }
 
             if (!result.data) {
-                // console.log('No data available from API');
                 setError('No sensor data available');
                 return;
             }
 
             const data = result.data;
-            // console.log('Processing data:', data);
 
             // Parse soil moisture sensors (sm01 to sm15)
             const soilMoistureSensors = [];
@@ -300,7 +362,6 @@ const CropDetails = () => {
                     });
                 }
             }
-            // console.log('Parsed soil moisture sensors:', soilMoistureSensors);
 
             // Parse temperature sensors (t1, t2)
             const temperatureSensors = [];
@@ -316,7 +377,6 @@ const CropDetails = () => {
                     value: parseFloat(data.t2) || 0
                 });
             }
-            // console.log('Parsed temperature sensors:', temperatureSensors);
 
             // Parse humidity sensors (h1, h2)
             const humiditySensors = [];
@@ -332,7 +392,6 @@ const CropDetails = () => {
                     value: parseFloat(data.h2) || 0
                 });
             }
-            // console.log('Parsed humidity sensors:', humiditySensors);
 
             // Calculate averages if not provided
             const avgSoil = data.avg_sm ? parseFloat(data.avg_sm) :
@@ -346,8 +405,6 @@ const CropDetails = () => {
             const avgHum = data.avg_h ? parseFloat(data.avg_h) :
                 (humiditySensors.length > 0 ?
                     humiditySensors.reduce((acc, s) => acc + s.value, 0) / humiditySensors.length : 0);
-
-            // console.log('Calculated averages:', { soil: avgSoil, temperature: avgTemp, humidity: avgHum });
 
             // Update all states at once
             setSensorData({
@@ -378,17 +435,20 @@ const CropDetails = () => {
         // Fetch all data
         fetchSensorData();
         fetchThresholdData();
-        fetchValveData();
+        fetchValveModeData();
+        fetchWaterSupplyData();
 
         // Poll for new data
         const sensorInterval = setInterval(fetchSensorData, 30000);
         const thresholdInterval = setInterval(fetchThresholdData, 60000);
-        const valveInterval = setInterval(fetchValveData, 5000); // Valve updates every 5 seconds
+        const valveModeInterval = setInterval(fetchValveModeData, 30000);
+        const waterSupplyInterval = setInterval(fetchWaterSupplyData, 5000);
 
         return () => {
             clearInterval(sensorInterval);
             clearInterval(thresholdInterval);
-            clearInterval(valveInterval);
+            clearInterval(valveModeInterval);
+            clearInterval(waterSupplyInterval);
         };
     }, []);
 
@@ -396,11 +456,11 @@ const CropDetails = () => {
     useEffect(() => {
         if (valveMode === "auto" && averages.soil > 0) {
             if (waterSupplyOn && averages.soil >= moistureThresholds.upper) {
-                // Auto turn OFF
-                saveValveData(false);
+                // Auto turn OFF - call water supply API
+                saveWaterSupplyState(false);
             } else if (!waterSupplyOn && averages.soil <= moistureThresholds.lower) {
-                // Auto turn ON
-                saveValveData(true);
+                // Auto turn ON - call water supply API
+                saveWaterSupplyState(true);
             }
         }
     }, [averages.soil, valveMode, moistureThresholds, waterSupplyOn]);
@@ -433,10 +493,16 @@ const CropDetails = () => {
         }));
     };
 
-    // Handle valve toggle with manual mode check
-    const handleValveToggle = () => {
+    // Handle valve mode toggle
+    const handleValveModeToggle = () => {
+        const newMode = valveMode === "auto" ? "manual" : "auto";
+        saveValveMode(newMode);
+    };
+
+    // Handle water supply toggle with manual mode check
+    const handleWaterSupplyToggle = () => {
         if (valveMode === "manual") {
-            saveValveData(!waterSupplyOn);
+            saveWaterSupplyState(!waterSupplyOn);
         }
     };
 
@@ -445,6 +511,12 @@ const CropDetails = () => {
         if (!datetime) return 'N/A';
         const date = new Date(datetime);
         return date.toLocaleString();
+    };
+
+    // Check if thresholds have changed
+    const hasThresholdsChanged = () => {
+        return moistureThresholds.lower !== originalThresholds.lower ||
+            moistureThresholds.upper !== originalThresholds.upper;
     };
 
     // Status Configuration
@@ -484,9 +556,6 @@ const CropDetails = () => {
                             <h2 className="text-2xl lg:text-3xl font-semibold">
                                 {cropName}
                             </h2>
-                            {/* <p className="flex items-center px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full text-sm font-semibold border border-amber-400">
-                                Cucumber
-                            </p> */}
                         </div>
                         {/* Last Updated Info */}
                         {lastUpdated && (
@@ -501,49 +570,9 @@ const CropDetails = () => {
                         )}
                         {valveLastUpdated && (
                             <p className="text-xs mt-1">
-                                <span className="font-medium">Last Updated (Valve status):</span> {formatLastUpdated(valveLastUpdated)}
+                                <span className="font-medium">Last Updated (Valve mode):</span> {formatLastUpdated(valveLastUpdated)}
                             </p>
                         )}
-                        {/* {loading && (
-                            <p className="text-xs text-blue-600 mt-2 flex items-center gap-1">
-                                <span className="animate-spin h-3 w-3 border-2 border-blue-600 border-t-transparent rounded-full"></span>
-                                Refreshing sensor data...
-                            </p>
-                        )}
-                        {thresholdLoading && (
-                            <p className="text-xs text-purple-600 mt-1 flex items-center gap-1">
-                                <span className="animate-spin h-3 w-3 border-2 border-purple-600 border-t-transparent rounded-full"></span>
-                                Refreshing thresholds...
-                            </p>
-                        )}
-                        {valveLoading && (
-                            <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
-                                <span className="animate-spin h-3 w-3 border-2 border-green-600 border-t-transparent rounded-full"></span>
-                                Refreshing valve status...
-                            </p>
-                        )} */}
-                        {/* {savingThreshold && (
-                            <p className="text-xs text-orange-600 mt-1 flex items-center gap-1">
-                                <span className="animate-spin h-3 w-3 border-2 border-orange-600 border-t-transparent rounded-full"></span>
-                                Saving thresholds...
-                            </p>
-                        )} */}
-                        {/* {savingValve && (
-                            <p className="text-xs text-red-600 mt-1 flex items-center gap-1">
-                                <span className="animate-spin h-3 w-3 border-2 border-red-600 border-t-transparent rounded-full"></span>
-                                Saving valve...
-                            </p>
-                        )} */}
-                        {/* {saveSuccess && (
-                            <p className="text-xs text-green-600 mt-1">
-                                {saveSuccess}
-                            </p>
-                        )} */}
-                        {/* {valveSaveSuccess && (
-                            <p className="text-xs text-green-600 mt-1">
-                                {valveSaveSuccess}
-                            </p>
-                        )} */}
                         {error && (
                             <p className="text-xs text-red-500 mt-2">
                                 {error}
@@ -600,14 +629,15 @@ const CropDetails = () => {
                                     <input
                                         type="checkbox"
                                         checked={valveMode === "auto"}
-                                        onChange={() => setValveMode(valveMode === "auto" ? "manual" : "auto")}
-                                        className="toggle border-blue-600 bg-blue-500 checked:border-green-500 checked:bg-green-400 checked:text-green-800"
+                                        onChange={handleValveModeToggle}
+                                        disabled={savingValve}
+                                        className={`toggle border-blue-600 bg-blue-500 checked:border-green-500 checked:bg-green-400 checked:text-green-800 ${savingValve ? 'opacity-50 cursor-not-allowed' : ''}`}
                                     />
                                 </div>
                                 <p className="mt-3 text-xs text-gray-600">
                                     {valveMode === "auto"
                                         ? "Valve operates automatically based on soil moisture thresholds"
-                                        : "Manual control - you can turn the valve On/Off manually"}
+                                        : "Manual control - you can turn the water supply On/Off manually"}
                                 </p>
                             </div>
 
@@ -627,7 +657,7 @@ const CropDetails = () => {
                                         <input
                                             type="checkbox"
                                             checked={waterSupplyOn}
-                                            onChange={handleValveToggle}
+                                            onChange={handleWaterSupplyToggle}
                                             disabled={valveMode === "auto" || savingValve}
                                             className={`toggle border-blue-600 bg-blue-500 checked:border-green-500 checked:bg-green-400 checked:text-green-800 ${(valveMode === "auto" || savingValve) ? 'opacity-50 cursor-not-allowed' : ''}`}
                                         />
@@ -654,9 +684,9 @@ const CropDetails = () => {
                                     </label>
                                     <button
                                         onClick={saveThresholdData}
-                                        disabled={savingThreshold}
+                                        disabled={savingThreshold || !hasThresholdsChanged()}
                                         className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-300
-                                            ${savingThreshold
+                                            ${savingThreshold || !hasThresholdsChanged()
                                                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                                 : 'bg-green-600 text-white hover:bg-green-700 shadow-lg shadow-green-200 cursor-pointer'
                                             }`}
@@ -670,15 +700,22 @@ const CropDetails = () => {
                                         <label className="block text-xs text-gray-600 font-medium mb-1">
                                             Lower Limit (Valve ON) - {moistureThresholds.lower}%
                                         </label>
-                                        <input
-                                            type="range"
-                                            min="0"
-                                            max="100"
-                                            value={moistureThresholds.lower}
-                                            onChange={(e) => handleThresholdChange('lower', e.target.value)}
-                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                                        />
-                                        <div className="flex justify-between text-xs text-gray-600 mt-1">
+                                        <div className="range-container">
+                                            <div className="range-bg"></div>
+                                            <div
+                                                className="range-fill"
+                                                style={{ width: `${moistureThresholds.lower}%` }}
+                                            ></div>
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="100"
+                                                value={moistureThresholds.lower}
+                                                onChange={(e) => handleThresholdChange('lower', e.target.value)}
+                                                className="range-input-custom"
+                                            />
+                                        </div>
+                                        <div className="flex justify-between text-xs text-gray-600 mt-3">
                                             <span>0%</span>
                                             <span className="text-blue-600 font-medium">
                                                 Valve turns ON below {moistureThresholds.lower}%
@@ -691,15 +728,22 @@ const CropDetails = () => {
                                         <label className="block text-xs text-gray-600 font-medium mb-1">
                                             Upper Limit (Valve OFF) - {moistureThresholds.upper}%
                                         </label>
-                                        <input
-                                            type="range"
-                                            min="0"
-                                            max="100"
-                                            value={moistureThresholds.upper}
-                                            onChange={(e) => handleThresholdChange('upper', e.target.value)}
-                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                                        />
-                                        <div className="flex justify-between text-xs text-gray-600 mt-1">
+                                        <div className="range-container">
+                                            <div className="range-bg"></div>
+                                            <div
+                                                className="range-fill"
+                                                style={{ width: `${moistureThresholds.upper}%` }}
+                                            ></div>
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="100"
+                                                value={moistureThresholds.upper}
+                                                onChange={(e) => handleThresholdChange('upper', e.target.value)}
+                                                className="range-input-custom"
+                                            />
+                                        </div>
+                                        <div className="flex justify-between text-xs text-gray-600 mt-3">
                                             <span>0%</span>
                                             <span className="text-purple-600 font-medium">
                                                 Valve turns OFF above {moistureThresholds.upper}%
@@ -715,31 +759,78 @@ const CropDetails = () => {
                                         <Gauge className="w-4 h-4" />
                                         <span className="text-sm font-medium">Current Status</span>
                                     </div>
+
+                                    {/* Current Value Display */}
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-xs font-semibold">
+                                            Current: {averages.soil.toFixed(1)}%
+                                        </span>
+                                        <span className="text-xs font-semibold">
+                                            Target: {moistureThresholds.lower}% - {moistureThresholds.upper}%
+                                        </span>
+                                    </div>
+
+                                    {/* Progress Bar with Zones and Current Value Indicator */}
                                     <div className="relative pt-1">
-                                        <div className="flex mb-2 items-center justify-between">
-                                            <div className="text-xs text-gray-600 font-medium">
-                                                Current Avg: {averages.soil.toFixed(1)}%
-                                            </div>
-                                            <div className="text-xs text-gray-600 font-medium">
-                                                Target: {moistureThresholds.lower}% - {moistureThresholds.upper}%
-                                            </div>
+                                        {/* Zone Labels */}
+                                        <div className="flex text-[10px] font-medium mb-1">
+                                            <span className="text-blue-600">Dry Zone</span>
+                                            <span className="ml-auto text-green-600">Optimal</span>
+                                            <span className="ml-auto text-red-600">Wet Zone</span>
                                         </div>
-                                        <div className="flex h-2 bg-gray-200 rounded-full overflow-hidden">
+
+                                        {/* Progress Bar */}
+                                        <div className="flex h-4 bg-gray-200 rounded-full overflow-hidden shadow-inner">
+                                            {/* Blue Zone - Below Lower Threshold */}
                                             <div
-                                                className="bg-blue-500"
+                                                className="bg-blue-500 flex items-center justify-start px-1 text-[.7rem] font-semibold text-white"
                                                 style={{ width: `${moistureThresholds.lower}%` }}
-                                            ></div>
+                                            >
+                                                {moistureThresholds.lower > 15 && 'ON'}
+                                            </div>
+
+                                            {/* Green Zone - Optimal Range */}
                                             <div
-                                                className="bg-purple-500"
+                                                className="bg-green-500 flex items-center justify-center px-1 text-[.7rem] md:text-xs font-semibold text-white"
                                                 style={{ width: `${moistureThresholds.upper - moistureThresholds.lower}%` }}
-                                            ></div>
-                                        </div>
-                                        <div className="flex text-xs text-gray-600 font-medium mt-1">
-                                            <span>Valve ON Zone</span>
-                                            <span className="ml-auto">Optimal Zone</span>
-                                            <span className="ml-auto">Valve OFF Zone</span>
+                                            >
+                                                {(moistureThresholds.upper - moistureThresholds.lower) > 15 && 'OK'}
+                                            </div>
+
+                                            {/* Red Zone - Above Upper Threshold */}
+                                            <div
+                                                className="bg-red-500 flex items-center justify-end px-1 text-[.7rem] font-semibold text-white"
+                                                style={{ width: `${100 - moistureThresholds.upper}%` }}
+                                            >
+                                                {100 - moistureThresholds.upper > 15 && 'OFF'}
+                                            </div>
                                         </div>
                                     </div>
+
+                                    {/* Action Message based on current status */}
+                                    {averages.soil > 0 && (
+                                        <div
+                                            className={`mt-3 p-2 rounded-lg text-xs font-medium text-center
+                                                ${averages.soil < moistureThresholds.lower
+                                                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                                                    : averages.soil > moistureThresholds.upper
+                                                        ? 'bg-red-50 text-red-700 border border-red-200'
+                                                        : 'bg-green-50 text-green-700 border border-green-200'
+                                                }`}
+                                        >
+                                            {averages.soil < moistureThresholds.lower
+                                                ? '💧 Soil is dry. Irrigation should be ON.'
+                                                : averages.soil > moistureThresholds.upper
+                                                    ? '💧 Soil is saturated. Irrigation should be OFF.'
+                                                    : '💧 Soil moisture is optimal.'
+                                            }
+                                            {valveMode === 'auto' && (
+                                                <span className="block mt-1 text-[10px] opacity-75">
+                                                    System is in AUTO mode - valve will adjust automatically
+                                                </span>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -878,18 +969,6 @@ const CropDetails = () => {
                                 )}
                             </div>
                         </div>
-
-                        {/* {waterSupplyOn && (
-                            <div className="mt-3 pt-3 border-t border-gray-100">
-                                <div className="flex items-center gap-2">
-                                    <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                        <div className="h-full bg-linear-to-r from-cyan-400 to-blue-500 rounded-full animate-pulse"
-                                            style={{ width: '75%' }}></div>
-                                    </div>
-                                    <span className="text-xs font-medium text-cyan-600">2.4 L/s</span>
-                                </div>
-                            </div>
-                        )} */}
                     </div>
                 </div>
 
