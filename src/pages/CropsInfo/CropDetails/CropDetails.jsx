@@ -395,17 +395,17 @@ const CropDetails = () => {
         if (valveMode === "auto" && averages.soil > 0) {
             // Check if we need to turn OFF (water is ON and soil moisture reaches or exceeds upper limit)
             if (waterSupplyOn && averages.soil >= activeThresholds.upper) {
-                console.log(`Auto: Turning OFF - Soil moisture ${averages.soil}% >= upper limit ${activeThresholds.upper}%`);
+                // console.log(`Auto: Turning OFF - Soil moisture ${averages.soil}% >= upper limit ${activeThresholds.upper}%`);
                 saveWaterSupplyState(false);
             }
             // Check if we need to turn ON (water is OFF and soil moisture reaches or goes below lower limit)
             else if (!waterSupplyOn && averages.soil <= activeThresholds.lower) {
-                console.log(`Auto: Turning ON - Soil moisture ${averages.soil}% <= lower limit ${activeThresholds.lower}%`);
+                // console.log(`Auto: Turning ON - Soil moisture ${averages.soil}% <= lower limit ${activeThresholds.lower}%`);
                 saveWaterSupplyState(true);
             }
             // If soil moisture is within range and water is ON, turn it OFF (safety check)
             else if (waterSupplyOn && averages.soil > activeThresholds.lower && averages.soil < activeThresholds.upper) {
-                console.log(`Auto: Turning OFF - Soil moisture ${averages.soil}% is within optimal range (${activeThresholds.lower}%-${activeThresholds.upper}%)`);
+                // console.log(`Auto: Turning OFF - Soil moisture ${averages.soil}% is within optimal range (${activeThresholds.lower}%-${activeThresholds.upper}%)`);
                 saveWaterSupplyState(false);
             }
         }
