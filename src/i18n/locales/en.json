@@ -206,19 +206,19 @@
       {
         "title": "AI-Powered Analytics",
         "description": "Developing advanced AI algorithms to analyze agricultural data and provide actionable insights for farmers.",
-        "progress": 75,
+        "progress": 60,
         "status": "In Progress"
       },
       {
         "title": "Web App Development",
         "description": "Building a user-friendly web application for farmers to access real-time insights and recommendations.",
-        "progress": 60,
+        "progress": 85,
         "status": "In Progress"
       },
       {
         "title": "Real-time IoT Integration",
         "description": "Integrating IoT sensors for real-time soil moisture and weather data collection.",
-        "progress": 85,
+        "progress": 50,
         "status": "In Progress"
       },
       {

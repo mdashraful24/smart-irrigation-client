@@ -220,7 +220,7 @@ const AboutDetails = () => {
                             className="flex flex-col h-full bg-linear-to-br from-white to-gray-50 rounded-2xl p-6 border border-gray-200 shadow-md hover:border-green-400 hover:shadow-lg transition-all duration-300"
                         >
                             {/* Top Section */}
-                            <div className="flex justify-between items-start mb-3">
+                            <div className="flex justify-between items-start mb-2">
                                 <div className="grow pr-4">
                                     <h3 className="text-xl md:text-2xl font-bold">
                                         {project.title}
@@ -237,7 +237,7 @@ const AboutDetails = () => {
                             </div>
 
                             {/* Description */}
-                            <div className="mb-4">
+                            <div className="mb-3">
                                 <p className="leading-relaxed">
                                     {project.description}
                                 </p>
