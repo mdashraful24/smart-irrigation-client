@@ -107,7 +107,7 @@ const Slider = () => {
                         {/* Content Container */}
                         <div className="relative z-20 h-[calc(100vh-3rem)] flex flex-col items-center justify-center p-4 md:p-8 lg:p-12">
                             {/* Text Content - Centered */}
-                            <div className="max-w-2xl text-center" data-speed="0.3">
+                            <div className="max-w-3xl text-center" data-speed="0.3">
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
                                     {slideContent[index].title}
                                 </h1>
