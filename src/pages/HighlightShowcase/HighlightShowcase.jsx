@@ -10,6 +10,7 @@ import img6 from "../../assets/highlights/h6.jpg";
 import img7 from "../../assets/highlights/h7.jpg";
 import img8 from "../../assets/highlights/h8.jpg";
 import img9 from "../../assets/highlights/h9.jpg";
+import { Helmet } from "react-helmet-async";
 
 const imageMap = {
     "h1.jpg": img1,
@@ -34,9 +35,17 @@ const HighlightShowcase = () => {
     }, []);
 
     const projects = t('highlight_showcase.projects', { returnObjects: true }) || [];
+    const pageTitle = t('nav.highlight');
+    const brand = t('brand');
 
     return (
         <div className="container mx-auto px-4 py-16 mt-10 mb-5">
+            <Helmet>
+                <title>
+                    {pageTitle ? `${pageTitle} | ${brand}` : ` ${brand}`}
+                </title>
+            </Helmet>
+
             {/* Header */}
             <div className="mb-12 md:mb-16 text-center">
                 <h1 className="text-3xl md:text-5xl font-semibold mb-4 md:mb-5 tracking-tight leading-tight">

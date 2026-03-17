@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import WeatherStation from '../../WeatherDashboard/WeatherStation/WeatherStation';
+import { Helmet } from 'react-helmet-async';
 
 const Crops = () => {
     const navigate = useNavigate();
@@ -120,8 +121,17 @@ const Crops = () => {
         }
     };
 
+    const pageTitle = t('nav.allCrops');
+    const brand = t('brand');
+
     return (
         <div className="container mx-auto min-h-screen px-4 py-16 mt-10 mb-5">
+            <Helmet>
+                <title>
+                    {pageTitle ? `${pageTitle} | ${brand}` : ` ${brand}`}
+                </title>
+            </Helmet>
+
             {/* Light Grid Background */}
             <div className="fixed inset-0" style={{
                 backgroundImage: `

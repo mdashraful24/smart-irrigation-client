@@ -6,7 +6,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from 'sweetalert2';
-import useAuth from "../../../hooks/useAuth"; 
+import useAuth from "../../../hooks/useAuth";
+import { Helmet } from "react-helmet-async";
 
 // Premium SweetAlert2 styling for success
 const showSuccessAlert = (email) => {
@@ -145,8 +146,17 @@ const Login = () => {
         }
     };
 
+    const pageTitle = t('nav.login');
+    const brand = t('brand');
+
     return (
         <div className="md:min-h-screen flex items-center justify-center p-4">
+            <Helmet>
+                <title>
+                    {pageTitle ? `${pageTitle} | ${brand}` : ` ${brand}`}
+                </title>
+            </Helmet>
+
             <div className="max-w-md w-full">
                 {/* Logo/Brand */}
                 <div className="text-center mb-6">

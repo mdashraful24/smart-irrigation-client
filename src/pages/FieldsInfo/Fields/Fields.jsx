@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 
 const Fields = () => {
     const navigate = useNavigate();
@@ -88,8 +89,17 @@ const Fields = () => {
         }
     };
 
+    const pageTitle = t('nav.allFields');
+    const brand = t('brand');
+
     return (
         <div className="container mx-auto min-h-screen px-4 py-16 mt-10 mb-5">
+            <Helmet>
+                <title>
+                    {pageTitle ? `${pageTitle} | ${brand}` : ` ${brand}`}
+                </title>
+            </Helmet>
+
             {/* Light Grid Background */}
             <div className="fixed inset-0" style={{
                 backgroundImage: `
