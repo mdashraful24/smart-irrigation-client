@@ -8,9 +8,9 @@ const About = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="container mx-auto px-4 py-24 lg:py-30">
+        <div className="container mx-auto px-4 py-16 lg:py-30">
             {/* Heading */}
-            <h2 className="block lg:hidden text-4xl md:text-5xl text-center font-bold mb-10">
+            <h2 className="block lg:hidden text-4xl md:text-5xl text-center font-bold mb-8">
                 {t('aboutDetails.title')}
             </h2>
 

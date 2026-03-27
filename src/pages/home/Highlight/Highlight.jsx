@@ -32,9 +32,9 @@ const Highlight = () => {
     const projects = allProjects.slice(0, 6);
 
     return (
-        <div className="container mx-auto pb-24 lg:pb-30 px-4">
+        <div className="container mx-auto pb-16 lg:pb-30 px-4">
             {/* Header */}
-            <div className="mb-12 md:mb-16 text-center">
+            <div className="mb-8 lg:mb-16 text-center">
                 <h2 className="text-4xl md:text-5xl font-bold capitalize">
                     {t('highlight.title')}
                 </h2>

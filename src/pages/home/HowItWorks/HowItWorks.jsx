@@ -50,7 +50,7 @@ const HowItWorks = () => {
     return (
         <section
             ref={containerRef}
-            className="relative container mx-auto pb-24 lg:pb-30 px-4 overflow-hidden"
+            className="relative container mx-auto pb-16 lg:pb-30 px-4 overflow-hidden"
         >
             <div className="container mx-auto relative z-10">
                 {/* Header with Glass Morphism Effect */}
@@ -90,8 +90,8 @@ const Header = ({ title, subtitle, isAutoPlay, onToggleMode }) => {
     const { t } = useTranslation();
 
     return (
-        <div className="mb-12 lg:mb-20">
-            <div className="grid lg:grid-cols-5 place-items-start justify-items-center lg:justify-items-stretch gap-8">
+        <div className="mb-8 lg:mb-20">
+            <div className="grid lg:grid-cols-5 place-items-start justify-items-center lg:justify-items-stretch gap-6">
                 {/* Title with Gradient */}
                 <div className="lg:col-span-4 text-center lg:text-left">
                     <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-snug">

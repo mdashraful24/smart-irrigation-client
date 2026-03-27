@@ -70,7 +70,7 @@ const Slider = () => {
                 className="relative z-10"
             >
                 {images.map((image, index) => (
-                    <div key={index} className="relative h-[calc(100vh-4rem)] overflow-hidden">
+                    <div key={index} className="relative h-[calc(60vh-4rem)] md:h-[calc(80vh-4rem)] lg:h-[calc(100vh-4rem)] overflow-hidden">
                         {/* Background Image with Overlay */}
                         <div className="absolute inset-0">
                             <img
@@ -105,13 +105,13 @@ const Slider = () => {
                         </div>
 
                         {/* Content Container */}
-                        <div className="relative z-20 h-[calc(100vh-3rem)] flex flex-col items-center justify-center p-4 md:p-8 lg:p-12">
+                        <div className="relative z-20 h-[calc(50vh-3rem)] md:h-[calc(80vh-3rem)] lg:h-[calc(100vh-3rem)] flex flex-col items-center justify-center p-4 md:p-8 lg:p-12">
                             {/* Text Content - Centered */}
                             <div className="max-w-5xl text-center" data-speed="0.3">
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+                                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
                                     {slideContent[index].title}
                                 </h1>
-                                <p className="text-gray-200 text-xl md:text-2xl mb-10 leading-relaxed">
+                                <p className="text-gray-200 text-lg md:text-2xl mb-10 leading-relaxed">
                                     {slideContent[index].description}
                                 </p>
                             </div>

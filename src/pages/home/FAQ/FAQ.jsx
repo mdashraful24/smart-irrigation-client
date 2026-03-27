@@ -35,10 +35,10 @@ const FAQ = () => {
     }, [activeIndex]);
 
     return (
-        <div className="container mx-auto pb-24 lg:pb-30 px-4">
+        <div className="container mx-auto pb-16 lg:pb-30 px-4">
             <div className="max-w-5xl mx-auto">
                 {/* Header */}
-                <div className="mb-12 md:mb-16 text-center">
+                <div className="mb-8 lg:mb-16 text-center">
                     <h2 className="text-4xl md:text-5xl font-bold capitalize">
                         {t('faq.title')}
                     </h2>
