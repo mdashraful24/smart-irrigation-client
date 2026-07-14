@@ -84,5 +84,3 @@ This project uses an open-source license. Add or update a `LICENSE` file at the 
 ## Contact
 
 Maintainer: Project team — reach out via repository issues or your preferred team channel.
-
----
