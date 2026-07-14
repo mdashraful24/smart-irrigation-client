@@ -1,7 +1,7 @@
 # Smart Irrigation — Client
 
 <div align="center">
-  <img height="500" src="https://drive.google.com/file/d/1QLuLW6vBsRfDR3Jttoe0nEeVi_d2Pl4U/view?usp=sharing" />
+  <img height="500" src="https://drive.google.com/uc?export=view&id=1QLuLW6vBsRfDR3Jttoe0nEeVi_d2Pl4U" />
 </div>
 
 ## Project Overview
